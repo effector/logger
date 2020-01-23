@@ -1,25 +1,34 @@
 {
-  "name": "rollup-starter",
-  "version": "0.0.1",
-  "main": "./dist/index",
+  "name": "effector-logger",
+  "version": "0.1.0-dev.3",
+  "module": "./dist/index",
+  "main": "./dist/common",
+  "typings": "./dist/index.d.ts",
   "license": "MIT",
   "files": [
     "dist"
   ],
+  "scripts": {
+    "build": "rollup -c",
+    "lint": "eslint --ext .ts,.tsx src",
+    "commit": "git-cz"
+  },
   "peerDependencies": {
-    "react": "^16.9.0"
+    "effector": "^20.11.1"
   },
   "devDependencies": {
-    "@types/react": "^16.9.17",
+    "@commitlint/cli": "8.2.0",
+    "@commitlint/config-conventional": "8.2.0",
+    "@rollup/plugin-alias": "^2.2.0",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
-    "@rollup/plugin-alias": "^2.2.0",
+    "commitizen": "4.0.3",
+    "cz-conventional-changelog": "3.0.2",
+    "effector": "^20.11.1",
     "eslint": "^6.6.0",
     "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.17.0",
+    "husky": "3.1.0",
     "prettier": "^1.19.1",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
     "rollup": "^1.26.2",
     "rollup-plugin-babel": "^4.2.0",
     "rollup-plugin-cleaner": "^1.0.0",
@@ -30,8 +39,12 @@
     "rollup-plugin-typescript2": "^0.25.3",
     "typescript": "^3.7.4"
   },
-  "scripts": {
-    "build": "rollup -c",
-    "lint": "eslint --ext .ts,.tsx src"
+  "dependencies": {
+    "effector-dom": "^0.0.6"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
