@@ -1,0 +1,37 @@
+{
+  "name": "rollup-starter",
+  "version": "0.0.1",
+  "main": "./dist/index",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "react": "^16.9.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.17",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
+    "@rollup/plugin-alias": "^2.2.0",
+    "eslint": "^6.6.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "prettier": "^1.19.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "rollup": "^1.26.2",
+    "rollup-plugin-babel": "^4.2.0",
+    "rollup-plugin-cleaner": "^1.0.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-eslint": "^7.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-typescript2": "^0.25.3",
+    "typescript": "^3.7.4"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "lint": "eslint --ext .ts,.tsx src"
+  }
+}
