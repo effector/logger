@@ -1,6 +1,6 @@
 # Effector Logger with Inspector
 
-[Chrome DevTools Console](https://imgur.com/TZF1t4U)
+![Chrome DevTools Console](https://imgur.com/TZF1t4U)
 
 ## Installation
 
