@@ -1,10 +1,11 @@
 {
   "name": "effector-logger",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "module": "./dist/index",
   "main": "./dist/common",
   "typings": "./dist/index.d.ts",
   "license": "MIT",
+  "repository": "github:sergeysova/effector-logger",
   "files": [
     "dist"
   ],

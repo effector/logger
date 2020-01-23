@@ -1,6 +1,6 @@
 # Effector Logger with Inspector
 
-![Chrome DevTools Console](./resources/console.png)
+[Chrome DevTools Console](https://imgur.com/TZF1t4U)
 
 ## Installation
 
@@ -57,4 +57,4 @@ By default: `CTRL+B` in your application
 
 4. Watch your stores and its values
 
-![Effector Inspector](./resources/inspector.png)
+![Effector Inspector](https://imgur.com/D5oqpLv)
