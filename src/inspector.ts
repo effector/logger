@@ -122,6 +122,7 @@ const styles = {
     top: '3rem',
     userSelect: 'none',
     width: '26rem',
+    zIndex: 1000,
   },
   sectionHead: {
     backgroundColor: 'white',
