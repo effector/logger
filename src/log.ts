@@ -1,4 +1,4 @@
-import { Domain, Event, Store, CompositeName } from 'effector';
+import { Domain, CompositeName } from 'effector';
 import * as inspector from './inspector';
 
 function createName(composite: CompositeName): string {
@@ -19,7 +19,7 @@ export function applyLog(domain: Domain) {
         name,
         payload,
         'color: gray;',
-        fileName,
+        fileName || '',
       );
     });
   });
@@ -37,7 +37,7 @@ export function applyLog(domain: Domain) {
         name,
         value,
         'color: gray',
-        fileName,
+        fileName || '',
       );
     });
   });
@@ -54,7 +54,7 @@ export function applyLog(domain: Domain) {
         name,
         parameters,
         'color: gray',
-        fileName,
+        fileName || '',
       );
     });
 
@@ -67,7 +67,7 @@ export function applyLog(domain: Domain) {
         params,
         result,
         'color: gray',
-        fileName,
+        fileName || '',
       );
     });
 
@@ -80,7 +80,7 @@ export function applyLog(domain: Domain) {
         params,
         error,
         'color: gray',
-        fileName,
+        fileName || '',
       );
     });
   });
