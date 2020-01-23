@@ -7,7 +7,15 @@
 1. Install effector and logger
 
 ```bash
-npm install -D effector-logger effector
+npm install effector
+npm install --dev effector-logger
+```
+
+or yarn
+
+```bash
+yarn add effector
+yarn add -D effector-logger
 ```
 
 **effector-logger** requires `effector` to be installed
