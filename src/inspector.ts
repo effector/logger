@@ -47,9 +47,9 @@ function Root(root: HTMLElement) {
   console.info(
     '%c[effector-inspector] %cPress %cCTRL+B %cto open Inspector',
     'color: gray; font-size: 1rem;',
-    'color: black; font-size: 1rem;',
-    'color: blue; font-family: monospace; font-size: 1rem;',
-    'color: black; font-size: 1rem;',
+    'color: currentColor; font-size: 1rem;',
+    'color: deepskyblue; font-family: monospace; font-size: 1rem;',
+    'color: currentColor; font-size: 1rem;',
   );
 
   $showInspector.on(togglePressed, (show) => !show);

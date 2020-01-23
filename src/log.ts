@@ -8,53 +8,53 @@ function createName(composite: CompositeName): string {
 export function applyLog(domain: Domain) {
   domain.onCreateEvent((event) => {
     const name = createName(event.compositeName);
-    const fileName = (event as any).defaultConfig?.loc?.file;
+    const fileName = (event as any).defaultConfig?.loc?.file ?? ' ';
     inspector.addEvent(event);
 
     event.watch((payload) => {
       console.log(
         '[effector-logger] %cEVENT%c %s PAYLOAD(%O) %c%s',
         'color: magenta;',
-        'color: initial;',
+        'color: currentColor;',
         name,
         payload,
         'color: gray;',
-        fileName || '',
+        fileName,
       );
     });
   });
 
   domain.onCreateStore((store) => {
     const name = createName(store.compositeName);
-    const fileName = (store as any).defaultConfig?.loc?.file;
+    const fileName = (store as any).defaultConfig?.loc?.file ?? ' ';
     inspector.addStore(store);
 
     store.updates.watch((value) => {
       console.log(
         '[effector-logger] %cSTORE%c %s VALUE(%o) %c%s',
-        'color: blue;',
-        'color: initial;',
+        'color: deepskyblue;',
+        'color: currentColor;',
         name,
         value,
         'color: gray',
-        fileName || '',
+        fileName,
       );
     });
   });
 
   domain.onCreateEffect((effect) => {
     const name = createName(effect.compositeName);
-    const fileName = (effect as any).defaultConfig?.loc?.file;
+    const fileName = (effect as any).defaultConfig?.loc?.file ?? ' ';
 
     effect.watch((parameters) => {
       console.log(
         '[effector-logger] %cEFFECT%c %s PARAMS(%o) %c%s',
         'color: orange;',
-        'color: initial;',
+        'color: currentColor;',
         name,
         parameters,
         'color: gray',
-        fileName || '',
+        fileName,
       );
     });
 
@@ -62,12 +62,12 @@ export function applyLog(domain: Domain) {
       console.log(
         '[effector-logger] %cEFFECT DONE%c %s PARAMS(%o) -> %o %c%s',
         'color: green;',
-        'color: initial;',
+        'color: currentColor;',
         name,
         params,
         result,
         'color: gray',
-        fileName || '',
+        fileName,
       );
     });
 
@@ -75,12 +75,12 @@ export function applyLog(domain: Domain) {
       console.log(
         '[effector-logger] %cEFFECT FAIL%c %s PARAMS(%o) -> %o %c%s',
         'color: red;',
-        'color: initial;',
+        'color: currentColor;',
         name,
         params,
         error,
         'color: gray',
-        fileName || '',
+        fileName,
       );
     });
   });
