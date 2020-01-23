@@ -1,29 +1,60 @@
-# 🐣 Rollup Starter (React, Typescript)
+# Effector Logger with Inspector
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+![Chrome DevTools Console](./resources/console.png)
 
-Development and publishing modern React NPM packages or UI-kit modules with Rollup and Typescript.  
-Clean and powerfull. Good to fork in your project, learning and development.
+## Installation
 
-It's just work.
+1. Install effector and logger
 
-## Usage
+```bash
+npm install -D effector-logger effector
+```
 
-`yarn build` builds the application to `dist/`  
-`yarn lint` check for errors `src/**.ts`
+**effector-logger** requires `effector` to be installed
 
-## Features
+2. Add babel plugin to your `babel.config.js` or `.babelrc` file
 
-- [x] Bundles CJS and ES module formats
-- [x] Compression by Terser
-- [x] Aliases
-- [x] Sourcemaps
-- [x] ESLint plugins: Recommended, Typescript Recommended, React, Requiring Types
-- [x] Prettier
-- [x] No TSLint (because he's dead)
-- [x] Compiling types
+> babel-plugin included to effector package
 
-## TODO
+```json
+{
+  "plugins": [["effector/babel-plugin", { "addLoc": true }]]
+}
+```
 
-- [ ] Add Badges: CI
-- [ ] Add article how to publish NPM package
+3. Open a module (js/ts/esm file) you need to debug
+
+Replace import from `"effector"` to `"effector-logger"`
+
+For example:
+
+```diff
+- import { Event, Store, createEvent, forward } from "effector"
++ import { Event, Store, createEvent, forward } from "effector-logger"
+```
+
+4. Open DevTools Console, use "Filter" to show only required logs
+
+## Inspector
+
+1. Replace `"effector"` to `"effector-logger"` in modules you need to debug
+
+Optionally you can replace all `effector` imports to `effector-logger` to debug all units from effector. (`alias` for webpack)
+
+2. Create inspector
+
+In your `index.ts` (or .js) file add next lines.
+
+```ts
+import { createInspector } from 'effector-logger';
+
+createInspector();
+```
+
+3. Press HOT keys to open inspector
+
+By default: `CTRL+B` in your application
+
+4. Watch your stores and its values
+
+![Effector Inspector](./resources/inspector.png)
