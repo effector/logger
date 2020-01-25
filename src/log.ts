@@ -1,8 +1,36 @@
-import { Domain, CompositeName } from 'effector';
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+
+import { Domain, CompositeName, Store } from 'effector';
 import * as inspector from './inspector';
 
 function createName(composite: CompositeName): string {
   return composite.path.slice(1).join('/');
+}
+
+function replaceStoreMap(store: Store<any>) {
+  const originalMap = store.map; // eslint-disable-line @typescript-eslint/unbound-method
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  store.map = (...args) => {
+    // @ts-ignore
+    const newStore = originalMap(...args);
+    replaceStoreMap(newStore)
+
+    // inspector.addStore(newStore);
+    // @ts-ignore
+    newStore.updates.watch((value) => {
+      console.log(
+        '[effector-logger] %cSTORE%c %s VALUE(%o) %c%s',
+        'color: deepskyblue;',
+        'color: currentColor;',
+        newStore.compositeName.shortName,
+        value,
+        'color: gray',
+      );
+    });
+
+    return newStore;
+  };
 }
 
 export function applyLog(domain: Domain) {
@@ -28,7 +56,7 @@ export function applyLog(domain: Domain) {
     const name = createName(store.compositeName);
     const fileName = (store as any).defaultConfig?.loc?.file ?? ' ';
     inspector.addStore(store);
-
+    replaceStoreMap(store);
     store.updates.watch((value) => {
       console.log(
         '[effector-logger] %cSTORE%c %s VALUE(%o) %c%s',
