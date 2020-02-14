@@ -1,5 +1,6 @@
 import { Domain, CompositeName } from 'effector';
 import * as inspector from './inspector';
+import * as devtools from './redux-devtools';
 
 function createName(composite: CompositeName): string {
   return composite.path.slice(1).join('/');
@@ -21,6 +22,7 @@ export function applyLog(domain: Domain) {
         'color: gray;',
         fileName,
       );
+      devtools.log('EVENT', name, payload);
     });
   });
 
@@ -28,6 +30,8 @@ export function applyLog(domain: Domain) {
     const name = createName(store.compositeName);
     const fileName = (store as any).defaultConfig?.loc?.file ?? ' ';
     inspector.addStore(store);
+
+    devtools.updateStore(name, store.defaultState);
 
     store.updates.watch((value) => {
       console.log(
@@ -39,6 +43,7 @@ export function applyLog(domain: Domain) {
         'color: gray',
         fileName,
       );
+      devtools.log('STORE', name, value);
     });
   });
 
@@ -56,6 +61,7 @@ export function applyLog(domain: Domain) {
         'color: gray',
         fileName,
       );
+      devtools.log('EFFECT', name, parameters);
     });
 
     effect.done.watch(({ params, result }) => {
@@ -69,6 +75,7 @@ export function applyLog(domain: Domain) {
         'color: gray',
         fileName,
       );
+      devtools.log('EFFECT DONE', name, params, result);
     });
 
     effect.fail.watch(({ params, error }) => {
@@ -82,6 +89,7 @@ export function applyLog(domain: Domain) {
         'color: gray',
         fileName,
       );
+      devtools.log('EFFECT FAIL', name, params, error);
     });
   });
 
