@@ -43,26 +43,6 @@ For example:
 
 4. Open DevTools Console, use "Filter" to show only required logs
 
-## Inspector
+## Redux DevTools
 
-1. Replace `"effector"` to `"effector-logger"` in modules you need to debug
-
-Optionally you can replace all `effector` imports to `effector-logger` to debug all units from effector. (`alias` for webpack)
-
-2. Create inspector
-
-In your `index.ts` (or .js) file add next lines.
-
-```ts
-import { createInspector } from 'effector-logger';
-
-createInspector();
-```
-
-3. Press HOT keys to open inspector
-
-By default: `CTRL+B` in your application
-
-4. Watch your stores and its values
-
-![Effector-Inspector](https://i.imgur.com/D5oqpLv.png)
+If you have redux devtools extensions, just open it.
