@@ -2,23 +2,30 @@
   "env": {
     "browser": true,
     "es6": true,
-    "es2017": true
+    "es2017": true,
+    "node": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "tsconfig.json",
-    "createDefaultProgram": true,
-    "tsconfigRootDir": "./"
-  },
-  "plugins": ["@typescript-eslint"],
+  "extends": ["eslint:recommended"],
   "rules": {
     "import/extensions": "off",
-    "@typescript-eslint/explicit-function-return-type": "off"
-  }
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "no-unused-vars": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": [
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": "tsconfig.json",
+        "createDefaultProgram": true,
+        "tsconfigRootDir": "./"
+      },
+      "plugins": ["@typescript-eslint"]
+    }
+  ]
 }
