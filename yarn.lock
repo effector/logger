@@ -809,15 +809,30 @@ dot-prop@^3.0.0:
   dependencies:
     is-obj "^1.0.0"
 
-effector-dom@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/effector-dom/-/effector-dom-0.0.6.tgz#ddf78723b6b4de650584ddf693170963265e3c30"
-  integrity sha512-iAraWsnu+FMzNYavtktWiXs+q3uKn0zttVeSg85W7FijTOsYH3weNzw9YK+Vr7XDemKH5bpHkTLGO1zzo67Itg==
+effector-dom@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/effector-dom/-/effector-dom-0.0.11.tgz#32af0d685925b032990fca1594708193f3b62ca0"
+  integrity sha512-9tnQkd8hSVnL33HwQJSI7L43ZaEbMKTtof3Pfm8pBptrlrS4xlqccaiHHuPqVyAesJkFLrFT24ezMGqg7BYDGQ==
+
+effector-inspector@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.0.1.tgz#03e2a96cf18ba59849386703608e6f3638b5d4ab"
+  integrity sha512-b32xhrFDsoj+KztltmDz9WnFgR4LvTLNQzIQfgAhX+tl2fRUQVr55XFAey3kyURYTXsN8IEiOrMr+jECL1pQ9g==
+  dependencies:
+    effector "^20.11.5"
+    effector-dom "^0.0.11"
 
 effector@^20.11.1:
   version "20.11.1"
   resolved "https://registry.yarnpkg.com/effector/-/effector-20.11.1.tgz#1f88ab1c7170407f52c8e30cf554b122ef2d8fd2"
   integrity sha512-k+yxfhmm06KUmkEPngCTUc2ceQebnqumH8FLd+4L4WYSKyhwscu3CQNzcNHeBmjUCABDaHRM+6vqTyQ6zwcakQ==
+  dependencies:
+    symbol-observable "^1.2.0"
+
+effector@^20.11.5:
+  version "20.11.5"
+  resolved "https://registry.yarnpkg.com/effector/-/effector-20.11.5.tgz#7fe946449af77fca5ffbd1f380f55eb7fc8fa6d5"
+  integrity sha512-nD6Nq/lYgRVKTtLeULGDwZfRdVblR8Ub62Ev5OYBpONYnpyROYL5wRjmXA70AXPBjQY90ntxr1yhilC8sGPmZw==
   dependencies:
     symbol-observable "^1.2.0"
 

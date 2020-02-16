@@ -12,7 +12,8 @@
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint --ext .ts,.tsx src",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "prepare": "yarn build"
   },
   "peerDependencies": {
     "effector": "^20.11.1"
@@ -26,6 +27,7 @@
     "commitizen": "4.0.3",
     "cz-conventional-changelog": "3.0.2",
     "effector": "^20.11.1",
+    "effector-inspector": "^0.0.1",
     "eslint": "^6.6.0",
     "eslint-plugin-prettier": "^3.1.2",
     "husky": "3.1.0",
@@ -40,9 +42,10 @@
     "rollup-plugin-typescript2": "^0.25.3",
     "typescript": "^3.7.4"
   },
-  "dependencies": {
-    "effector-dom": "^0.0.6"
+  "optionalDependencies": {
+    "effector-inspector": "^0.0.1"
   },
+  "dependencies": {},
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"

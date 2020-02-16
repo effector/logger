@@ -10,6 +10,7 @@ export function applyLog(domain: Domain) {
   domain.onCreateEvent((event) => {
     const name = createName(event.compositeName);
     const fileName = (event as any).defaultConfig?.loc?.file ?? ' ';
+
     inspector.addEvent(event);
 
     event.watch((payload) => {
@@ -29,8 +30,8 @@ export function applyLog(domain: Domain) {
   domain.onCreateStore((store) => {
     const name = createName(store.compositeName);
     const fileName = (store as any).defaultConfig?.loc?.file ?? ' ';
-    inspector.addStore(store);
 
+    inspector.addStore(store);
     devtools.updateStore(name, store.defaultState);
 
     store.updates.watch((value) => {
