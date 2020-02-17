@@ -1,4 +1,6 @@
-import { Domain, CompositeName } from 'effector';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Domain, CompositeName, Store, Unit } from 'effector';
+import debounce from 'just-debounce-it';
 import * as inspector from './inspector';
 import * as devtools from './redux-devtools';
 
@@ -6,10 +8,45 @@ function createName(composite: CompositeName): string {
   return composite.path.slice(1).join('/');
 }
 
-export function applyLog(domain: Domain) {
+function getPath(unit: Unit<any>): string {
+  return (unit as any).defaultConfig?.loc?.file ?? ' ';
+}
+
+const storeListToInit: Array<Store<any>> = [];
+
+const logStore = debounce(() => {
+  const list = storeListToInit.splice(0);
+  if (list.length > 0) {
+    console.groupCollapsed(
+      `[effector-logger] Initialized stores (${list.length})`,
+    );
+    for (const store of list) {
+      const name = createName(store.compositeName);
+      const fileName = getPath(store);
+
+      console.log(
+        '[effector-logger] %cSTORE%c %s VALUE(%o) %c%s',
+        'color: deepskyblue;',
+        'color: currentColor;',
+        name,
+        store.defaultState,
+        'color: gray',
+        fileName,
+      );
+    }
+    console.groupEnd();
+  }
+}, 5);
+
+function addStore(store: Store<any>): void {
+  storeListToInit.push(store);
+  logStore();
+}
+
+export function applyLog(domain: Domain): void {
   domain.onCreateEvent((event) => {
     const name = createName(event.compositeName);
-    const fileName = (event as any).defaultConfig?.loc?.file ?? ' ';
+    const fileName = getPath(event);
 
     inspector.addEvent(event);
 
@@ -23,16 +60,18 @@ export function applyLog(domain: Domain) {
         'color: gray;',
         fileName,
       );
+
       devtools.log('EVENT', name, payload);
     });
   });
 
   domain.onCreateStore((store) => {
     const name = createName(store.compositeName);
-    const fileName = (store as any).defaultConfig?.loc?.file ?? ' ';
+    const fileName = getPath(store);
 
     inspector.addStore(store);
     devtools.updateStore(name, store.defaultState);
+    addStore(store);
 
     store.updates.watch((value) => {
       console.log(
@@ -50,7 +89,7 @@ export function applyLog(domain: Domain) {
 
   domain.onCreateEffect((effect) => {
     const name = createName(effect.compositeName);
-    const fileName = (effect as any).defaultConfig?.loc?.file ?? ' ';
+    const fileName = getPath(effect);
 
     effect.watch((parameters) => {
       console.log(

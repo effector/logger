@@ -40,7 +40,10 @@
   "optionalDependencies": {
     "effector-inspector": "^0.1.3"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@types/just-debounce-it": "^1.1.0",
+    "just-debounce-it": "^1.1.0"
+  },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
