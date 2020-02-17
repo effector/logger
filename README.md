@@ -4,8 +4,6 @@
 
 ## Installation
 
-1. Install effector and logger
-
 ```bash
 npm install effector
 npm install --dev effector-logger
@@ -20,7 +18,9 @@ yarn add -D effector-logger
 
 **effector-logger** requires `effector` to be installed
 
-2. Add babel plugin to your `babel.config.js` or `.babelrc` file
+## Usage
+
+Add babel plugin to your `babel.config.js` or `.babelrc` file
 
 > babel-plugin included to effector package
 
@@ -30,7 +30,9 @@ yarn add -D effector-logger
 }
 ```
 
-3. Open a module (js/ts/esm file) you need to debug
+### Debug some modules
+
+1. Open a module (js/ts/esm file) you need to debug
 
 Replace import from `"effector"` to `"effector-logger"`
 
@@ -41,8 +43,24 @@ For example:
 + import { Event, Store, createEvent, forward } from "effector-logger"
 ```
 
-4. Open DevTools Console, use "Filter" to show only required logs
+2. Open DevTools Console, use "Filter" to show only required logs
 
-## Redux DevTools
+### Debug domain
+
+1. Open a module with domain
+2. `import { attachLogger } from 'effector-logger/attach'`
+3. Attach logger to your domain
+
+Example:
+
+```ts
+import { createDomain } from 'effector';
+import { attachLogger } from 'effector-logger/attach';
+
+export const myDomain = createDomain('my');
+attachLogger(myDomain);
+```
+
+## Redux DevTools support
 
 If you have redux devtools extensions, just open it.

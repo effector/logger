@@ -1,9 +1,14 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = {
+module.exports = ['index', 'attach'].map((entry) => ({
   mode: 'production',
-  entry: './src/index.ts',
+  entry: `./src/${entry}.ts`,
+  output: {
+    filename: `${entry}.js`,
+    path: path.resolve(__dirname, 'dist'),
+    libraryTarget: 'commonjs2',
+  },
   devtool: 'source-map',
   module: {
     rules: [
@@ -16,11 +21,6 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.json'],
-  },
-  output: {
-    filename: 'common.js',
-    path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'commonjs2',
   },
   node: {
     module: 'empty',
@@ -37,4 +37,4 @@ module.exports = {
     minimize: true,
     minimizer: [new TerserPlugin()],
   },
-};
+}));

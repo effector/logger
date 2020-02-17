@@ -1,9 +1,10 @@
 import { createDomain as newDomain } from 'effector';
-import { applyLog } from './log';
+import { attachLogger } from './attach';
+import { LOGGER_DOMAIN_NAME } from './lib';
 
-const root = newDomain('@effector-logger');
+const root = newDomain(LOGGER_DOMAIN_NAME);
 
-applyLog(root);
+attachLogger(root);
 
 const { createDomain, createStore, createEffect, createEvent } = root;
 

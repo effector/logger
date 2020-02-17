@@ -1,12 +1,17 @@
+/**
+ * This is an another entry point for webpack.
+ * Be careful with BREAKING CHANGES in this file.
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
 import { Domain, Store } from 'effector';
 import { createName, getPath } from './lib';
+export { LOGGER_DOMAIN_NAME } from './lib';
 
 import * as logger from './logger';
 import * as inspector from './inspector';
 import * as devtools from './redux-devtools';
 
-export function applyLog(domain: Domain): void {
+export function attachLogger(domain: Domain): void {
   domain.onCreateEvent((event) => {
     const name = createName(event.compositeName);
     const fileName = getPath(event);
@@ -68,5 +73,5 @@ export function applyLog(domain: Domain): void {
     });
   });
 
-  domain.onCreateDomain(applyLog);
+  domain.onCreateDomain(attachLogger);
 }
