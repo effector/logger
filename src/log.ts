@@ -1,67 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Domain, CompositeName, Store, Unit } from 'effector';
-import debounce from 'just-debounce-it';
+import { Domain } from 'effector';
+import { createName, getPath } from './lib';
+
+import * as logger from './logger';
 import * as inspector from './inspector';
 import * as devtools from './redux-devtools';
-
-function createName(composite: CompositeName): string {
-  return composite.path.slice(1).join('/');
-}
-
-function getPath(unit: Unit<any>): string {
-  return (unit as any).defaultConfig?.loc?.file ?? ' ';
-}
-
-const storeListToInit: Array<Store<any>> = [];
-
-const logStore = debounce(() => {
-  const list = storeListToInit.splice(0);
-  if (list.length > 0) {
-    console.groupCollapsed(
-      `[effector-logger] Initialized stores (${list.length})`,
-    );
-    for (const store of list) {
-      const name = createName(store.compositeName);
-      const fileName = getPath(store);
-
-      console.log(
-        '[effector-logger] %cSTORE%c %s VALUE(%o) %c%s',
-        'color: deepskyblue;',
-        'color: currentColor;',
-        name,
-        store.defaultState,
-        'color: gray',
-        fileName,
-      );
-    }
-    console.groupEnd();
-  }
-}, 5);
-
-function addStore(store: Store<any>): void {
-  storeListToInit.push(store);
-  logStore();
-}
 
 export function applyLog(domain: Domain): void {
   domain.onCreateEvent((event) => {
     const name = createName(event.compositeName);
     const fileName = getPath(event);
 
-    inspector.addEvent(event);
+    inspector.eventAdded(event);
 
     event.watch((payload) => {
-      console.log(
-        '[effector-logger] %cEVENT%c %s PAYLOAD(%O) %c%s',
-        'color: magenta;',
-        'color: currentColor;',
-        name,
-        payload,
-        'color: gray;',
-        fileName,
-      );
-
-      devtools.log('EVENT', name, payload);
+      logger.eventCalled(name, fileName, payload);
+      devtools.eventCalled(name, payload);
     });
   });
 
@@ -69,21 +23,13 @@ export function applyLog(domain: Domain): void {
     const name = createName(store.compositeName);
     const fileName = getPath(store);
 
-    inspector.addStore(store);
-    devtools.updateStore(name, store.defaultState);
-    addStore(store);
+    inspector.storeAdded(store);
+    logger.storeAdded(store);
+    devtools.storeAdded(store);
 
     store.updates.watch((value) => {
-      console.log(
-        '[effector-logger] %cSTORE%c %s VALUE(%o) %c%s',
-        'color: deepskyblue;',
-        'color: currentColor;',
-        name,
-        value,
-        'color: gray',
-        fileName,
-      );
-      devtools.log('STORE', name, value);
+      logger.storeUpdated(name, fileName, value);
+      devtools.storeUpdated(name, value);
     });
   });
 
@@ -91,45 +37,21 @@ export function applyLog(domain: Domain): void {
     const name = createName(effect.compositeName);
     const fileName = getPath(effect);
 
+    devtools.effectAdded(name, effect);
+
     effect.watch((parameters) => {
-      console.log(
-        '[effector-logger] %cEFFECT%c %s PARAMS(%o) %c%s',
-        'color: orange;',
-        'color: currentColor;',
-        name,
-        parameters,
-        'color: gray',
-        fileName,
-      );
-      devtools.log('EFFECT', name, parameters);
+      logger.effectCalled(name, fileName, parameters);
+      devtools.effectCalled(name, effect, parameters);
     });
 
     effect.done.watch(({ params, result }) => {
-      console.log(
-        '[effector-logger] %cEFFECT DONE%c %s PARAMS(%o) -> %o %c%s',
-        'color: green;',
-        'color: currentColor;',
-        name,
-        params,
-        result,
-        'color: gray',
-        fileName,
-      );
-      devtools.log('EFFECT DONE', name, params, result);
+      logger.effectDone(name, fileName, params, result);
+      devtools.effectDone(name, effect, params, result);
     });
 
     effect.fail.watch(({ params, error }) => {
-      console.log(
-        '[effector-logger] %cEFFECT FAIL%c %s PARAMS(%o) -> %o %c%s',
-        'color: red;',
-        'color: currentColor;',
-        name,
-        params,
-        error,
-        'color: gray',
-        fileName,
-      );
-      devtools.log('EFFECT FAIL', name, params, error);
+      logger.effectFail(name, fileName, params, error);
+      devtools.effectFail(name, effect, params, error);
     });
   });
 

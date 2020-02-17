@@ -13,9 +13,9 @@ try {
   /** Nothing here */
 }
 
-export function addEvent(event: Event<any>): void {
+export function eventAdded(event: Event<any>): void {
   inspector?.addEvent(event);
 }
-export function addStore(store: Store<any>): void {
+export function storeAdded(store: Store<any>): void {
   inspector?.addStore(store);
 }
