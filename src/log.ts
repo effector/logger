@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Domain } from 'effector';
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
+import { Domain, Store } from 'effector';
 import { createName, getPath } from './lib';
 
 import * as logger from './logger';
@@ -26,6 +26,19 @@ export function applyLog(domain: Domain): void {
     logger.storeAdded(store);
     devtools.storeAdded(store);
     inspector.storeAdded(store);
+
+    const storeMap = store.map.bind(store);
+
+    store.map = (fn: any, firstState?: any): Store<any> => {
+      const mappedStore = storeMap(fn, firstState);
+
+      mappedStore.compositeName.path = store.compositeName.path.slice(0, -1);
+      mappedStore.compositeName.path.push(
+        store.compositeName.path.slice(-1) + ' -> *',
+      );
+      inspector.storeAdded(mappedStore);
+      return mappedStore;
+    };
 
     store.updates.watch((value) => {
       logger.storeUpdated(name, fileName, value);
