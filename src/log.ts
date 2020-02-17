@@ -23,9 +23,9 @@ export function applyLog(domain: Domain): void {
     const name = createName(store.compositeName);
     const fileName = getPath(store);
 
-    inspector.storeAdded(store);
     logger.storeAdded(store);
     devtools.storeAdded(store);
+    inspector.storeAdded(store);
 
     store.updates.watch((value) => {
       logger.storeUpdated(name, fileName, value);

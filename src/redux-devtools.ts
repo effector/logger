@@ -1,4 +1,5 @@
 import * as effector from 'effector';
+import set from 'set-value';
 import { createName } from './lib';
 
 /* eslint-disable @typescript-eslint/ban-ts-ignore, @typescript-eslint/no-explicit-any */
@@ -8,34 +9,14 @@ const reduxDevTools =
 
 const rootState: Record<string, any> = {};
 
-export const updateStore = (name: string, state: any): void => {
-  if (reduxDevTools) {
-    rootState[name] = state;
-  }
-};
-
-export const log = (
-  type: string,
-  name: string,
-  payload: any,
-  result?: any,
-): void => {
-  if (reduxDevTools) {
-    if (type === 'STORE') {
-      updateStore(name, payload);
-    }
-    reduxDevTools.send({ type: `${type} ${name}`, payload, result }, rootState);
-  }
-};
+function setState(name: string, value: any): void {
+  set(rootState, name.replace(/\//g, '.'), value);
+}
 
 export function eventCalled(name: string, payload: any): void {
   if (reduxDevTools) {
     reduxDevTools.send({ type: `${name} (event)`, payload }, rootState);
   }
-}
-
-function setState(name: string, value: any): void {
-  rootState[name] = value;
 }
 
 export function storeAdded(store: effector.Store<any>): void {
