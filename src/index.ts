@@ -1,8 +1,8 @@
-import { createDomain as newDomain } from 'effector';
+import * as effector from 'effector';
 import { attachLogger } from './attach';
 import { LOGGER_DOMAIN_NAME } from './lib';
 
-const root = newDomain(LOGGER_DOMAIN_NAME);
+const root = effector.createDomain(LOGGER_DOMAIN_NAME);
 
 attachLogger(root);
 

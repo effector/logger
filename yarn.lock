@@ -1340,10 +1340,10 @@ effector-dom@^0.0.11:
   resolved "https://registry.yarnpkg.com/effector-dom/-/effector-dom-0.0.11.tgz#32af0d685925b032990fca1594708193f3b62ca0"
   integrity sha512-9tnQkd8hSVnL33HwQJSI7L43ZaEbMKTtof3Pfm8pBptrlrS4xlqccaiHHuPqVyAesJkFLrFT24ezMGqg7BYDGQ==
 
-effector-inspector@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.1.3.tgz#9872ce6f0267e04dde4aeff613345ef503c3eaf9"
-  integrity sha512-dAAY058aGqnOK7gMLw5+lRcA2xab9YWVA7Z+I8vU/KDCtZIjFXbsx9nWjsoSrq7Vv9AYUFJpUVg3q8OMurF9xQ==
+effector-inspector@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.2.1.tgz#9080bfd3c9f9cb4fda28689cd208caccf7a22389"
+  integrity sha512-dttPPPBr1QR2/+v9C2vm+lktfcPxzGU/8qDkWlFVio+lZUdQ1XtoA9ch4dRP58fhbLbsN9AYqvYaIiWFrIHpUA==
   dependencies:
     effector-dom "^0.0.11"
 

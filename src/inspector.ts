@@ -1,8 +1,10 @@
 import { Event, Store, Effect, Domain } from 'effector';
 
 interface Inspector {
-  addEvent: Event<Event<any>>;
-  addStore: Event<Store<any>>;
+  addStore: (
+    store: Store<any>,
+    opts?: { mapped?: boolean; name?: string },
+  ) => void;
 }
 
 let inspector: Inspector | null = null;
@@ -14,8 +16,8 @@ try {
 }
 
 export function eventAdded(event: Event<any>): void {
-  inspector?.addEvent(event);
+  /** Nothing here */
 }
-export function storeAdded(store: Store<any>): void {
-  inspector?.addStore(store);
+export function storeAdded(store: Store<any>, mapped = false): void {
+  inspector?.addStore(store, { mapped });
 }
