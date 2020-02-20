@@ -1,4 +1,4 @@
-# Effector Logger with Inspector
+# Effector Logger
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
@@ -6,7 +6,9 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-![Chrome-DevTools-Console](https://i.imgur.com/Q50UnR3.png)
+| ![Chrome-DevTools-Console](https://i.imgur.com/Pp4zPKy.png) | ![Chrome-DevTools-Console-Dark](https://i.imgur.com/Vg54DsD.png) |
+| ----------------------------------------------------------- | ---------------------------------------------------------------- |
+
 
 ## Installation
 
@@ -66,6 +68,10 @@ import { attachLogger } from 'effector-logger/attach';
 export const myDomain = createDomain('my');
 attachLogger(myDomain);
 ```
+
+## Inspector
+
+Just follow [effector-inspector](http://github.com/sergeysova/effector-inspector/) instructions.
 
 ## Redux DevTools support
 
