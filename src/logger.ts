@@ -59,7 +59,7 @@ function log(
     params.push(`${styles.chunk} ${style}`, value);
   });
 
-  const args = [str.join(''), ...params];
+  const args = [str.join(' '), ...params];
 
   if (group === 'open') {
     console.group(...args);
