@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Laiff",
+      "name": "Andrey Antropov",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/575885?v=4",
+      "profile": "https://github.com/Laiff",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "effector-logger",
+  "projectOwner": "sergeysova",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
