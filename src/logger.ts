@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import debounce from 'just-debounce-it';
 import { Effect, Event, Store } from 'effector';
 import { createName, getPath } from './lib';
@@ -6,10 +7,12 @@ const storeListToInit: Array<Store<any>> = [];
 const eventListToInit: Array<Event<any>> = [];
 const effectListToInit: Array<Effect<any, any, any>> = [];
 
-const firstLabel = (bgColor: string, color: string) =>
-  `background-color:${bgColor}; color:${color}; padding: 0 4px; border-radius: 4px 0 0 4px`;
-const nextLabel = (bgColor: string, color: string) =>
-  `background-color:${bgColor}; color:${color}; padding: 0 4px;`;
+const firstLabel = (bgColor: string, color: string): string =>
+  `background-color: ${bgColor}; color: ${color}; padding: 0 4px; border-radius: 4px 0 0 4px; font-family: "Apple Emoji Font"`;
+const lastLabel = (bgColor: string, color: string): string =>
+  `background-color: ${bgColor}; color: ${color}; padding: 0 6px; border-radius: 0 4px 4px 0;`;
+const middleLabel = (bgColor: string, color: string): string =>
+  `background-color: ${bgColor}; color: ${color}; padding: 0 6px; border-radius: 0;`;
 
 const logAdded = debounce(() => {
   const stores = storeListToInit.splice(0);
@@ -18,59 +21,61 @@ const logAdded = debounce(() => {
 
   if (stores.length + events.length + effects.length > 0) {
     console.groupCollapsed(
-      `%c${'☄'}%c${'new'}%c Initialized events (${events.length}) effects (${effects.length}) stores (${stores.length})`,
+      `%c${'☄️'}%c${'new'}%c Initialized events (${events.length}) effects (${
+        effects.length
+      }) stores (${stores.length})`,
       firstLabel('#ff8a65', '#000'),
-      nextLabel('#29b6f6', '#000'),
-      nextLabel('transparent', 'currentColor'),
+      lastLabel('#29b6f6', '#000'),
+      lastLabel('transparent', 'currentColor'),
     );
     if (stores.length) {
-      stores.forEach(store => {
+      stores.forEach((store) => {
         const name = createName(store.compositeName);
         const fileName = getPath(store);
 
         console.info(
-          `%c${'☄'}%c${'new'}%c${'store'}%c%s->%o %c%s`,
+          `%c${'☄️'}%c${'new'}%c${'store'}%c%s->%o %c%s`,
           firstLabel('#ff8a65', '#000'),
-          nextLabel('#29b6f6', '#000'),
-          nextLabel('#7e57c2', '#fff'),
-          nextLabel('transparent', 'currentColor'),
+          middleLabel('#29b6f6', '#000'),
+          lastLabel('#7e57c2', '#fff'),
+          lastLabel('transparent', 'currentColor'),
           name,
           store.defaultState,
-          nextLabel('transparent', '#9e9e9e'),
+          lastLabel('transparent', '#9e9e9e'),
           fileName,
         );
       });
     }
     if (events.length > 0) {
-      events.forEach(event => {
+      events.forEach((event) => {
         const name = createName(event.compositeName);
         const fileName = getPath(event);
 
         console.info(
-          `%c${'☄'}%c${'new'}%c${'event'}%c%s %c%s`,
+          `%c${'☄️'}%c${'new'}%c${'event'}%c%s %c%s`,
           firstLabel('#ff8a65', '#000'),
-          nextLabel('#29b6f6', '#000'),
-          nextLabel('#9ccc65', '#000'),
-          nextLabel('transparent', 'currentColor'),
+          middleLabel('#29b6f6', '#000'),
+          lastLabel('#9ccc65', '#000'),
+          lastLabel('transparent', 'currentColor'),
           name,
-          nextLabel('transparent', '#9e9e9e'),
+          lastLabel('transparent', '#9e9e9e'),
           fileName,
         );
       });
     }
     if (effects.length > 0) {
-      effects.forEach(effect => {
+      effects.forEach((effect) => {
         const name = createName(effect.compositeName);
         const fileName = getPath(effect);
 
         console.info(
-          `%c${'☄'}%c${'new'}%c${'effect'}%c%s %c%s`,
+          `%c${'☄️'}%c${'new'}%c${'effect'}%c%s %c%s`,
           firstLabel('#ff8a65', '#000'),
-          nextLabel('#29b6f6', '#000'),
-          nextLabel('#26a69a', '#000'),
-          nextLabel('transparent', 'currentColor'),
+          middleLabel('#29b6f6', '#000'),
+          lastLabel('#26a69a', '#000'),
+          lastLabel('transparent', 'currentColor'),
           name,
-          nextLabel('transparent', '#9e9e9e'),
+          lastLabel('transparent', '#9e9e9e'),
           fileName,
         );
       });
@@ -96,13 +101,13 @@ export function effectAdded(effect: Effect<any, any, any>): void {
 
 export function storeUpdated(name: string, fileName: string, value: any): void {
   console.info(
-    `%c${'☄'}%c${'store'}%c%s->%o %c%s`,
+    `%c${'☄️'}%c${'store'}%c%s->%o %c%s`,
     firstLabel('#ff8a65', '#000'),
-    nextLabel('#7e57c2', '#fff'),
-    nextLabel('transparent', 'currentColor'),
+    lastLabel('#7e57c2', '#fff'),
+    lastLabel('transparent', 'currentColor'),
     name,
     value,
-    nextLabel('transparent', '#9e9e9e'),
+    lastLabel('transparent', '#9e9e9e'),
     fileName,
   );
 }
@@ -113,13 +118,13 @@ export function eventCalled(
   payload: any,
 ): void {
   console.log(
-    `%c${'☄'}%c${'event'}%c%s->%o %c%s`,
+    `%c${'☄️'}%c${'event'}%c%s(%o) %c%s`,
     firstLabel('#ff8a65', '#000'),
-    nextLabel('#9ccc65', '#000'),
-    nextLabel('transparent', 'currentColor'),
+    lastLabel('#9ccc65', '#000'),
+    lastLabel('transparent', 'currentColor'),
     name,
     payload,
-    nextLabel('transparent', '#9e9e9e'),
+    lastLabel('transparent', '#9e9e9e'),
     fileName,
   );
 }
@@ -130,13 +135,13 @@ export function effectCalled(
   parameters: any,
 ): void {
   console.log(
-    `%c${'☄'}%c${'effect'}%c%s->%o %c%s`,
+    `%c${'☄️'}%c${'effect'}%c%s(%o) %c%s`,
     firstLabel('#ff8a65', '#000'),
-    nextLabel('#26a69a', '#000'),
-    nextLabel('transparent', 'currentColor'),
+    lastLabel('#26a69a', '#000'),
+    lastLabel('transparent', 'currentColor'),
     name,
     parameters,
-    nextLabel('transparent', '#9e9e9e'),
+    lastLabel('transparent', '#9e9e9e'),
     fileName,
   );
 }
@@ -148,16 +153,29 @@ export function effectDone(
   result: any,
 ): void {
   console.log(
-    `%c${'☄'}%c${'effect'}%c${'D'}%c%s->%o %c%s`,
+    `%c${'☄️'}%c${'effect'}%c${'✅'}%c%s(%o)->%o %c%s`,
     firstLabel('#ff8a65', '#000'),
-    nextLabel('#26a69a', '#000'),
-    nextLabel('#66bb6a', '#000'),
-    nextLabel('transparent', 'currentColor'),
+    lastLabel('#66bb6a', '#000'),
+    lastLabel('transparent', 'currentColor'),
+    lastLabel('transparent', 'currentColor'),
     name,
     parameters,
-    nextLabel('transparent', '#9e9e9e'),
+    result,
+    lastLabel('transparent', '#9e9e9e'),
     fileName,
   );
+  // console.log(
+  //   `%c${'☄️'}%c${'effect'}%c${'D'}%c%s(%o)->%o %c%s`,
+  //   firstLabel('#ff8a65', '#000'),
+  //   middleLabel('#66bb6a', '#000'),
+  //   lastLabel('#26a69a', '#000'),
+  //   lastLabel('transparent', 'currentColor'),
+  //   name,
+  //   parameters,
+  //   result,
+  //   lastLabel('transparent', '#9e9e9e'),
+  //   fileName,
+  // );
 }
 
 export function effectFail(
@@ -167,13 +185,27 @@ export function effectFail(
   error: any,
 ): void {
   console.log(
-    `%c${'☄'}%c${'effect'}%c${'F'}%c%s->%o %c%s`,
+    `%c${'☄️'}%c${'effect'}%c${'❌'}%c%s(%o)->%o %c%s`,
     firstLabel('#ff8a65', '#000'),
-    nextLabel('#26a69a', '#000'),
-    nextLabel('#ef5350', '#000'),
-    nextLabel('transparent', 'currentColor'),
+    lastLabel('#26a69a', '#000'),
+    lastLabel('transparent', 'currentColor'),
+    lastLabel('transparent', 'currentColor'),
     name,
     parameters,
-    nextLabel('transparent', '#9e9e9e'),
-    fileName);
+    error instanceof Error ? String(error) : error,
+    lastLabel('transparent', '#9e9e9e'),
+    fileName,
+  );
+  // console.log(
+  //   `%c${'☄️'}%c${'effect'}%c${'F'}%c%s(%o)->%o %c%s`,
+  //   firstLabel('#ff8a65', '#000'),
+  //   lastLabel('#26a69a', '#000'),
+  //   lastLabel('#ef5350', '#000'),
+  //   lastLabel('transparent', 'currentColor'),
+  //   name,
+  //   parameters,
+  //   error,
+  //   lastLabel('transparent', '#9e9e9e'),
+  //   fileName,
+  // );
 }
