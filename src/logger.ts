@@ -16,7 +16,7 @@ const logAdded = debounce(() => {
   const events = eventListToInit.splice(0);
   const effects = effectListToInit.splice(0);
 
-  if (stores.length > 0 || events.length > 0 || effects.length > 0) {
+  if (stores.length + events.length + effects.length > 0) {
     console.groupCollapsed(
       `%c${"☄"}%c${"new"}%c Initialized events (${events.length}) effects (${effects.length}) stores (${stores.length})`,
       firstLabel("#ff8a65", "#000"),
