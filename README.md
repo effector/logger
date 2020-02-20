@@ -6,9 +6,9 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-| ![Chrome-DevTools-Console](https://i.imgur.com/Pp4zPKy.png) | ![Chrome-DevTools-Console-Dark](https://i.imgur.com/Vg54DsD.png) |
-| ----------------------------------------------------------- | ---------------------------------------------------------------- |
-
+| ![Chrome-DevTools-Console](https://i.imgur.com/Pp4zPKy.png)      |
+| ---------------------------------------------------------------- |
+| ![Chrome-DevTools-Console-Dark](https://i.imgur.com/Vg54DsD.png) |
 
 ## Installation
 
