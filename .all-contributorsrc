@@ -13,6 +13,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "sergeysova",
+      "name": "Sergey Sova",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5620073?v=4",
+      "profile": "https://sova.dev",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
