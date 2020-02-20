@@ -1,6 +1,6 @@
 {
   "name": "effector-logger",
-  "version": "0.6.0-2",
+  "version": "0.6.0-3",
   "main": "./dist/index",
   "typings": "./dist/index.d.ts",
   "license": "MIT",
