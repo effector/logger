@@ -72,6 +72,4 @@ export function attachLogger(domain: Domain): void {
       devtools.effectFail(name, effect, params, error);
     });
   });
-
-  domain.onCreateDomain(attachLogger);
 }

@@ -162,4 +162,8 @@ sketch
 storybook-static
 dist
 
+### Jetbrains
+
+/.idea
+
 # End of https://www.gitignore.io/api/git,node,react,macos,visualstudiocode
