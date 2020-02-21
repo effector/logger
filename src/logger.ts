@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import debounce from 'just-debounce-it';
+import isNode from 'detect-node';
 import { Effect, Event, Store } from 'effector';
 import { createName, getPath } from './lib';
+
+const SEPARATOR = isNode ? '  ' : '';
 
 const storeListToInit: Array<Store<any>> = [];
 const eventListToInit: Array<Event<any>> = [];
@@ -18,6 +21,7 @@ const styles = {
   effect: 'background-color: #26a69a; color: #000',
   emoji: 'font-family: "Apple Emoji Font"',
   file: 'color: #9e9e9e; padding-left: 20px;',
+  reset: 'color: currentColor; background-color: transparent;',
 };
 
 const effectorLabel: Block = ['☄️', '%s', styles.effector];
@@ -33,6 +37,9 @@ function round(index: number, count: number): string {
   return style;
 }
 
+const reset = (index: number, count: number, style: string) =>
+  index === count - 1 ? styles.reset : style;
+
 type Block = [string, string, string];
 type Chunk = [any, string, string];
 
@@ -47,10 +54,11 @@ function log(
   blocks.unshift(effectorLabel);
 
   blocks.forEach(([value, view, style], index) => {
-    str.push(`%c${view}`);
+    str.push(`%c${view}%c`);
     params.push(
       `${styles.block} ${round(index, blocks.length)} ${style}`,
       value,
+      reset(index, blocks.length, `${styles.block} ${style}`),
     );
   });
 
@@ -59,7 +67,7 @@ function log(
     params.push(`${styles.chunk} ${style}`, value);
   });
 
-  const args = [str.join(' '), ...params];
+  const args = [str.join(SEPARATOR), ...params];
 
   if (group === 'open') {
     console.group(...args);
