@@ -7,6 +7,10 @@ const reduxDevTools =
   // @ts-ignore
   typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__;
 
+const devToolConfig = {
+  instanceId: `☄️ ${document.title || 'no title instance'}`,
+} as unknown as { swallowErrors?: boolean };
+
 const rootState: Record<string, any> = {};
 
 function setState(name: string, value: any): void {
@@ -15,7 +19,13 @@ function setState(name: string, value: any): void {
 
 export function eventCalled(name: string, payload: any): void {
   if (reduxDevTools) {
-    reduxDevTools.send({ type: `${name} (event)`, payload }, rootState);
+    reduxDevTools.send({
+        type: `${name} (event)`,
+        payload,
+      },
+      rootState,
+      devToolConfig,
+    );
   }
 }
 
@@ -29,7 +39,13 @@ export function storeUpdated(name: string, value: any): void {
   setState(name, value);
 
   if (reduxDevTools) {
-    reduxDevTools.send({ type: `${name} (store updated)`, value }, rootState);
+    reduxDevTools.send({
+        type: `${name} (store updated)`,
+        value,
+      },
+      rootState,
+      devToolConfig,
+    );
   }
 }
 
@@ -57,6 +73,7 @@ export function effectCalled(
     reduxDevTools.send(
       { type: `${name} (effect called)`, params: parameters },
       rootState,
+      devToolConfig,
     );
   }
 }
@@ -73,6 +90,7 @@ export function effectDone(
     reduxDevTools.send(
       { type: `${name}.done (effect finished)`, params: parameters, result },
       rootState,
+      devToolConfig,
     );
   }
 }
@@ -89,6 +107,7 @@ export function effectFail(
     reduxDevTools.send(
       { type: `${name}.fail (effect finished)`, params: parameters, error },
       rootState,
+      devToolConfig,
     );
   }
 }
