@@ -51,7 +51,7 @@
     "@types/just-debounce-it": "^1.1.0",
     "detect-node": "2.0.4",
     "just-debounce-it": "^1.1.0",
-    "set-value": "^3.0.1"
+    "set-value": "3.0.1"
   },
   "config": {
     "commitizen": {
