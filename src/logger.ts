@@ -102,7 +102,7 @@ const logAdded = debounce(() => {
           [
             [name, '%s', ''],
             ['-> ', '%s', ''],
-            [store.defaultState, '%o', ''],
+            [store.getState(), '%o', ''],
             [fileName, '%s', styles.file],
           ],
         );
