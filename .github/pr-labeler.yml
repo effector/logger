@@ -1,0 +1,6 @@
+feature: ['feature/*', 'feat/*']
+test: ['test/*', 'tests/*']
+fix: ['fix/*', 'hotfix/*', 'bugfix/*']
+chore: chore/*
+fixed-branch: fixed-branch-name
+refactor: ['refactor/*', 'refactoring/*']
