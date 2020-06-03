@@ -12,32 +12,24 @@ const effectListToInit: Array<Effect<any, any, any>> = [];
 
 const styles = {
   block: 'padding-left: 4px; padding-right: 4px; font-weight: normal;',
-  chunk: 'padding-left: 4px; font-weight: normal;',
+  chunk: 'padding-left: 4px; padding-right: 4px; font-weight: normal;',
   effector:
-    'background-color: #ff8a65; color: #000; font-family: "Apple Emoji Font"; font-weight: normal !important;',
+    'line-height:1.5; color: #000; font-family: "Apple Emoji Font"; font-weight: normal !important;',
   new: 'background-color: #29b6f6; color: #000',
   store: 'background-color: #7e57c2; color: #fff',
   event: 'background-color: #9ccc65; color: #000',
   effect: 'background-color: #26a69a; color: #000',
-  emoji: 'font-family: "Apple Emoji Font"',
+  emoji: '',
   file: 'color: #9e9e9e; padding-left: 20px;',
   reset: 'color: currentColor; background-color: transparent;',
 };
 
-const effectorLabel: Block = ['☄️', '%s', styles.effector];
+const effectorLabel: Block[] = [
+  ['☄️', '%s', styles.effector],
+  ['effector', '%s', 'font-family: Menlo, monospace;']
+];
 
-function round(index: number, count: number): string {
-  let style = '';
-  if (index === 0) {
-    style += 'border-top-left-radius: 4px; border-bottom-left-radius: 4px;';
-  }
-  if (index === count - 1) {
-    style += 'border-top-right-radius: 4px; border-bottom-right-radius: 4px;';
-  }
-  return style;
-}
-
-const reset = (index: number, count: number, style: string) =>
+const reset = (index: number, count: number, style: string): string =>
   index === count - 1 ? styles.reset : style;
 
 type Block = [string, string, string];
@@ -51,12 +43,12 @@ function log(
   const str: string[] = [];
   const params: any[] = [];
 
-  blocks.unshift(effectorLabel);
+  blocks.unshift(...effectorLabel);
 
   blocks.forEach(([value, view, style], index) => {
     str.push(`%c${view}%c`);
     params.push(
-      `${styles.block} ${round(index, blocks.length)} ${style}`,
+      `${styles.block} ${style}`,
       value,
       reset(index, blocks.length, `${styles.block} ${style}`),
     );
@@ -116,7 +108,7 @@ const logAdded = debounce(() => {
           [blockNew, createBlockStore(name)],
           [
             ['-> ', '%s', ''],
-            [store.defaultState, '%o', ''],
+            [store.getState(), '%o', ''],
             [fileName, '%s', styles.file],
             [name, '%s', ''],
           ],
@@ -222,7 +214,7 @@ export function effectDone(
     [createBlockEffect(name)],
     [
       ['✅', '%s', styles.emoji],
-      [parameters, '%o', 'padding-left: 4px;'],
+      [parameters, '(%o)', 'padding-left: 4px;'],
       ['-> ', '%s', ''],
       [result, '%o', 'padding: 0;'],
       [fileName, '%s', styles.file],
@@ -243,7 +235,7 @@ export function effectFail(
     [createBlockEffect(name)],
     [
       ['❌', '%s', styles.emoji],
-      [parameters, '%o', 'padding-left: 4px;'],
+      [parameters, '(%o)', 'padding-left: 4px;'],
       ['-> ', '%s', ''],
       instanceofError
         ? [String(error), '%s', '']
