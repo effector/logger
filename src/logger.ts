@@ -70,10 +70,17 @@ function log(
   }
 }
 
-const blockStore: Block = ['store', '%s', styles.store];
 const blockNew: Block = ['new', '%s', styles.new];
+
+const blockStore: Block = ['store', '%s', styles.store];
 const blockEvent: Block = ['event', '%s', styles.event];
 const blockEffect: Block = ['effect', '%s', styles.effect];
+
+const stripDomain = (name: string) => name.split('/').pop() || name;
+
+const createBlockStore: (name: string) => Block = (name) => [stripDomain(name), '%s', styles.store];
+const createBlockEvent: (name: string) => Block =  (name) => [stripDomain(name), '%s', styles.event];
+const createBlockEffect: (name: string) => Block = (name) => [stripDomain(name), '%s', styles.effect];
 
 const logAdded = debounce(() => {
   const stores = storeListToInit.splice(0);
@@ -98,12 +105,12 @@ const logAdded = debounce(() => {
         const fileName = getPath(store);
 
         log(
-          [blockNew, blockStore],
+          [blockNew, createBlockStore(name)],
           [
-            [name, '%s', ''],
             ['-> ', '%s', ''],
             [store.getState(), '%o', ''],
             [fileName, '%s', styles.file],
+            [name, '%s', ''],
           ],
         );
       });
@@ -114,10 +121,10 @@ const logAdded = debounce(() => {
         const fileName = getPath(event);
 
         log(
-          [blockNew, blockEvent],
+          [blockNew, createBlockEvent(name)],
           [
-            [name, '%s', ''],
             [fileName, '%s', styles.file],
+            [name, '%s', ''],
           ],
         );
       });
@@ -128,10 +135,10 @@ const logAdded = debounce(() => {
         const fileName = getPath(effect);
 
         log(
-          [blockNew, blockEffect],
+          [blockNew, createBlockEffect(name)],
           [
-            [name, '%s', ''],
             [fileName, '%s', styles.file],
+            [name, '%s', ''],
           ],
         );
       });
@@ -157,12 +164,12 @@ export function effectAdded(effect: Effect<any, any, any>): void {
 
 export function storeUpdated(name: string, fileName: string, value: any): void {
   log(
-    [blockStore],
+    [createBlockStore(name)],
     [
-      [name, '%s', ''],
       ['-> ', '%s', ''],
       [value, '%o', ''],
       [fileName, '%s', styles.file],
+      [name, '%s', styles.file],
     ],
   );
 }
@@ -173,11 +180,11 @@ export function eventCalled(
   payload: any,
 ): void {
   log(
-    [blockEvent],
+    [createBlockEvent(name)],
     [
-      [name, '%s', 'padding-left: 4px;'],
-      [payload, '(%o)', 'padding: 0;'],
+      [payload, '%o', 'padding-left: 4px;'],
       [fileName, '%s', styles.file],
+      [name, '%s', styles.file],
     ],
   );
 }
@@ -188,11 +195,11 @@ export function effectCalled(
   parameters: any,
 ): void {
   log(
-    [blockEffect],
+    [createBlockEffect(name)],
     [
-      [name, '%s', 'padding-left: 4px;'],
-      [parameters, '(%o)', 'padding: 0;'],
+      [parameters, '%o', 'padding-left: 4px;'],
       [fileName, '%s', styles.file],
+      [name, '%s', styles.file],
     ],
   );
 }
@@ -204,14 +211,14 @@ export function effectDone(
   result: any,
 ): void {
   log(
-    [blockEffect],
+    [createBlockEffect(name)],
     [
       ['done ✅', '%s', styles.emoji],
-      [name, '%s', 'padding-left: 4px;'],
-      [parameters, '(%o)', 'padding: 0;'],
+      [parameters, '(%o)', 'padding-left: 4px;'],
       ['-> ', '%s', ''],
       [result, '%o', 'padding: 0;'],
       [fileName, '%s', styles.file],
+      [name, '%s', styles.file],
     ],
   );
 }
@@ -225,16 +232,16 @@ export function effectFail(
   const instanceofError = error instanceof Error;
 
   log(
-    [blockEffect],
+    [createBlockEffect(name)],
     [
       ['fail ❌', '%s', styles.emoji],
-      [name, '%s', 'padding-left: 4px;'],
-      [parameters, '(%o)', 'padding: 0;'],
+      [parameters, '(%o)', 'padding-left: 4px;'],
       ['-> ', '%s', ''],
       instanceofError
         ? [String(error), '%s', '']
         : [error, '%o', 'padding: 0;'],
       [fileName, '%s', styles.file],
+      [name, '%s', styles.file],
     ],
     instanceofError ? 'collapsed' : undefined,
   );
