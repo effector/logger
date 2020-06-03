@@ -213,7 +213,7 @@ export function effectDone(
   log(
     [createBlockEffect(name)],
     [
-      ['✅', '%s', styles.emoji],
+      ['done ✅', '%s', styles.emoji],
       [parameters, '(%o)', 'padding-left: 4px;'],
       ['-> ', '%s', ''],
       [result, '%o', 'padding: 0;'],
@@ -234,7 +234,7 @@ export function effectFail(
   log(
     [createBlockEffect(name)],
     [
-      ['❌', '%s', styles.emoji],
+      ['fail ❌', '%s', styles.emoji],
       [parameters, '(%o)', 'padding-left: 4px;'],
       ['-> ', '%s', ''],
       instanceofError
