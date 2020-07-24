@@ -1,7 +1,8 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const Package = require('./package.json');
 
-module.exports = ['index', 'attach'].map((entry) => ({
+module.exports = ['index', 'attach', 'inspector'].map((entry) => ({
   mode: 'production',
   entry: `./src/${entry}.ts`,
   output: {
@@ -32,7 +33,10 @@ module.exports = ['index', 'attach'].map((entry) => ({
     tls: 'empty',
     child_process: 'empty',
   },
-  externals: ['effector', 'effector-dom', 'effector-inspector'],
+  externals: ['effector', 'forest', 'foliage', 'effector-inspector'].concat(
+    Object.keys(Package.peerDependencies),
+    Object.keys(Package.dependencies),
+  ),
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin()],

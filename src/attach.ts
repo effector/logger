@@ -4,9 +4,10 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
 import { Domain, Store } from 'effector';
+import * as inspector from 'effector-inspector';
+
 import { createName, getPath } from './lib';
 import * as logger from './logger';
-import * as inspector from './inspector';
 import * as devtools from './redux-devtools';
 
 export { LOGGER_DOMAIN_NAME } from './lib';
@@ -17,7 +18,7 @@ export function attachLogger(domain: Domain): void {
     const fileName = getPath(event);
 
     logger.eventAdded(event);
-    inspector.eventAdded(event);
+    inspector.addEvent(event);
 
     event.watch((payload) => {
       logger.eventCalled(name, fileName, payload);
@@ -31,7 +32,7 @@ export function attachLogger(domain: Domain): void {
 
     logger.storeAdded(store);
     devtools.storeAdded(store);
-    inspector.storeAdded(store);
+    inspector.addStore(store);
 
     const storeMap = store.map.bind(store);
 
@@ -42,7 +43,7 @@ export function attachLogger(domain: Domain): void {
       mappedStore.compositeName.path.push(
         store.compositeName.path.slice(-1) + ' -> *',
       );
-      inspector.storeAdded(mappedStore);
+      inspector.addStore(mappedStore, { mapped: true });
       return mappedStore;
     };
 
@@ -58,6 +59,7 @@ export function attachLogger(domain: Domain): void {
 
     logger.effectAdded(effect);
     devtools.effectAdded(name, effect);
+    inspector.addEffect(effect)
 
     effect.watch((parameters) => {
       logger.effectCalled(name, fileName, parameters);

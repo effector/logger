@@ -18,8 +18,7 @@
     "prepublish": "yarn build"
   },
   "peerDependencies": {
-    "effector": "^20.11.5",
-    "effector-inspector": "^0.2.1"
+    "effector": "^20.11.5 || ^21.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -32,7 +31,7 @@
     "@typescript-eslint/parser": "^2.16.0",
     "commitizen": "4.0.3",
     "cz-conventional-changelog": "3.0.2",
-    "effector": "^20.11.5",
+    "effector": "^21.0.0",
     "eslint": "^6.6.0",
     "eslint-plugin-prettier": "^3.1.2",
     "husky": "3.1.0",
@@ -42,14 +41,12 @@
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5",
     "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11"
-  },
-  "optionalDependencies": {
-    "effector-inspector": "^0.2.1"
+    "webpack-cli": "^3.3.11",
+    "@types/just-debounce-it": "^1.1.0"
   },
   "dependencies": {
-    "@types/just-debounce-it": "^1.1.0",
     "detect-node": "2.0.4",
+    "effector-inspector": "^0.3.0",
     "just-debounce-it": "^1.1.0",
     "set-value": "3.0.1"
   },
