@@ -8,7 +8,9 @@
   "files": [
     "dist",
     "attach.js",
-    "attach.d.ts"
+    "attach.d.ts",
+    "inspector.js",
+    "inspector.d.ts"
   ],
   "scripts": {
     "start": "parcel serve ./usage/index.html",
