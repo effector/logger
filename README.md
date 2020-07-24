@@ -73,7 +73,13 @@ attachLogger(myDomain);
 
 ## Inspector
 
-Just follow [effector-inspector](http://github.com/sergeysova/effector-inspector/) instructions.
+In root file on the client side import `createInspector` from `effector-logger/inspector`, and call it after app initialized.
+
+```js
+import { createInspector } from 'effector-logger/inspector'
+/* App initialization here */
+createInspector()
+```
 
 ## Redux DevTools support
 
