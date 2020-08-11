@@ -87,7 +87,7 @@ If you have redux devtools extensions, just open it.
 
 ## Using in the project with Redux
 
-If you are using `effector-logger@0.7.1` and lower in the project with redux, then you need to rewrite redux `createStore` import to `createReduxStore` and use it. Otherwise redux will give you an error: **Unexpected keys found in preloadedState argument passed to createStore**.
+If you are using `effector@21.2.2` and lower with `effector-logger` in the project with redux, then you need to rewrite redux `createStore` import to `createReduxStore` and use it. Otherwise redux will give you an error: **Unexpected keys found in preloadedState argument passed to createStore**.
 ```ts
 import { createStore as createReduxStore } from 'redux'
 
