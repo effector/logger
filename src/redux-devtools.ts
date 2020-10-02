@@ -7,8 +7,15 @@ const reduxDevTools =
   // @ts-ignore
   typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__;
 
+function instanceId(): string {
+  if (typeof document === 'object') {
+    return `☄️ ${document.title}`
+  }
+  return '☄️ no title instance'
+}
+
 const devToolConfig = {
-  instanceId: `☄️ ${document.title || 'no title instance'}`,
+  instanceId: instanceId(),
 } as unknown as { swallowErrors?: boolean };
 
 const rootState: Record<string, any> = {};

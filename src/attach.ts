@@ -7,22 +7,39 @@ import { Domain, Store } from 'effector';
 import * as inspector from 'effector-inspector';
 
 import { createName, getPath } from './lib';
-import * as logger from './logger';
+import * as consoleLogger from './logger';
 import * as devtools from './redux-devtools';
 
 export { LOGGER_DOMAIN_NAME } from './lib';
 
-export function attachLogger(domain: Domain): void {
+type Options = {
+  reduxDevtools: 'enabled' | 'disabled';
+  console: 'enabled' | 'disabled';
+  inspector: 'enabled' | 'disabled';
+}
+
+const defaults: Options = {
+  reduxDevtools: 'enabled',
+  console: 'enabled',
+  inspector: 'enabled',
+}
+
+export function attachLogger(domain: Domain, logTo: Partial<Options> = {}): void {
+  const options = { ...defaults, ...logTo }
+  const isConsole = options.console === 'enabled'
+  const isRedux = options.reduxDevtools === 'enabled'
+  const isInspector = options.inspector === 'enabled'
+
   domain.onCreateEvent((event) => {
     const name = createName(event.compositeName);
     const fileName = getPath(event);
 
-    logger.eventAdded(event);
-    inspector.addEvent(event);
+    if (isConsole) consoleLogger.eventAdded(event);
+    if (isInspector) inspector.addEvent(event);
 
     event.watch((payload) => {
-      logger.eventCalled(name, fileName, payload);
-      devtools.eventCalled(name, payload);
+      if (isConsole) consoleLogger.eventCalled(name, fileName, payload);
+      if (isRedux) devtools.eventCalled(name, payload);
     });
   });
 
@@ -30,9 +47,9 @@ export function attachLogger(domain: Domain): void {
     const name = createName(store.compositeName);
     const fileName = getPath(store);
 
-    logger.storeAdded(store);
-    devtools.storeAdded(store);
-    inspector.addStore(store);
+    if (isConsole) consoleLogger.storeAdded(store);
+    if (isRedux) devtools.storeAdded(store);
+    if (isInspector) inspector.addStore(store);
 
     const storeMap = store.map.bind(store);
 
@@ -43,13 +60,13 @@ export function attachLogger(domain: Domain): void {
       mappedStore.compositeName.path.push(
         store.compositeName.path.slice(-1) + ' -> *',
       );
-      inspector.addStore(mappedStore, { mapped: true });
+      if (isInspector) inspector.addStore(mappedStore, { mapped: true });
       return mappedStore;
     };
 
     store.updates.watch((value) => {
-      logger.storeUpdated(name, fileName, value);
-      devtools.storeUpdated(name, value);
+      if (isConsole) consoleLogger.storeUpdated(name, fileName, value);
+      if (isRedux) devtools.storeUpdated(name, value);
     });
   });
 
@@ -57,23 +74,23 @@ export function attachLogger(domain: Domain): void {
     const name = createName(effect.compositeName);
     const fileName = getPath(effect);
 
-    logger.effectAdded(effect);
-    devtools.effectAdded(name, effect);
-    inspector.addEffect(effect)
+    if (isConsole) consoleLogger.effectAdded(effect);
+    if (isRedux) devtools.effectAdded(name, effect);
+    if (isInspector) inspector.addEffect(effect)
 
     effect.watch((parameters) => {
-      logger.effectCalled(name, fileName, parameters);
-      devtools.effectCalled(name, effect, parameters);
+      if (isConsole) consoleLogger.effectCalled(name, fileName, parameters);
+      if (isRedux) devtools.effectCalled(name, effect, parameters);
     });
 
     effect.done.watch(({ params, result }) => {
-      logger.effectDone(name, fileName, params, result);
-      devtools.effectDone(name, effect, params, result);
+      if (isConsole) consoleLogger.effectDone(name, fileName, params, result);
+      if (isRedux) devtools.effectDone(name, effect, params, result);
     });
 
     effect.fail.watch(({ params, error }) => {
-      logger.effectFail(name, fileName, params, error);
-      devtools.effectFail(name, effect, params, error);
+      if (isConsole) consoleLogger.effectFail(name, fileName, params, error);
+      if (isRedux) devtools.effectFail(name, effect, params, error);
     });
   });
 }

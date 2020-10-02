@@ -55,7 +55,7 @@ For example:
 
 2. Open DevTools Console, use "Filter" to show only required logs
 
-### Debug domain
+### Debug domain *with settings*
 
 1. Open a module with domain
 2. `import { attachLogger } from 'effector-logger/attach'`
@@ -71,9 +71,41 @@ export const myDomain = createDomain('my');
 attachLogger(myDomain);
 ```
 
+#### Settings available only on `attachLogger`
+
+Second argument is an object `{ reduxDevtools, console, inspector }`, each field is optional can be `"enabled"` or `"disabled"`.
+If field is not provided it is `"enabled"` by default.
+
+- `reduxDevtools` if `"disabled"` do not send updates to [redux devtools extension](https://github.com/zalmoxisus/redux-devtools-extension)
+- `inspector` if `"disabled"` do not send updates to effector inspector
+- `console` if `"disabled"` do not log updates to `console.log` in browser devtools
+
+```ts
+// disable all logs
+attachLogger(myDomain, {
+  reduxDevtools: 'disabled',
+  inspector: 'disabled',
+  console: 'disabled',
+});
+```
+
+## effector-root
+
+Just import `root` domain and attach:
+
+```js
+import { attachLogger } from 'effector-logger/attach'
+import { root } from 'effector-root'
+
+attachLogger(root)
+```
+
+
 ## Inspector
 
 In root file on the client side import `createInspector` from `effector-logger/inspector`, and call it after app initialized.
+
+> Note: inspector requires browser environment. ReactNative is not supported
 
 ```js
 import { createInspector } from 'effector-logger/inspector'
