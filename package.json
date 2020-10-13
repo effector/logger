@@ -4,7 +4,7 @@
   "main": "./dist/index",
   "typings": "./dist/index.d.ts",
   "license": "MIT",
-  "repository": "github:sergeysova/effector-logger",
+  "repository": "github:effector/logger",
   "files": [
     "dist",
     "attach.js",
@@ -20,7 +20,7 @@
     "prepublish": "yarn build"
   },
   "peerDependencies": {
-    "effector": "^20.11.5 || ^21.0.0"
+    "effector": "^21.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -34,7 +34,7 @@
     "@typescript-eslint/parser": "^2.16.0",
     "commitizen": "4.0.3",
     "cz-conventional-changelog": "3.0.2",
-    "effector": "^21.0.0",
+    "effector": "^21.5.0",
     "eslint": "^6.6.0",
     "eslint-plugin-prettier": "^3.1.2",
     "husky": "3.1.0",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "detect-node": "2.0.4",
-    "effector-inspector": "^0.3.0",
+    "effector-inspector": "^0.4.1",
     "just-debounce-it": "^1.1.0",
     "set-value": "3.0.1"
   },
