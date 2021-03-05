@@ -3,10 +3,10 @@
  * Be careful with BREAKING CHANGES in this file.
  */
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
-import { Domain, Store } from 'effector';
+import { Domain, Scope, Store } from 'effector';
 import * as inspector from 'effector-inspector';
 
-import { createName, getPath } from './lib';
+import { createName, getPath, watch } from './lib';
 import * as consoleLogger from './logger';
 import * as devtools from './redux-devtools';
 
@@ -16,34 +16,39 @@ type Options = {
   reduxDevtools: 'enabled' | 'disabled';
   console: 'enabled' | 'disabled';
   inspector: 'enabled' | 'disabled';
-}
+};
 
 const defaults: Options = {
   reduxDevtools: 'enabled',
   console: 'enabled',
   inspector: 'enabled',
-}
+};
 
-export function attachLogger(domain: Domain, logTo: Partial<Options> = {}): void {
-  const options = { ...defaults, ...logTo }
-  const isConsole = options.console === 'enabled'
-  const isRedux = options.reduxDevtools === 'enabled'
-  const isInspector = options.inspector === 'enabled'
+export function attachLogger(
+  source: Domain | Scope,
+  logTo: Partial<Options> = {},
+): void {
+  const options = { ...defaults, ...logTo };
+  const isConsole = options.console === 'enabled';
+  const isRedux = options.reduxDevtools === 'enabled';
+  const isInspector = options.inspector === 'enabled';
 
-  domain.onCreateEvent((event) => {
+  const root = (source as any).cloneOf || source;
+
+  for (const event of root.history.events) {
     const name = createName(event.compositeName);
     const fileName = getPath(event);
 
     if (isConsole) consoleLogger.eventAdded(event);
     if (isInspector) inspector.addEvent(event);
 
-    event.watch((payload) => {
+    watch(event, source, (payload) => {
       if (isConsole) consoleLogger.eventCalled(name, fileName, payload);
       if (isRedux) devtools.eventCalled(name, payload);
     });
-  });
+  }
 
-  domain.onCreateStore((store) => {
+  for (const store of root.history.stores) {
     const name = createName(store.compositeName);
     const fileName = getPath(store);
 
@@ -64,33 +69,33 @@ export function attachLogger(domain: Domain, logTo: Partial<Options> = {}): void
       return mappedStore;
     };
 
-    store.updates.watch((value) => {
+    watch(store, source, (value) => {
       if (isConsole) consoleLogger.storeUpdated(name, fileName, value);
       if (isRedux) devtools.storeUpdated(name, value);
     });
-  });
+  }
 
-  domain.onCreateEffect((effect) => {
+  for (const effect of root.history.effects) {
     const name = createName(effect.compositeName);
     const fileName = getPath(effect);
 
     if (isConsole) consoleLogger.effectAdded(effect);
     if (isRedux) devtools.effectAdded(name, effect);
-    if (isInspector) inspector.addEffect(effect)
+    if (isInspector) inspector.addEffect(effect);
 
-    effect.watch((parameters) => {
+    watch(effect, source, (parameters) => {
       if (isConsole) consoleLogger.effectCalled(name, fileName, parameters);
       if (isRedux) devtools.effectCalled(name, effect, parameters);
     });
 
-    effect.done.watch(({ params, result }) => {
+    watch(effect.done, source, ({ params, result }) => {
       if (isConsole) consoleLogger.effectDone(name, fileName, params, result);
       if (isRedux) devtools.effectDone(name, effect, params, result);
     });
 
-    effect.fail.watch(({ params, error }) => {
+    watch(effect.fail, source, ({ params, error }) => {
       if (isConsole) consoleLogger.effectFail(name, fileName, params, error);
       if (isRedux) devtools.effectFail(name, effect, params, error);
     });
-  });
+  }
 }
