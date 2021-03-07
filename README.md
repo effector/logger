@@ -136,7 +136,7 @@ import { root } from 'effector-root';
 
 const scope = fork(root);
 hydrate(scope, { values: INITIAL_STATE });
-attachLogger(scope);
+attachLogger(root, { scope });
 ```
 
 ## Contributors ✨

@@ -16,6 +16,7 @@ type Options = {
   reduxDevtools: 'enabled' | 'disabled';
   console: 'enabled' | 'disabled';
   inspector: 'enabled' | 'disabled';
+  scope?: Scope;
 };
 
 const defaults: Options = {
@@ -25,17 +26,18 @@ const defaults: Options = {
 };
 
 export function attachLogger(
-  source: Domain | Scope,
+  domain: Domain,
   logTo: Partial<Options> = {},
 ): void {
   const options = { ...defaults, ...logTo };
   const isConsole = options.console === 'enabled';
   const isRedux = options.reduxDevtools === 'enabled';
   const isInspector = options.inspector === 'enabled';
+  const scope = options.scope;
 
-  const root = (source as any).cloneOf || source;
+  const source = scope || domain;
 
-  for (const event of root.history.events) {
+  function attachEvent(event: any): void {
     const name = createName(event.compositeName);
     const fileName = getPath(event);
 
@@ -48,7 +50,7 @@ export function attachLogger(
     });
   }
 
-  for (const store of root.history.stores) {
+  function attachStore(store: any): void {
     const name = createName(store.compositeName);
     const fileName = getPath(store);
 
@@ -75,7 +77,7 @@ export function attachLogger(
     });
   }
 
-  for (const effect of root.history.effects) {
+  function attachEffect(effect: any): void {
     const name = createName(effect.compositeName);
     const fileName = getPath(effect);
 
@@ -97,5 +99,22 @@ export function attachLogger(
       if (isConsole) consoleLogger.effectFail(name, fileName, params, error);
       if (isRedux) devtools.effectFail(name, effect, params, error);
     });
+  }
+
+  if (scope) {
+    const root = (scope as any).cloneOf;
+    for (const event of root.history.events) {
+      attachEvent(event);
+    }
+    for (const effect of root.history.effects) {
+      attachEffect(effect);
+    }
+    for (const store of root.history.stores) {
+      attachStore(store);
+    }
+  } else {
+    domain.onCreateEvent(attachEvent);
+    domain.onCreateStore(attachStore);
+    domain.onCreateEffect(attachEffect);
   }
 }
