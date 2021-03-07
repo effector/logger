@@ -3,7 +3,7 @@
  * Be careful with BREAKING CHANGES in this file.
  */
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
-import { Domain, Scope, Store } from 'effector';
+import { Domain, is, Scope, Store } from 'effector';
 import * as inspector from 'effector-inspector';
 
 import { createName, getPath, watch } from './lib';
@@ -16,7 +16,6 @@ type Options = {
   reduxDevtools: 'enabled' | 'disabled';
   console: 'enabled' | 'disabled';
   inspector: 'enabled' | 'disabled';
-  scope?: Scope;
 };
 
 const defaults: Options = {
@@ -26,16 +25,13 @@ const defaults: Options = {
 };
 
 export function attachLogger(
-  domain: Domain,
+  source: Domain | Scope,
   logTo: Partial<Options> = {},
 ): void {
   const options = { ...defaults, ...logTo };
   const isConsole = options.console === 'enabled';
   const isRedux = options.reduxDevtools === 'enabled';
   const isInspector = options.inspector === 'enabled';
-  const scope = options.scope;
-
-  const source = scope || domain;
 
   function attachEvent(event: any): void {
     const name = createName(event.compositeName);
@@ -101,8 +97,12 @@ export function attachLogger(
     });
   }
 
-  if (scope) {
-    const root = (scope as any).cloneOf;
+  if (is.domain(source)) {
+    source.onCreateEvent(attachEvent);
+    source.onCreateStore(attachStore);
+    source.onCreateEffect(attachEffect);
+  } else {
+    const root = (source as any).cloneOf;
     for (const event of root.history.events) {
       attachEvent(event);
     }
@@ -112,9 +112,5 @@ export function attachLogger(
     for (const store of root.history.stores) {
       attachStore(store);
     }
-  } else {
-    domain.onCreateEvent(attachEvent);
-    domain.onCreateStore(attachStore);
-    domain.onCreateEffect(attachEffect);
   }
 }
