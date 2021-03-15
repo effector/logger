@@ -55,7 +55,7 @@ For example:
 
 2. Open DevTools Console, use "Filter" to show only required logs
 
-### Debug domain *with settings*
+### Debug domain _with settings_
 
 1. Open a module with domain
 2. `import { attachLogger } from 'effector-logger/attach'`
@@ -94,12 +94,11 @@ attachLogger(myDomain, {
 Just import `root` domain and attach:
 
 ```js
-import { attachLogger } from 'effector-logger/attach'
-import { root } from 'effector-root'
+import { attachLogger } from 'effector-logger/attach';
+import { root } from 'effector-root';
 
-attachLogger(root)
+attachLogger(root);
 ```
-
 
 ## Inspector
 
@@ -108,9 +107,9 @@ In root file on the client side import `createInspector` from `effector-logger/i
 > Note: inspector requires browser environment. ReactNative is not supported
 
 ```js
-import { createInspector } from 'effector-logger/inspector'
+import { createInspector } from 'effector-logger/inspector';
 /* App initialization here */
-createInspector()
+createInspector();
 ```
 
 ## Redux DevTools support
@@ -120,12 +119,24 @@ If you have redux devtools extensions, just open it.
 ## Using in the project with Redux
 
 If you are using `effector@21.2.2` and lower with `effector-logger` in the project with redux, then you need to rewrite redux `createStore` import to `createReduxStore` and use it. Otherwise redux will give you an error: **Unexpected keys found in preloadedState argument passed to createStore**.
-```ts
-import { createStore as createReduxStore } from 'redux'
 
-const store = createReduxStore(
-  // reducers
-)
+```ts
+import { createStore as createReduxStore } from 'redux';
+
+const store = createReduxStore();
+// reducers
+```
+
+## Using logger with SSR
+
+```ts
+import { attachLogger } from 'logger/attach';
+import { fork, hydrate } from 'effector/fork';
+import { root } from 'effector-root';
+
+const scope = fork(root);
+hydrate(scope, { values: INITIAL_STATE });
+attachLogger(scope);
 ```
 
 ## Contributors ✨
