@@ -26,7 +26,7 @@ yarn add effector
 yarn add -D effector-logger
 ```
 
-**effector-logger** requires `effector` to be installed
+> Note: **effector-logger** requires `effector` to be installed
 
 ## Usage
 
@@ -38,6 +38,14 @@ Add babel plugin to your `babel.config.js` or `.babelrc` file
 {
   "plugins": [["effector/babel-plugin", { "addLoc": true }]]
 }
+```
+
+### Create React App and macros support
+
+Just use `effector-logger/macro`:
+
+```js
+import { createStore, createEvent } from 'effector-logger/macro';
 ```
 
 ### Debug some modules
@@ -100,6 +108,15 @@ import { root } from 'effector-root';
 attachLogger(root);
 ```
 
+#### Create React App and macros support
+
+```js
+import { attachLogger } from 'effector-logger/attach';
+import { root } from 'effector-root/macro';
+
+attachLogger(root);
+```
+
 ## Inspector
 
 In root file on the client side import `createInspector` from `effector-logger/inspector`, and call it after app initialized.
@@ -130,9 +147,8 @@ const store = createReduxStore();
 ## Using logger with SSR
 
 ```ts
-import { attachLogger } from 'logger/attach';
-import { fork, hydrate } from 'effector/fork';
-import { root } from 'effector-root';
+import { attachLogger } from 'effector-logger/attach';
+import { root, fork, hydrate } from 'effector-root';
 
 const scope = fork(root);
 hydrate(scope, { values: INITIAL_STATE });
