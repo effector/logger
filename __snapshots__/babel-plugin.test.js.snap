@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`effector-logger/babel-plugin adds inspector: adds inspector 1`] = `
+
+import { createStore, createEvent, createEffect, attach, restore } from 'effector';
+const fx = createEffect(() => 1);
+const $data = createStore(0);
+const was = createEvent();
+const anotherFx = attach({
+  effect: fx,
+  source: $data,
+  mapParams: (a) => a,
+})
+const $has = restore(was, "");
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import 'effector-logger/inspector';
+import { createStore, createEvent, createEffect, attach, restore } from 'effector-logger';
+const fx = createEffect(() => 1, {
+  name: 'fx',
+  sid: '-vy4jz4',
+});
+const $data = createStore(0, {
+  name: '$data',
+  sid: 'ais0rc',
+});
+const was = createEvent({
+  name: 'was',
+  sid: '-jc3cc',
+});
+const anotherFx = attach({
+  ɔ: {
+    effect: fx,
+    source: $data,
+    mapParams: (a) => a,
+  },
+  config: {
+    name: 'anotherFx',
+    sid: '-o67sjr',
+  },
+});
+const $has = restore(was, '', {
+  name: '$has',
+  sid: '3zimrf',
+});
+
+
+`;
+
+exports[`effector-logger/babel-plugin adds loc and names: adds loc and names 1`] = `
+
+import { createStore, createEvent, createEffect, attach, restore } from 'effector';
+const fx = createEffect(() => 1);
+const $data = createStore(0);
+const was = createEvent();
+const anotherFx = attach({
+  effect: fx,
+  source: $data,
+  mapParams: (a) => a,
+})
+const $has = restore(was, "");
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+var _effectorFileName = '/babel-plugin.test.js';
+import { createStore, createEvent, createEffect, attach, restore } from 'effector-logger';
+const fx = createEffect(() => 1, {
+  loc: {
+    file: _effectorFileName,
+    line: 2,
+    column: 11,
+  },
+  name: 'fx',
+  sid: '-vy4jz4',
+});
+const $data = createStore(0, {
+  loc: {
+    file: _effectorFileName,
+    line: 3,
+    column: 14,
+  },
+  name: '$data',
+  sid: 'ais0rc',
+});
+const was = createEvent({
+  loc: {
+    file: _effectorFileName,
+    line: 4,
+    column: 12,
+  },
+  name: 'was',
+  sid: '-jc3cc',
+});
+const anotherFx = attach({
+  ɔ: {
+    effect: fx,
+    source: $data,
+    mapParams: (a) => a,
+  },
+  config: {
+    loc: {
+      file: _effectorFileName,
+      line: 5,
+      column: 18,
+    },
+    name: 'anotherFx',
+    sid: '-o67sjr',
+  },
+});
+const $has = restore(was, '', {
+  loc: {
+    file: _effectorFileName,
+    line: 10,
+    column: 13,
+  },
+  name: '$has',
+  sid: '3zimrf',
+});
+
+
+`;
+
+exports[`effector-logger/babel-plugin replaces imports from effector: replaces imports from effector 1`] = `
+
+import { createStore, createEvent, createEffect, attach, restore } from 'effector';
+const fx = createEffect(() => 1);
+const $data = createStore(0);
+const was = createEvent();
+const anotherFx = attach({
+  effect: fx,
+  source: $data,
+  mapParams: (a) => a,
+})
+const $has = restore(was, "");
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { createStore, createEvent, createEffect, attach, restore } from 'effector-logger';
+const fx = createEffect(() => 1, {
+  name: 'fx',
+  sid: '-vy4jz4',
+});
+const $data = createStore(0, {
+  name: '$data',
+  sid: 'ais0rc',
+});
+const was = createEvent({
+  name: 'was',
+  sid: '-jc3cc',
+});
+const anotherFx = attach({
+  ɔ: {
+    effect: fx,
+    source: $data,
+    mapParams: (a) => a,
+  },
+  config: {
+    name: 'anotherFx',
+    sid: '-o67sjr',
+  },
+});
+const $has = restore(was, '', {
+  name: '$has',
+  sid: '3zimrf',
+});
+
+
+`;

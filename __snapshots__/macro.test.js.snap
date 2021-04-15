@@ -82,6 +82,89 @@ const $has = _restore(was, '', {
 
 `;
 
+exports[`effector-logger/macro add sid, loc, and inspector: add sid, loc, and inspector 1`] = `
+
+import { createStore, createEvent, createEffect, attach, restore } from './macro';
+const fx = createEffect(() => 1);
+const $data = createStore(0);
+const was = createEvent();
+const anotherFx = attach({
+  effect: fx,
+  source: $data,
+  mapParams: (a) => a,
+})
+const $has = restore(was, "");
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+var _effectorFileName = '/macro.test.js';
+import 'effector-logger/inspector';
+import { restore as _restore } from 'effector-logger';
+import { attach as _attach } from 'effector-logger';
+import { createEffect as _createEffect } from 'effector-logger';
+import { createEvent as _createEvent } from 'effector-logger';
+import { createStore as _createStore } from 'effector-logger';
+
+const fx = _createEffect(() => 1, {
+  loc: {
+    file: _effectorFileName,
+    line: 2,
+    column: 11,
+  },
+  name: 'fx',
+  sid: '-u6p3sc',
+});
+
+const $data = _createStore(0, {
+  loc: {
+    file: _effectorFileName,
+    line: 3,
+    column: 14,
+  },
+  name: '$data',
+  sid: '8tv02c',
+});
+
+const was = _createEvent({
+  loc: {
+    file: _effectorFileName,
+    line: 4,
+    column: 12,
+  },
+  name: 'was',
+  sid: '-3z5gxy',
+});
+
+const anotherFx = _attach({
+  ɔ: {
+    effect: fx,
+    source: $data,
+    mapParams: (a) => a,
+  },
+  config: {
+    loc: {
+      file: _effectorFileName,
+      line: 5,
+      column: 18,
+    },
+    name: 'anotherFx',
+    sid: '-4ce2k9',
+  },
+});
+
+const $has = _restore(was, '', {
+  loc: {
+    file: _effectorFileName,
+    line: 10,
+    column: 13,
+  },
+  name: '$has',
+  sid: 'css95b',
+});
+
+
+`;
+
 exports[`effector-logger/macro add sid: add sid 1`] = `
 
 import { createStore, createEvent, createEffect, attach, restore } from './macro';

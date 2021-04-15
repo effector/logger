@@ -1,5 +1,6 @@
 const { createMacro } = require('babel-plugin-macros');
-const babelPlugin = require('effector/babel-plugin');
+const effectorPlugin = require('effector/babel-plugin');
+const babelPlugin = require('./babel-plugin');
 
 module.exports = createMacro(logger, {
   configName: 'effectorLogger',
@@ -9,7 +10,7 @@ function logger({
   references,
   state,
   babel,
-  config: { importModuleName = 'effector-logger', ...config } = {},
+  config: { importModuleName = 'effector-logger', effector = {}, ...config } = {},
 }) {
   const program = state.file.path;
 
@@ -23,8 +24,18 @@ function logger({
     });
   });
 
-  const instance = babelPlugin(babel, config);
+  babel.traverse(
+    program.parent,
+    babelPlugin(babel, {
+      effector,
+      skipEffectorPlugin: true,
+      ...config,
+    }).visitor,
+    undefined,
+    state,
+  );
 
+  const instance = effectorPlugin(babel, effector);
   instance.pre();
   babel.traverse(program.parent, instance.visitor, undefined, {
     ...state,
