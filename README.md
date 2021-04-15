@@ -32,11 +32,9 @@ yarn add -D effector-logger
 
 Add babel plugin to your `babel.config.js` or `.babelrc` file
 
-> babel-plugin included to effector package
-
 ```json
 {
-  "plugins": [["effector/babel-plugin", { "addLoc": true }]]
+  "plugins": ["effector-logger/babel-plugin"]
 }
 ```
 
@@ -119,14 +117,12 @@ attachLogger(root);
 
 ## Inspector
 
-In root file on the client side import `createInspector` from `effector-logger/inspector`, and call it after app initialized.
+Just import `effector-logger/inspector` in the `app.ts` and open DevTools Console in browser. 
 
 > Note: inspector requires browser environment. ReactNative is not supported
 
 ```js
-import { createInspector } from 'effector-logger/inspector';
-/* App initialization here */
-createInspector();
+import 'effector-logger/inspector';
 ```
 
 ## Redux DevTools support
@@ -135,7 +131,8 @@ If you have redux devtools extensions, just open it.
 
 ## Using in the project with Redux
 
-If you are using `effector@21.2.2` and lower with `effector-logger` in the project with redux, then you need to rewrite redux `createStore` import to `createReduxStore` and use it. Otherwise redux will give you an error: **Unexpected keys found in preloadedState argument passed to createStore**.
+If you are using `effector@21.2.2` and lower with `effector-logger` in the project with redux, then you need to rewrite redux `createStore` import to `createReduxStore` and use it.
+Otherwise, redux will give you an error: **Unexpected keys found in preloadedState argument passed to createStore**.
 
 ```ts
 import { createStore as createReduxStore } from 'redux';
@@ -157,7 +154,7 @@ attachLogger(scope);
 
 ## Contributors ✨
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+Thanks go to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->

@@ -15,17 +15,33 @@ const $has = restore(was, "");
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
+var _effectorFileName = '/babel-plugin.test.js';
 import 'effector-logger/inspector';
 import { createStore, createEvent, createEffect, attach, restore } from 'effector-logger';
 const fx = createEffect(() => 1, {
+  loc: {
+    file: _effectorFileName,
+    line: 2,
+    column: 11,
+  },
   name: 'fx',
   sid: '-vy4jz4',
 });
 const $data = createStore(0, {
+  loc: {
+    file: _effectorFileName,
+    line: 3,
+    column: 14,
+  },
   name: '$data',
   sid: 'ais0rc',
 });
 const was = createEvent({
+  loc: {
+    file: _effectorFileName,
+    line: 4,
+    column: 12,
+  },
   name: 'was',
   sid: '-jc3cc',
 });
@@ -36,11 +52,21 @@ const anotherFx = attach({
     mapParams: (a) => a,
   },
   config: {
+    loc: {
+      file: _effectorFileName,
+      line: 5,
+      column: 18,
+    },
     name: 'anotherFx',
     sid: '-o67sjr',
   },
 });
 const $has = restore(was, '', {
+  loc: {
+    file: _effectorFileName,
+    line: 10,
+    column: 13,
+  },
   name: '$has',
   sid: '3zimrf',
 });
@@ -136,16 +162,32 @@ const $has = restore(was, "");
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
+var _effectorFileName = '/babel-plugin.test.js';
 import { createStore, createEvent, createEffect, attach, restore } from 'effector-logger';
 const fx = createEffect(() => 1, {
+  loc: {
+    file: _effectorFileName,
+    line: 2,
+    column: 11,
+  },
   name: 'fx',
   sid: '-vy4jz4',
 });
 const $data = createStore(0, {
+  loc: {
+    file: _effectorFileName,
+    line: 3,
+    column: 14,
+  },
   name: '$data',
   sid: 'ais0rc',
 });
 const was = createEvent({
+  loc: {
+    file: _effectorFileName,
+    line: 4,
+    column: 12,
+  },
   name: 'was',
   sid: '-jc3cc',
 });
@@ -156,11 +198,21 @@ const anotherFx = attach({
     mapParams: (a) => a,
   },
   config: {
+    loc: {
+      file: _effectorFileName,
+      line: 5,
+      column: 18,
+    },
     name: 'anotherFx',
     sid: '-o67sjr',
   },
 });
 const $has = restore(was, '', {
+  loc: {
+    file: _effectorFileName,
+    line: 10,
+    column: 13,
+  },
   name: '$has',
   sid: '3zimrf',
 });

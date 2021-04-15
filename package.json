@@ -9,6 +9,7 @@
     "dist",
     "attach.js",
     "attach.d.ts",
+    "babel-plugin.js",
     "inspector.js",
     "inspector.d.ts",
     "macro.js",

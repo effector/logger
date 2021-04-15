@@ -17,7 +17,7 @@ module.exports = function effectorLogger(babel, options = {}) {
     },
   };
 
-  const instance = effectorPlugin(babel, effector);
+  const instance = effectorPlugin(babel, { addLoc: true, addNames: true, ...effector });
 
   return {
     name: 'effector-logger/babel-plugin',
