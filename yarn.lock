@@ -3694,18 +3694,18 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-effector-inspector@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.4.1.tgz#5f5c7b3255442e052e17b81bc24699199cd89629"
-  integrity sha512-mVEefYY1xj8iuhuyUdCVhh94q61FJHbyWXJ11CRMG2gmueTv8+I4hnlYBBmAfYeZJn5IvxlnKzzRHHOd3w1ytQ==
+effector-inspector@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.5.0.tgz#b3d4bf855553c2c87230ef85e2404e6cd00b5172"
+  integrity sha512-EDumwuUt6OwcEyl16d4gkU6H1dHZD+7oxVpwZxuUxBFliKxFpMY0zoNECobr0xN3CR4Gyy+KCjrFtLR1eSkhUw==
   dependencies:
-    foliage "^0.103.1"
-    forest "^0.19.2"
+    foliage "^0.106.0"
+    forest "^0.19.6"
 
-effector@^21.8.7:
-  version "21.8.7"
-  resolved "https://registry.yarnpkg.com/effector/-/effector-21.8.7.tgz#7a0a7824145a6b034d8fcb389ea5f0d2ed46041e"
-  integrity sha512-5C5FoXfMfhwNiMSRFjew7JYLDxKq1HiVYKNBqAgfgz+AbS5WMulcWge5DMbn1puHsWeTsJpPfc2k8NQ4kLvrqg==
+effector@^21.8.11:
+  version "21.8.11"
+  resolved "https://registry.yarnpkg.com/effector/-/effector-21.8.11.tgz#fbe35fb754a9918fb33781a9a408b635218ff41a"
+  integrity sha512-yEdPMYsocx5rZb/zvnPrkM77tpbnTqWZ/W/JYWxojhUD+ZW04Mpa8ezL0X1LwceYnTHAj2RscLCKK9IFD85lcA==
 
 electron-to-chromium@^1.3.349:
   version "1.3.355"
@@ -4370,10 +4370,10 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
 
-foliage@^0.103.1:
-  version "0.103.1"
-  resolved "https://registry.yarnpkg.com/foliage/-/foliage-0.103.1.tgz#0173f875c2351b9967bfea0add7f873dee405576"
-  integrity sha512-AYIUX94gfUkPhukiQjg/LCZy9RbHTO0/JbXdLz+4p/ZFnMez4Qrk8uqrY7LA1q26Pd9BBgchACopI28hp+bckQ==
+foliage@^0.106.0:
+  version "0.106.0"
+  resolved "https://registry.yarnpkg.com/foliage/-/foliage-0.106.0.tgz#5fa4dfa820d7b76b450187268f07e5e5e0e22993"
+  integrity sha512-rmxzH3kR1MM9gXJC4RESnW3B8Rztq4Jqe4nf8e2PGbyKGOfbPVLjnt3tmqiQomJm9uU6e/OWHxSdpn5lIlGUgw==
   dependencies:
     stylis "^4.0.0"
 
@@ -4387,10 +4387,10 @@ foreach@^2.0.5:
   resolved "https://registry.yarnpkg.com/foreach/-/foreach-2.0.5.tgz#0bee005018aeb260d0a3af3ae658dd0136ec1b99"
   integrity sha1-C+4AUBiusmDQo6865ljdATbsG5k=
 
-forest@^0.19.2:
-  version "0.19.2"
-  resolved "https://registry.yarnpkg.com/forest/-/forest-0.19.2.tgz#708fc64a9d8f2bc9c91dfb5e0daa3b3d9a6ce48e"
-  integrity sha512-hHCdKN7f5IeDkBQ3S6LPF7FdaQd54TVSrUV2Zntb8cF2pct6aIwOJTlzlxDhEVsauwyu82UKJcoAz7nQ7aiOlQ==
+forest@^0.19.6:
+  version "0.19.6"
+  resolved "https://registry.yarnpkg.com/forest/-/forest-0.19.6.tgz#dcae2f4c96f21229a1243732af952eeadc15f868"
+  integrity sha512-pMj2Murs7JfSLGfjtcpBF++XVdL044weGttKEF39lNP0TIs1/S1yFCla5RWY9GfepVeK1FDQ87ORYBTX3/wd0w==
 
 forever-agent@~0.6.1:
   version "0.6.1"
@@ -8871,9 +8871,9 @@ stylehacks@^4.0.0:
     postcss-selector-parser "^3.0.0"
 
 stylis@^4.0.0:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.0.2.tgz#84247b15c20688604b7a77db02b7fc071a127194"
-  integrity sha512-2RR3o86K1CSrJjigElyNC9dSR7KyINLP68gauaBQn6j2zfJ/7gb0nD6FGXSCsklVM0V6fsoYA8qEXhhZGjkdww==
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.0.10.tgz#446512d1097197ab3f02fb3c258358c3f7a14240"
+  integrity sha512-m3k+dk7QeJw660eIKRRn3xPF6uuvHs/FFzjX3HQ5ove0qYsiygoAhwn5a3IYKaZPo5LrYD0rfVmtv1gNY1uYwg==
 
 supports-color@^2.0.0:
   version "2.0.0"
