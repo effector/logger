@@ -15,6 +15,7 @@ const $has = restore(was, "");
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
+var _effectorFileName = '/macro.test.js';
 import { restore as _restore } from 'effector-logger';
 import { attach as _attach } from 'effector-logger';
 import { createEffect as _createEffect } from 'effector-logger';

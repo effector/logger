@@ -53,8 +53,6 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "@babel/helper-module-imports": "^7.12.13",
-    "@babel/traverse": "^7.13.0",
     "detect-node": "2.0.4",
     "effector-inspector": "^0.4.1",
     "just-debounce-it": "^1.1.0",

@@ -1,6 +1,4 @@
 const { createMacro } = require('babel-plugin-macros');
-const { addNamed } = require('@babel/helper-module-imports');
-const { default: traverse } = require('@babel/traverse');
 const babelPlugin = require('effector/babel-plugin');
 
 module.exports = createMacro(logger, {
@@ -17,22 +15,46 @@ function logger({
 
   // First of all replace import path to effector-logger instead of /macro
   Object.keys(references).forEach((referenceName) => {
-    const id = addNamed(program, referenceName, importModuleName, {
-      nameHint: referenceName,
-    });
+    const newName = addImport(babel.types, program, referenceName, importModuleName);
 
     // Change name of method to updated
     references[referenceName].forEach((referencePath) => {
-      referencePath.node.name = id.name;
+      referencePath.node.name = newName;
     });
   });
 
   const instance = babelPlugin(babel, config);
 
   instance.pre();
-  traverse(program.parent, instance.visitor, undefined, {
+  babel.traverse(program.parent, instance.visitor, undefined, {
     ...state,
     ...instance,
   });
   instance.post();
+}
+
+function addImport(t, programPath, specifierName, importPath) {
+  const [newPath] = programPath.unshiftContainer(
+    'body',
+    t.importDeclaration(
+      [
+        t.importSpecifier(
+          programPath.scope.generateUidIdentifier(specifierName),
+          t.identifier(specifierName),
+        ),
+      ],
+      t.stringLiteral(importPath),
+    ),
+  );
+
+  let found;
+
+  newPath.get('specifiers').forEach((specifier) => {
+    if (specifier.node.imported.name === specifierName) {
+      found = specifier;
+    }
+  });
+
+  programPath.scope.registerBinding('module', found);
+  return found.node.local.name;
 }
