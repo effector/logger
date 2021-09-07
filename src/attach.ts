@@ -103,6 +103,9 @@ export function attachLogger(
     source.onCreateEffect(attachEffect);
   } else {
     const root = (source as any).cloneOf;
+    if (root === undefined) {
+      throw new Error('Scope should be created from domain');
+    }
     for (const event of root.history.events) {
       attachEvent(event);
     }

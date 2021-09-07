@@ -15,14 +15,12 @@ const config = ['index', 'attach', 'inspector'].map((entry) => (  {
       format: 'cjs',
       plugins: [terser()],
       sourcemap: true,
-      externalLiveBindings: false
     },
     {
       file: `dist/${entry}.mjs`,
       format: 'esm',
       plugins: [terser()],
       sourcemap: true,
-      externalLiveBindings: false
     }
   ],
   plugins: [
