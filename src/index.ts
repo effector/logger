@@ -8,5 +8,5 @@ attachLogger(root);
 
 const { createDomain, createStore, createEffect, createEvent } = root;
 
-export * from 'effector';
 export { createDomain, createStore, createEffect, createEvent };
+export * from 'effector';
