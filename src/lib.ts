@@ -5,7 +5,7 @@ import {
   Domain,
   Scope,
   CompositeName,
-  Unit,
+  Unit, Node,
 } from 'effector';
 
 export const LOGGER_DOMAIN_NAME = '@effector-logger';
@@ -38,11 +38,14 @@ function watchScope(
   if (is.store(unit)) {
     fn(scope.getState(unit));
   }
-  const watchUnit = is.store(unit) ? unit.updates : unit;
-  createNode({
-    node: [step.run({ fn })],
-    parent: (scope as any).find(watchUnit),
+  const node = createNode({
+    node: [step.run({ fn })]
   });
+  const watchUnit = is.store(unit) ? unit.updates : unit;
+  const id = (watchUnit as any).graphite.id;
+  const links: Node[] = ((scope as any).additionalLinks[id] =
+    (scope as any).additionalLinks[id] || []);
+  links.push(node);
 }
 
 export function watch(
