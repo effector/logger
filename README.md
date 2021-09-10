@@ -125,6 +125,8 @@ Just import `effector-logger/inspector` in the `app.ts` and open DevTools Consol
 import 'effector-logger/inspector';
 ```
 
+Then press `CTRL+B` to open Inspector inside the app.
+
 ## Redux DevTools support
 
 If you have redux devtools extensions, just open it.

@@ -1,3 +1,6 @@
 {
-  "plugins": [["effector/babel-plugin", { "addLoc": true }]]
+  "plugins": [
+    ["effector/babel-plugin", { "addLoc": true, "addNames": true }],
+    ["effector/babel-plugin", { "addLoc": true, "addNames": true, "importName": "../../src" }, "local"]
+  ]
 }
