@@ -3455,9 +3455,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 effector-inspector@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.6.0.tgz#1959894e40fbc48f21d01eb6d7756751a5b3eccf"
-  integrity sha512-d4YT9dGXPCvXrMVjnNTHN7I/viLcd1g/ke4cxI3rzdd35ydHdIN1joKCuYdouMYxA+p7qErspitO4Lg2dnb9pA==
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.6.1.tgz#dec2bcd11d5c59a14514febbe191a03ddf36ea5a"
+  integrity sha512-A1PNDX2bYf+lfEwNk4GhLPokUBF4xhr98uXUzu8JoG3Uc6iGfp9y+iNZc3e7wt6GduYvh9+e9ThN8fA0qzlXug==
   dependencies:
     foliage "^0.200.0"
     forest "^0.20.2"
