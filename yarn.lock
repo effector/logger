@@ -3474,9 +3474,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 effector-inspector@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.7.1.tgz#0833aa0470e30fb41895818c95a51b8467b6ea70"
-  integrity sha512-d2AswePyraf0qeWwbODXY73LoGUxFzDiK01xRs+dqPp/dcKCxYe0LjqHVh9RhV2rrLkPoz3ebY5sKLwtU4/CEg==
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.7.2.tgz#d93a553174d9130674546b17aeec6e709c1dba33"
+  integrity sha512-B9bQq6W1+iYcioig5huqzXP3vSGd++TksoeVRcFqxOBke+xPWC6cPq8M6AM+UHp1yzVaF3i52FnLvEF5n1ZS2w==
   dependencies:
     foliage "^0.200.0"
     forest "^0.20.2"
@@ -4125,9 +4125,9 @@ flatted@^2.0.0:
   integrity sha512-r5wGx7YeOwNWNlCA0wQ86zKyDLMQr+/RB8xy74M4hTphfmjlijTSSXGuH8rnvKZnfT9i+75zmd8jcKdMR4O6jA==
 
 foliage@^0.200.0:
-  version "0.200.0"
-  resolved "https://registry.yarnpkg.com/foliage/-/foliage-0.200.0.tgz#a5da6c869d0eb841492052c7f1a21fdb316fd34a"
-  integrity sha512-pJz0sV3RmlQFEqR8jWLTHVDwK7XOvx0JFRLXaj8yWxeyMF9JrV9Y5V/pQX0Iqq/ISUJMXDi7vmnTIH68szk23w==
+  version "0.200.1"
+  resolved "https://registry.yarnpkg.com/foliage/-/foliage-0.200.1.tgz#86fd9035d3b55145081ab4ff22d0f4f1aaa6ab98"
+  integrity sha512-b8lTdKQBzO85VEi027n9QpmB47bWQXIE784NtdcPFJw9O8rTMJF6dPKR6VK7w+lTuZ0/e/6fJOW/8ZUoScsjcQ==
   dependencies:
     autoprefixer "^10.2.4"
     csso "^4.2.0"
