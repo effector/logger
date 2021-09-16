@@ -167,3 +167,17 @@ dist
 /.idea
 
 # End of https://www.gitignore.io/api/git,node,react,macos,visualstudiocode
+
+# Built package artifacts
+attach.js
+attach.js.map
+attach.mjs
+attach.mjs.map
+index.js
+index.js.map
+index.mjs
+index.mjs.map
+inspector.js
+inspector.js.map
+inspector.mjs
+inspector.mjs.map
