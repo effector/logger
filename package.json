@@ -1,23 +1,24 @@
 {
   "name": "effector-logger",
   "version": "0.12.0",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./index.js",
+  "module": "./index.mjs",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "default": "./dist/index.mjs"
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "default": "./index.mjs"
     },
+    "./index.mjs": "./index.mjs",
     "./attach": {
-      "import": "./dist/attach.mjs",
-      "require": "./dist/attach.js",
-      "default": "./dist/attach.mjs"
+      "import": "./attach.mjs",
+      "require": "./attach.js",
+      "default": "./attach.mjs"
     },
     "./inspector": {
-      "import": "./dist/inspector.mjs",
-      "require": "./dist/inspector.js",
-      "default": "./dist/inspector.mjs"
+      "import": "./inspector.mjs",
+      "require": "./inspector.js",
+      "default": "./inspector.mjs"
     },
     "./babel-plugin": {
       "default": "./babel-plugin.js"
@@ -32,10 +33,18 @@
   "files": [
     "dist",
     "attach.js",
-    "attach.d.ts",
-    "babel-plugin.js",
+    "attach.js.map",
+    "attach.mjs",
+    "attach.mjs.map",
+    "index.js",
+    "index.js.map",
+    "index.mjs",
+    "index.mjs.map",
     "inspector.js",
-    "inspector.d.ts",
+    "inspector.js.map",
+    "inspector.mjs",
+    "inspector.mjs.map",
+    "babel-plugin.js",
     "macro.js",
     "macro.d.ts"
   ],
@@ -54,6 +63,7 @@
     "@babel/eslint-parser": "^7.13.10",
     "@commitlint/cli": "8.2.0",
     "@commitlint/config-conventional": "8.2.0",
+    "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-typescript": "^8.2.5",
@@ -64,6 +74,7 @@
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
     "babel-plugin-macros": "^3.0.1",
+    "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-tester": "^10.0.0",
     "commitizen": "4.0.3",
     "cz-conventional-changelog": "3.0.2",
