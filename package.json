@@ -1,6 +1,6 @@
 {
   "name": "effector-logger",
-  "version": "0.12.1",
+  "version": "0.0.0-real-version-will-be-set-on-ci",
   "main": "./index.js",
   "module": "./index.mjs",
   "exports": {
@@ -52,6 +52,7 @@
     "start": "parcel serve ./usage/index.html",
     "build": "rollup --config rollup.config.ts --configPlugin typescript",
     "lint": "eslint --ext .ts,.tsx src",
+    "test": "echo no tests yet",
     "commit": "git-cz",
     "prepublish": "yarn build"
   },
