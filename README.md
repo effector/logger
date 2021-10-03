@@ -95,6 +95,24 @@ attachLogger(myDomain, {
 });
 ```
 
+### Hide any unit from log
+
+Sometimes it is required to hide some events or stores from log.
+It is simple to implement: just call `configure` on your unit.
+
+```ts
+import { createEvent } from 'effector'
+import { configure } from 'effector-logger'
+import { $data, loadDataFx } from './model'
+
+const pageMounted = createEvent<number>();
+
+configure(pageMounted, { log: 'disabled' })
+
+// You can pass multiple units as array
+configure([$data, loadDataFx], { log: 'disabled' })
+```
+
 ## effector-root
 
 Just import `root` domain and attach:
