@@ -93,7 +93,7 @@
   },
   "dependencies": {
     "detect-node": "2.0.4",
-    "effector-inspector": "^0.7.3",
+    "effector-inspector": "^0.7.4",
     "just-debounce-it": "^1.1.0",
     "set-value": "4.0.1"
   },
