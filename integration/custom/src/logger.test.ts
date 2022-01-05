@@ -1,6 +1,18 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { $counter, thingHappened } from './model';
 
-test('units have sids', async () => {
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION__: {
+      send: jest.Mock;
+    };
+  }
+}
+
+test('console logger is initialized', async () => {
   const log = jest.spyOn(console, 'log').mockImplementation(() => null);
 
   expect($counter.sid).toMatchInlineSnapshot(`"evspfo"`);
@@ -14,4 +26,24 @@ test('units have sids', async () => {
   `);
 
   log.mockRestore();
+});
+
+test('redux-devtools initialized', async () => {
+  const reduxDevToolsSend = jest.spyOn(window.__REDUX_DEVTOOLS_EXTENSION__, 'send');
+  thingHappened();
+
+  await new Promise((r) => setTimeout(r));
+
+  expect(reduxDevToolsSend.mock.calls.map((call) => call[0])).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "payload": undefined,
+        "type": "thingHappened (event)",
+      },
+      Object {
+        "type": "$counter (store updated)",
+        "value": 1,
+      },
+    ]
+  `);
 });

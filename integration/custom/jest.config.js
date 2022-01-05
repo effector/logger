@@ -123,7 +123,12 @@ module.exports = {
     // snapshotSerializers: [],
   
     // The test environment that will be used for testing
-    testEnvironment: 'node',
+    testEnvironment: 'jsdom',
+    globals: {
+      __REDUX_DEVTOOLS_EXTENSION__: {
+        send() {}
+      }
+    },
   
     // Options that will be passed to the testEnvironment
     // testEnvironmentOptions: {},
