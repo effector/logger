@@ -161,7 +161,7 @@ sketch
 
 storybook-static
 dist
-
+dist-test
 ### Jetbrains
 
 /.idea

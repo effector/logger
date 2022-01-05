@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+import fs from "fs";
 import pluginResolve from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import { babel } from '@rollup/plugin-babel';
@@ -8,11 +9,13 @@ import typescript from '@rollup/plugin-typescript';
 
 const extensions = ['.tsx', '.ts', '.js', '.json'];
 
-function createBuild(input, format) {
+function createBuild(input, format, base = "") {
+  const file = `${base}${input}.${format === 'esm' ? 'mjs' : 'js'}`;
+
   return {
     input: resolve(__dirname, `src/${input}.ts`),
     output: {
-      file: `${input}.${format === 'esm' ? 'mjs' : 'js'}`,
+      file,
       format,
       plugins: [terser()],
       sourcemap: true,
@@ -40,9 +43,10 @@ function createBuild(input, format) {
   }
 }
 
+const outputBase = process.env.BUILD_KIND === "integration" ? ["dist-test/"] : [""]
 const inputs = ['index', 'attach', 'inspector'];
 const formats = ['cjs', 'esm'];
 
-const config = inputs.map((i) => formats.map(f => createBuild(i, f))).flat();
+const config = outputBase.map(o => inputs.map((i) => formats.map(f => createBuild(i, f, o)))).flat().flat();
 
 export default config;
