@@ -114,6 +114,7 @@ test('redux-devtools initialized', async () => {
 test('inspector initialized', async () => {
   await new Promise((r) => setTimeout(r));
 
+  expect(document.querySelector('.effector-inspector')).toBeTruthy()
   expect(info.mock.calls).toMatchInlineSnapshot(`
       Array [
         Array [
@@ -125,5 +126,4 @@ test('inspector initialized', async () => {
         ],
       ]
   `);
-  expect(document.querySelector('.effector-inspector')).toBeTruthy()
 });
