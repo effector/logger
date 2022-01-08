@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "effector": "^22.1.2",
-    "effector-logger": "../../dist-test",
     "jest": "^27.4.7"
   },
   "devDependencies": {

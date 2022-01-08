@@ -1,0 +1,148 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Intergration testing
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js v14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: v14.x
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build package
+        run: yarn build:integration
+
+      - name: Fetch latest package version
+        id: latest-package
+        run: echo "::set-output name=latest::$(npm info @effector/logger version)"
+
+      - name: Resolve latest release version
+        if: ${{ steps.latest-package.outputs.latest-release == '' }}
+        uses: pozetroninc/github-action-get-latest-release@master
+        id: github-release
+        with:
+          repository: ${{ github.repository }}
+          excludes: draft
+
+      - name: Set version to package from github release
+        if: ${{ steps.latest-package.outputs.latest-release == '' }}
+        run: npm version --force --no-git-tag-version ${{ steps.github-release.outputs.release }}
+        working-directory: './dist-test/'
+
+      - name: Add commit SHA to package version
+        run: npm version --force --no-git-tag-version prerelease --preid=${{ github.sha }}
+        working-directory: './dist-test/'
+
+      - name: Publish to Github NPM registry
+        working-directory: './dist-test/'
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+
+      - name: Get version from package.json
+        uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: 'jq .version dist-test/package.json -r'
+
+      - name: Published ${{ steps.version.outputs.value }}
+        run: echo @effector/logger@${{ steps.version.outputs.value }}
+
+    outputs:
+      version: ${{ steps.version.outputs.value }}
+
+  custom:
+    needs: build
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install integration dependencies
+        run: yarn
+        working-directory: ./integration/custom
+
+      - name: Install effector-logger@${{ needs.build.outputs.version }} to integration package
+        run: yarn add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
+        working-directory: ./integration/custom
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+
+      - name: Run intergration tests
+        run: yarn test
+        working-directory: ./integration/custom
+
+  cra:
+    needs: build
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install integration dependencies
+        run: yarn
+        working-directory: ./integration/cra
+
+      - name: Install effector-logger@${{ needs.build.outputs.version }} to integration package
+        run: yarn add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
+        working-directory: ./integration/cra
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+
+      - name: Run intergration tests
+        run: yarn test
+        working-directory: ./integration/cra
+  nodejs:
+    needs: build
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install integration dependencies
+        run: yarn
+        working-directory: ./integration/nodejs
+
+      - name: Install effector-logger@${{ needs.build.outputs.version }} to integration package
+        run: yarn add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
+        working-directory: ./integration/nodejs
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+
+      - name: Run intergration tests
+        run: yarn test
+        working-directory: ./integration/nodejs

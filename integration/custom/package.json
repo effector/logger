@@ -14,7 +14,6 @@
   "license": "ISC",
   "dependencies": {
     "effector": "^22.1.2",
-    "effector-logger": "../../dist-test",
     "effector-react": "^22.0.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"

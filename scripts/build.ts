@@ -30,6 +30,7 @@ async function build(): Promise<void> {
 
   if (isIntegration) {
     Package.name = INTEGRATION_LIB_NAME;
+    delete Package.scripts.prepublish
     await saveFile(`${DIR}package.json`, JSON.stringify(Package));
     for (const target of copyTargets) {
       await copyFile(resolve(__dirname, '../' + target), resolve(__dirname, '../' + DIR + target));
