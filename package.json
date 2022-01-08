@@ -51,7 +51,7 @@
   "scripts": {
     "start": "parcel serve ./usage/index.html",
     "build": "ts-node ./scripts/build.ts",
-    "build:integration": "rm -rf ./dist-test && BUILD_KIND=integration yarn build && cp {package.json,babel-plugin.js,macro.js} ./dist-test",
+    "build:integration": "rm -rf ./dist-test && BUILD_KIND=integration yarn build",
     "lint": "eslint --ext .ts,.tsx src",
     "test": "echo no tests yet",
     "commit": "git-cz",

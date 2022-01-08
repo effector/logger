@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import fs from 'fs';
+import { promisify } from 'util';
 import { rollup, InputOptions, OutputOptions } from 'rollup';
 import { resolve } from 'path';
 import pluginResolve from '@rollup/plugin-node-resolve';
@@ -7,36 +9,44 @@ import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import Package from '../package.json';
 import typescript from '@rollup/plugin-typescript';
-import babelConfig from "../babel.config";
-
-const extensions = ['.tsx', '.ts', '.js', '.json'];
-const external = [
-  'forest/forest.mjs',
-  'effector/effector.mjs',
-  'effector-inspector/index.mjs',
-].concat(Object.keys(Package.peerDependencies), Object.keys(Package.dependencies));
+import babelConfig from '../babel.config';
 
 const buildKind = process.env.BUILD_KIND;
 const isIntegration = buildKind === 'integration';
 
-const entrypoints = ['index', 'attach', 'inspector'] as const;
-const formats = ['cjs', 'esm'] as const;
+const DIR =
+  {
+    integration: 'dist-test/',
+  }[buildKind] ?? '';
+const INTEGRATION_LIB_NAME = '@effector/logger';
+const copyTargets = ['babel-plugin.js', 'macro.js', 'macro.d.ts'];
 
 async function build(): Promise<void> {
   const configs = getAllConfigs();
 
   for (const config of configs) {
-      await buildEntry(config);
+    await buildEntry(config);
+  }
+
+  if (isIntegration) {
+    Package.name = INTEGRATION_LIB_NAME;
+    await saveFile(`${DIR}package.json`, JSON.stringify(Package));
+    for (const target of copyTargets) {
+      await copyFile(resolve(__dirname, '../' + target), resolve(__dirname, '../' + DIR + target));
+    }
   }
 }
 
 async function buildEntry(config: ReturnType<typeof getConfig>) {
-  console.log("building: ", `src/${config.name}.ts`, "->", config.format)
+  console.log('building: ', `src/${config.name}.ts`, '->', config.format);
   const bundle = await rollup(config.input);
-  console.log("saving: ", config.output.file)
+  console.log('saving: ', config.output.file);
   await bundle.write(config.output);
-  console.log("")
+  console.log('');
 }
+
+const entrypoints = ['index', 'attach', 'inspector'] as const;
+const formats = ['cjs', 'esm'] as const;
 
 function getAllConfigs() {
   const configs: ReturnType<typeof getConfig>[] = [];
@@ -46,7 +56,7 @@ function getAllConfigs() {
         getConfig({
           name,
           format,
-          base: isIntegration ? 'dist-test/' : '',
+          base: DIR,
         }),
       );
     });
@@ -67,6 +77,13 @@ function getConfig(config: { name: string; format: 'esm' | 'cjs'; base: string }
     format,
   };
 }
+
+const extensions = ['.tsx', '.ts', '.js', '.json'];
+const external = [
+  'forest/forest.mjs',
+  'effector/effector.mjs',
+  'effector-inspector/index.mjs',
+].concat(Object.keys(Package.peerDependencies), Object.keys(Package.dependencies));
 
 function getInput(name: string, format: 'esm' | 'cjs'): InputOptions {
   const input = resolve(__dirname, `../src/${name}.ts`);
@@ -101,6 +118,9 @@ function getOutput(name: string, format: 'esm' | 'cjs', base = ''): OutputOption
     format,
   };
 }
+
+const saveFile = promisify(fs.writeFile);
+const copyFile = promisify(fs.copyFile);
 
 build()
   .then(() => {
