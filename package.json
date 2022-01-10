@@ -50,8 +50,8 @@
   ],
   "scripts": {
     "start": "parcel serve ./usage/index.html",
-    "build": "node --loader ts-node/esm ./scripts/build.ts",
-    "build:integration": "rm -rf ./dist-test && BUILD_KIND=integration yarn build",
+    "build": "rm -rf ./dist && node --loader ts-node/esm ./scripts/build.ts",
+    "build:integration": "LIB_NAME=@effector/logger yarn build",
     "lint": "eslint --ext .ts,.tsx src",
     "test": "echo no tests yet",
     "commit": "git-cz",

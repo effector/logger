@@ -11,14 +11,8 @@ import Package from '../package.json';
 import typescript from '@rollup/plugin-typescript';
 import babelConfig from '../babel.config';
 
-const buildKind = process.env.BUILD_KIND;
-const isIntegration = buildKind === 'integration';
-
-const DIR =
-  {
-    integration: 'dist-test/',
-  }[buildKind] ?? '';
-const INTEGRATION_LIB_NAME = '@effector/logger';
+const DIR = 'dist/';
+const LIB_NAME = process.env.LIB_NAME ?? Package.name;
 const copyTargets = ['babel-plugin.js', 'macro.js', 'macro.d.ts'];
 
 async function build(): Promise<void> {
@@ -27,14 +21,11 @@ async function build(): Promise<void> {
   for (const config of configs) {
     await buildEntry(config);
   }
-
-  if (isIntegration) {
-    Package.name = INTEGRATION_LIB_NAME;
-    delete Package.scripts.prepublish
-    await saveFile(`${DIR}package.json`, JSON.stringify(Package));
-    for (const target of copyTargets) {
-      await copyFile(resolve(__dirname, '../' + target), resolve(__dirname, '../' + DIR + target));
-    }
+  Package.name = LIB_NAME;
+  delete Package.scripts.prepublish;
+  await saveFile(`${DIR}package.json`, JSON.stringify(Package));
+  for (const target of copyTargets) {
+    await copyFile(resolve(__dirname, '../' + target), resolve(__dirname, '../' + DIR + target));
   }
 }
 
