@@ -22,5 +22,17 @@
     "typeRoots": ["./node_modules/@types"]
   },
   "exclude": ["./node_modules", "./dist"],
-  "include": ["./src"]
+  "include": ["./src"],
+  "ts-node": {
+    // It is faster to skip typechecking.
+    // Remove if you want ts-node to do typechecking.
+    "transpileOnly": true,
+
+    "compilerOptions": {
+      // compilerOptions specified here will override those declared below,
+      // but *only* in ts-node.  Useful if you want ts-node and tsc to use
+      // different options with a single tsconfig.json.
+      "module": "CommonJS"
+    }
+  },
 }
