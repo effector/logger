@@ -92,6 +92,34 @@ jobs:
         run: yarn test
         working-directory: ./integration/custom
 
+  custom-attach:
+    needs: build
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install integration dependencies
+        run: yarn
+        working-directory: ./integration/custom-attach
+
+      - name: Install effector-logger@${{ needs.build.outputs.version }} to integration package
+        run: yarn add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
+        working-directory: ./integration/custom-attach
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
+
+      - name: Run intergration tests
+        run: yarn test
+        working-directory: ./integration/custom-attach
+
   cra:
     needs: build
     runs-on: ubuntu-18.04
