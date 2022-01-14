@@ -23,6 +23,7 @@ async function build(): Promise<void> {
   }
   Package.name = LIB_NAME;
   delete Package.scripts.prepublish;
+  delete Package.devDependencies;
   await saveFile(`${DIR}package.json`, JSON.stringify(Package));
   for (const target of copyTargets) {
     await copyFile(resolve(__dirname, '../' + target), resolve(__dirname, '../' + DIR + target));
