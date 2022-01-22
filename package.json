@@ -29,7 +29,9 @@
   },
   "typesVersions": {
     "*": {
-      "attach": ["dist/attach.d.ts"]
+      "attach": [
+        "dist/attach.d.ts"
+      ]
     }
   },
   "typings": "./dist/index.d.ts",
@@ -100,7 +102,7 @@
   },
   "dependencies": {
     "detect-node": "2.0.4",
-    "effector-inspector": "^0.7.4",
+    "effector-inspector": "^0.8.0",
     "just-debounce-it": "^1.1.0",
     "set-value": "4.0.1"
   },
