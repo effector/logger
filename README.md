@@ -38,6 +38,31 @@ Add babel plugin to your `babel.config.js` or `.babelrc` file
 }
 ```
 
+**Options**
+
+Babel plugin has few configuration options:
+- `inspector: boolean` - enables or disables `effector-inspector`. Default: `false`
+- `effector: EffectorBabelPluginOptions` - overrides for underlying `effector/babel-plugin`. Default: `{}`
+
+Config example:
+```json
+{
+  "plugins": [
+    [
+      "effector-logger/babel-plugin",
+      {
+        "inspector": true,
+        "effector": {
+          "reactSsr": true,
+          "factories": ["shared/lib/effector-timer", "effector-forms"]
+        }
+      }
+    ]
+  ]
+}
+
+```
+
 ### Create React App and macros support
 
 Just use `effector-logger/macro`:
