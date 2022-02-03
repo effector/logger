@@ -3546,10 +3546,10 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-effector-inspector@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.8.1.tgz#c2f641efdb4273aa12982748a2a14c2fa490266b"
-  integrity sha512-vgMcgYbnkg9PbrGXUPcEYQwP7CBaX0Ktci10xxdknw6ORRQR2iLoHU2dFdNrD0kINTSok8UEJX0wvBexpcF4JA==
+effector-inspector@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/effector-inspector/-/effector-inspector-0.8.2.tgz#523cb2ff61aacc1640ced93b7309d21e227123a2"
+  integrity sha512-7pYH+S8APeiD6KYtHbVCE0YK0XXM0ug9z+izzbHulaiqIEahFbtWxl+cte3VOj7H54+hr+188qaTdQMW4aE8RA==
   dependencies:
     foliage "^0.201.0"
     forest "^0.20.2"
