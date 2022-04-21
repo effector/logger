@@ -29,7 +29,7 @@ yarn add -D effector-logger
 > Note: **effector-logger** requires `effector` to be installed
 
 ## Usage
-
+#### Babel users
 Add babel plugin to your `babel.config.js` or `.babelrc` file
 
 ```json
@@ -62,7 +62,7 @@ Config example:
 }
 
 ```
-
+#### Non babel users
 ### Create React App and macros support
 
 Just use `effector-logger/macro`:
