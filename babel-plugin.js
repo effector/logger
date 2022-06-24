@@ -2,27 +2,31 @@ const effectorPlugin = require('effector/babel-plugin');
 
 module.exports = function effectorLogger(babel, options = {}) {
   const { types: t } = babel;
-  const { inspector = false, effector = {}, skipEffectorPlugin = false } = options;
+  const { inspector = false, effector = {}, skipEffectorPlugin = false, disabled = false } = options;
 
   const replaceToLogger = ['effector'];
-  const disableRe = /^\s*effector-logger:\s*disable\s*.*$/
 
-  const isLoggerDisabled = (node) => {
+  const disableRe = /^\s*effector-logger:\s*disable\s*.*$/
+  const enableRe = /^\s*effector-logger:\s*enable\s*.*$/
+
+  const shouldReplace = (node) => {
     if (node.trailingComments) {
       for (const comment of node.trailingComments) {
-        if (comment && disableRe.test(comment.value)) {
-          return true
-        }
+        if (!comment) continue
+        if (!disabled && disableRe.test(comment.value)) return false
+        if (disabled && enableRe.test(comment.value)) return true
       }
     }
+    return !disabled
   }
 
   const importVisitor = {
     ImportDeclaration(path, state) {
       if (t.isLiteral(path.node.source)) {
         // If imported from module that should be replaced to logger as is
-        // and does not contain trailing comment `effector-logger: disable`
-        if (replaceToLogger.includes(path.node.source.value) && !isLoggerDisabled(path.node)) {
+        // and does not disabled by trailing comment `effector-logger: disable`
+        // or does enabled by trailing comment `effector-logger: enable`
+        if (replaceToLogger.includes(path.node.source.value) && shouldReplace(path.node)) {
           path.node.source.value = 'effector-logger';
         }
       }
