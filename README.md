@@ -43,6 +43,15 @@ Add babel plugin to your `babel.config.js` or `.babelrc` file
 Babel plugin has few configuration options:
 - `inspector: boolean` - enables or disables `effector-inspector`. Default: `false`
 - `effector: EffectorBabelPluginOptions` - overrides for underlying `effector/babel-plugin`. Default: `{}`
+- `disabled: boolean` - disables plugin. Default `false`. If plugin is disabled, you can enable it for exact `effector` import by using comment `// effector-logger: enable` after import. And vice-versa:
+
+```js
+// effector-logger is enabled in config (by default)
+import { createStore } from 'effector' // effector-logger: disable
+
+// effector-logger is disabled in config
+import { createStore } from 'effector' // effector-logger: enable
+```
 
 Config example:
 ```json
@@ -160,7 +169,7 @@ attachLogger(root);
 
 ## Inspector
 
-Just import `effector-logger/inspector` in the `app.ts` and open DevTools Console in browser. 
+Just import `effector-logger/inspector` in the `app.ts` and open DevTools Console in browser.
 
 > Note: inspector requires browser environment. ReactNative is not supported
 
