@@ -10,6 +10,7 @@
     "effector": "^22.1.2",
     "jest": "^27.4.7"
   },
+  "packageManager": "pnpm@7.11.0",
   "devDependencies": {
     "@babel/core": "^7.16.7",
     "@babel/preset-env": "^7.16.7",

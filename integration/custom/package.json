@@ -9,6 +9,7 @@
     "build": "webpack --mode production",
     "test": "jest"
   },
+  "packageManager": "pnpm@7.11.0",
   "keywords": [],
   "author": "",
   "license": "ISC",
