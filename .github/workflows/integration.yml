@@ -67,16 +67,17 @@ jobs:
 
   custom:
     needs: build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js v16.x
+        uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: v16.x
+          cache: 'yarn'
           registry-url: 'https://npm.pkg.github.com'
 
       - name: Install integration dependencies
@@ -95,16 +96,17 @@ jobs:
 
   custom-attach:
     needs: build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js v16.x
+        uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: v16.x
+          cache: 'yarn'
           registry-url: 'https://npm.pkg.github.com'
 
       - name: Install integration dependencies
@@ -123,16 +125,17 @@ jobs:
 
   cra:
     needs: build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js v16.x
+        uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: v16.x
+          cache: 'yarn'
           registry-url: 'https://npm.pkg.github.com'
 
       - name: Install integration dependencies
@@ -150,16 +153,17 @@ jobs:
         working-directory: ./integration/cra
   nodejs:
     needs: build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js v16.x
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: v16.x
+          cache: 'yarn'
           registry-url: 'https://npm.pkg.github.com'
 
       - name: Install integration dependencies
