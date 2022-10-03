@@ -10,27 +10,30 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout
+      - name: 🛎️ Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js v18.x
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: 🐧 Use Node.js v18.x
         uses: actions/setup-node@v3
         with:
           node-version: v18.x
-          cache: 'yarn'
+          cache: 'pnpm'
           registry-url: 'https://npm.pkg.github.com'
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      - name: 🔍 Install dependencies
+        run: pnpm install
 
-      - name: Build package
-        run: yarn build:integration
+      - name: 🔧 Build package
+        run: pnpm build:integration
 
-      - name: Fetch latest package version
+      - name: 📦 Fetch latest package version
         id: latest-package
         run: echo "::set-output name=latest::$(npm info @effector/logger version)"
 
-      - name: Resolve latest release version
+      - name: 🔦 Resolve latest release version
         if: ${{ steps.latest-package.outputs.latest-release == '' }}
         uses: pozetroninc/github-action-get-latest-release@master
         id: github-release
@@ -38,28 +41,28 @@ jobs:
           repository: ${{ github.repository }}
           excludes: draft
 
-      - name: Set version to package from github release
+      - name: 🥤 Set version to package from github release
         if: ${{ steps.latest-package.outputs.latest-release == '' }}
         run: npm version --force --no-git-tag-version ${{ steps.github-release.outputs.release }}
         working-directory: './dist/'
 
-      - name: Add commit SHA to package version
+      - name: ➕ Add commit SHA to package version
         run: npm version --force --no-git-tag-version prerelease --preid=${{ github.sha }}
         working-directory: './dist/'
 
-      - name: Publish to Github NPM registry
+      - name: 🚀 Publish to Github NPM registry
         working-directory: './dist/'
-        run: yarn publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
 
-      - name: Get version from package.json
+      - name: 👓 Get version from package.json
         uses: sergeysova/jq-action@v2
         id: version
         with:
           cmd: 'jq .version dist/package.json -r'
 
-      - name: Published ${{ steps.version.outputs.value }}
+      - name: ✅ Published ${{ steps.version.outputs.value }}
         run: echo @effector/logger@${{ steps.version.outputs.value }}
 
     outputs:
@@ -70,28 +73,31 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout
+      - name: 🛎️ Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js v18.x
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: 🐧 Use Node.js v18.x
         uses: actions/setup-node@v3
         with:
           node-version: v18.x
-          cache: 'yarn'
+          cache: 'pnpm'
           registry-url: 'https://npm.pkg.github.com'
 
-      - name: Install integration dependencies
-        run: yarn
+      - name: 🔍 Install integration dependencies
+        run: pnpm install
         working-directory: ./integration/custom
 
-      - name: Install effector-logger@${{ needs.build.outputs.version }} to integration package
-        run: yarn add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
+      - name: 🛒 Install effector-logger@${{ needs.build.outputs.version }} to integration package
+        run: pnpm add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
         working-directory: ./integration/custom
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
 
-      - name: Run intergration tests
-        run: yarn test
+      - name: 🧪 Run integration tests
+        run: pnpm test
         working-directory: ./integration/custom
 
   custom-attach:
@@ -99,28 +105,31 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout
+      - name: 🛎️ Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js v18.x
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: 🐧 Use Node.js v18.x
         uses: actions/setup-node@v3
         with:
           node-version: v18.x
-          cache: 'yarn'
+          cache: 'pnpm'
           registry-url: 'https://npm.pkg.github.com'
 
-      - name: Install integration dependencies
-        run: yarn
+      - name: 🔍 Install integration dependencies
+        run: pnpm install
         working-directory: ./integration/custom-attach
 
-      - name: Install effector-logger@${{ needs.build.outputs.version }} to integration package
-        run: yarn add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
+      - name: 🛒 Install effector-logger@${{ needs.build.outputs.version }} to integration package
+        run: pnpm add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
         working-directory: ./integration/custom-attach
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
 
-      - name: Run intergration tests
-        run: yarn test
+      - name: 🧪 Run integration tests
+        run: pnpm test
         working-directory: ./integration/custom-attach
 
   cra:
@@ -128,54 +137,61 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout
+      - name: 🛎️ Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js v18.x
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: 🐧 Use Node.js v18.x
         uses: actions/setup-node@v3
         with:
           node-version: v18.x
-          cache: 'yarn'
+          cache: 'pnpm'
           registry-url: 'https://npm.pkg.github.com'
 
-      - name: Install integration dependencies
-        run: yarn
+      - name: 🔍 Install integration dependencies
+        run: pnpm install
         working-directory: ./integration/cra
 
-      - name: Install effector-logger@${{ needs.build.outputs.version }} to integration package
-        run: yarn add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
+      - name: 🛒 Install effector-logger@${{ needs.build.outputs.version }} to integration package
+        run: pnpm add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
         working-directory: ./integration/cra
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
 
-      - name: Run intergration tests
-        run: yarn test
+      - name: 🧪 Run integration tests
+        run: pnpm test
         working-directory: ./integration/cra
+
   nodejs:
     needs: build
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout
+      - name: 🛎️ Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js v18.x
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: 🐧 Use Node.js v18.x
         uses: actions/setup-node@v3
         with:
           node-version: v18.x
-          cache: 'yarn'
+          cache: 'pnpm'
           registry-url: 'https://npm.pkg.github.com'
 
-      - name: Install integration dependencies
-        run: yarn
+      - name: 🔍 Install integration dependencies
+        run: pnpm install
         working-directory: ./integration/nodejs
 
-      - name: Install effector-logger@${{ needs.build.outputs.version }} to integration package
-        run: yarn add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
+      - name: 🛒 Install effector-logger@${{ needs.build.outputs.version }} to integration package
+        run: pnpm add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
         working-directory: ./integration/nodejs
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
 
-      - name: Run intergration tests
-        run: yarn test
+      - name: 🧪 Run integration tests
+        run: pnpm test
         working-directory: ./integration/nodejs

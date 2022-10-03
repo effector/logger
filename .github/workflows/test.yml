@@ -6,22 +6,25 @@ jobs:
   test-package:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
+      - name: 🛎️ Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js 18.x
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: 🐧 Use Node.js v18.x
         uses: actions/setup-node@v3
         with:
-          cache: 'yarn'
-          node-version: 18.x
+          node-version: v18.x
+          cache: 'pnpm'
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      - name: 🔍 Install dependencies
+        run: pnpm install
 
-      - name: Build
-        run: yarn build
+      - name: 🔧 Build package
+        run: pnpm build:integration
 
-      - name: Run tests
-        run: yarn test
+      - name: 🧪 Test
+        run: pnpm test
         env:
           CI: true

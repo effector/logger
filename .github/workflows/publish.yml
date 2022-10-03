@@ -6,46 +6,50 @@ on:
 
 jobs:
   publish-to-npm:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v3
 
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: 🐧 Use Node.js v18.x
+        uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: v18.x
+          cache: 'pnpm'
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      - name: 🔍 Install dependencies
+        run: pnpm install
 
-      - name: Build
-        run: yarn build
+      - name: 🔧 Build package
+        run: pnpm build:integration
 
-      - name: Run tests
-        run: yarn test
+      - name: 🧪 Test
+        run: pnpm test
         env:
           CI: true
 
-      - name: Extract version
+      - name: 🔦 Extract version
         id: version
         uses: olegtarasov/get-tag@v2.1
         with:
           tagRegex: 'v(.*)'
 
-      - name: Set version from release
-        uses: reedyuk/npm-version@1.0.1
+      - name: 🥤 Set version from release
+        uses: reedyuk/npm-version@1.1.1
         with:
           version: ${{ steps.version.outputs.tag }}
           git-tag-version: false
           package: 'dist/'
 
-      - name: Create NPM config
+      - name: 📝 Create NPM config
         working-directory: './dist/'
         run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish package
+      - name: 🚀 Publish package
         working-directory: './dist/'
         run: npm publish
