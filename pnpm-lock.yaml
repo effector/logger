@@ -23,7 +23,7 @@ specifiers:
   cz-conventional-changelog: 3.0.2
   detect-node: 2.0.4
   effector: ^22.1.0
-  effector-inspector: ^0.8.2
+  effector-inspector: ^0.10.2
   eslint: ^6.6.0
   eslint-plugin-prettier: ^3.1.2
   husky: 3.1.0
@@ -39,7 +39,7 @@ specifiers:
 
 dependencies:
   detect-node: 2.0.4
-  effector-inspector: 0.8.2_effector@22.3.0
+  effector-inspector: 0.10.2_effector@22.3.0
   just-debounce-it: 1.5.0
   set-value: 4.0.1
 
@@ -3916,8 +3916,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: true
 
-  /effector-inspector/0.8.2_effector@22.3.0:
-    resolution: {integrity: sha512-7pYH+S8APeiD6KYtHbVCE0YK0XXM0ug9z+izzbHulaiqIEahFbtWxl+cte3VOj7H54+hr+188qaTdQMW4aE8RA==}
+  /effector-inspector/0.10.2_effector@22.3.0:
+    resolution: {integrity: sha512-mXIg+qaQAQ+LaKnm9NBIOaMDSrBLZe3QVe4xYeSGk9ddgisL12EiZLHhCNQuIj5zoppBZoE9onHTEGecAZ587w==}
     peerDependencies:
       effector: ^22.1.0
     dependencies:
