@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "lib": ["esnext"],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react",
+    "baseUrl": "./src",
+    "paths": {
+      "@api/*": ["./api/*"],
+      "@pages/*": ["./pages/*"],
+      "@features/*": ["./features/*"],
+      "@lib/*": ["./lib/*"],
+      "@ui": ["./ui"]
+    }
+  },
+  "include": ["src", "jest.config.js"]
+}
