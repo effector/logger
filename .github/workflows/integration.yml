@@ -13,10 +13,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js v16.x
+      - name: Use Node.js v18.x
         uses: actions/setup-node@v3
         with:
-          node-version: v16.x
+          node-version: v18.x
           cache: 'yarn'
           registry-url: 'https://npm.pkg.github.com'
 
@@ -73,10 +73,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js v16.x
+      - name: Use Node.js v18.x
         uses: actions/setup-node@v3
         with:
-          node-version: v16.x
+          node-version: v18.x
           cache: 'yarn'
           registry-url: 'https://npm.pkg.github.com'
 
@@ -102,10 +102,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js v16.x
+      - name: Use Node.js v18.x
         uses: actions/setup-node@v3
         with:
-          node-version: v16.x
+          node-version: v18.x
           cache: 'yarn'
           registry-url: 'https://npm.pkg.github.com'
 
@@ -131,10 +131,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js v16.x
+      - name: Use Node.js v18.x
         uses: actions/setup-node@v3
         with:
-          node-version: v16.x
+          node-version: v18.x
           cache: 'yarn'
           registry-url: 'https://npm.pkg.github.com'
 
@@ -159,10 +159,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js v16.x
+      - name: Use Node.js v18.x
         uses: actions/setup-node@v3
         with:
-          node-version: v16.x
+          node-version: v18.x
           cache: 'yarn'
           registry-url: 'https://npm.pkg.github.com'
 
