@@ -3,6 +3,83 @@
   "version": "0.0.0-real-version-will-be-set-on-ci",
   "main": "./index.js",
   "module": "./index.mjs",
+  "typings": "./dist/index.d.ts",
+  "license": "MIT",
+  "repository": "github:effector/logger",
+  "scripts": {
+    "start": "parcel serve ./usage/index.html",
+    "build": "rm -rf ./dist && ts-node ./scripts/build.ts",
+    "build:integration": "LIB_NAME=@effector/logger yarn build",
+    "lint": "eslint --ext .ts,.tsx src",
+    "test": "echo no tests yet",
+    "commit": "git-cz",
+    "prepublish": "yarn build"
+  },
+  "peerDependencies": {
+    "effector": "^22.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/eslint-parser": "^7.13.10",
+    "@commitlint/cli": "8.2.0",
+    "@commitlint/config-conventional": "8.2.0",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-typescript": "^8.2.5",
+    "@types/babel__core": "^7.1.19",
+    "@types/detect-node": "^2.0.0",
+    "@types/just-debounce-it": "^1.1.0",
+    "@types/node": "^13.7.1",
+    "@types/set-value": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
+    "babel-plugin-macros": "^3.0.1",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-tester": "^10.0.0",
+    "commitizen": "4.0.3",
+    "cz-conventional-changelog": "3.0.2",
+    "effector": "^22.1.0",
+    "eslint": "^6.6.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "3.1.0",
+    "jest": "^26.6.3",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^2.1.2",
+    "rollup": "^2.56.3",
+    "rollup-plugin-terser": "^7.0.2",
+    "ts-node": "^10.4.0",
+    "typescript": "=4.3.5"
+  },
+  "dependencies": {
+    "detect-node": "2.0.4",
+    "effector-inspector": "^0.8.2",
+    "just-debounce-it": "^1.1.0",
+    "set-value": "4.0.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "files": [
+    "dist",
+    "attach.js",
+    "attach.js.map",
+    "attach.mjs",
+    "attach.mjs.map",
+    "index.js",
+    "index.js.map",
+    "index.mjs",
+    "index.mjs.map",
+    "inspector.js",
+    "inspector.js.map",
+    "inspector.mjs",
+    "inspector.mjs.map",
+    "babel-plugin.js",
+    "macro.js",
+    "macro.d.ts"
+  ],
   "exports": {
     ".": {
       "import": "./index.mjs",
@@ -32,83 +109,6 @@
       "attach": [
         "dist/attach.d.ts"
       ]
-    }
-  },
-  "typings": "./dist/index.d.ts",
-  "license": "MIT",
-  "repository": "github:effector/logger",
-  "files": [
-    "dist",
-    "attach.js",
-    "attach.js.map",
-    "attach.mjs",
-    "attach.mjs.map",
-    "index.js",
-    "index.js.map",
-    "index.mjs",
-    "index.mjs.map",
-    "inspector.js",
-    "inspector.js.map",
-    "inspector.mjs",
-    "inspector.mjs.map",
-    "babel-plugin.js",
-    "macro.js",
-    "macro.d.ts"
-  ],
-  "scripts": {
-    "start": "parcel serve ./usage/index.html",
-    "build": "rm -rf ./dist && node --loader ts-node/esm ./scripts/build.ts",
-    "build:integration": "LIB_NAME=@effector/logger yarn build",
-    "lint": "eslint --ext .ts,.tsx src",
-    "test": "echo no tests yet",
-    "commit": "git-cz",
-    "prepublish": "yarn build"
-  },
-  "peerDependencies": {
-    "effector": "^22.1.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.13.10",
-    "@babel/eslint-parser": "^7.13.10",
-    "@commitlint/cli": "8.2.0",
-    "@commitlint/config-conventional": "8.2.0",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.4",
-    "@rollup/plugin-typescript": "^8.2.5",
-    "@types/detect-node": "^2.0.0",
-    "@types/just-debounce-it": "^1.1.0",
-    "@types/node": "^13.7.1",
-    "@types/set-value": "^2.0.0",
-    "@typescript-eslint/eslint-plugin": "^2.16.0",
-    "@typescript-eslint/parser": "^2.16.0",
-    "babel-plugin-macros": "^3.0.1",
-    "babel-plugin-module-resolver": "^4.1.0",
-    "babel-plugin-tester": "^10.0.0",
-    "commitizen": "4.0.3",
-    "cz-conventional-changelog": "3.0.2",
-    "effector": "^22.1.0",
-    "eslint": "^6.6.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "husky": "3.1.0",
-    "jest": "^26.6.3",
-    "parcel-bundler": "^1.12.4",
-    "prettier": "^2.1.2",
-    "rollup": "^2.56.3",
-    "rollup-plugin-terser": "^7.0.2",
-    "terser-webpack-plugin": "^2.3.5",
-    "ts-node": "^10.4.0",
-    "typescript": "=4.3.5"
-  },
-  "dependencies": {
-    "detect-node": "2.0.4",
-    "effector-inspector": "^0.8.2",
-    "just-debounce-it": "^1.1.0",
-    "set-value": "4.0.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
     }
   }
 }

@@ -21,10 +21,11 @@ async function build(): Promise<void> {
   for (const config of configs) {
     await buildEntry(config);
   }
-  Package.name = LIB_NAME;
-  delete Package.scripts.prepublish;
-  delete Package.devDependencies;
-  await saveFile(`${DIR}package.json`, JSON.stringify(Package));
+  const packageJson = JSON.parse(JSON.stringify(Package));
+  packageJson.name = LIB_NAME;
+  delete packageJson.scripts.prepublish;
+  delete packageJson.devDependencies;
+  await saveFile(`${DIR}package.json`, JSON.stringify(packageJson));
   for (const target of copyTargets) {
     await copyFile(resolve(__dirname, '../' + target), resolve(__dirname, '../' + DIR + target));
   }
