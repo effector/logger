@@ -32,6 +32,8 @@ jobs:
       - name: 📦 Fetch latest package version
         id: latest-package
         run: echo "::set-output name=latest::$(npm info @effector/logger version)"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
 
       - name: 🔦 Resolve latest release version
         if: ${{ steps.latest-package.outputs.latest-release == '' }}
