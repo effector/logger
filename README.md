@@ -15,8 +15,8 @@ Pretty logger for stores, events, effects and domains.
 ## Installation
 
 ```bash
-npm install effector
-npm install --dev effector-logger
+npm add effector
+npm add --dev effector-logger
 ```
 
 or yarn
