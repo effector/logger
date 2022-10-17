@@ -22,7 +22,7 @@ specifiers:
   cz-conventional-changelog: 3.0.2
   detect-node: 2.0.4
   effector: ^22.1.0
-  effector-inspector: ^0.10.2
+  effector-inspector: ^0.10.3
   eslint: ^6.6.0
   eslint-plugin-prettier: ^3.1.2
   husky: 3.1.0
@@ -34,11 +34,11 @@ specifiers:
   set-value: 4.0.1
   ts-node: ^10.4.0
   typescript: '=4.3.5'
-  vite: ^3.1.4
+  vite: ^3.1.8
 
 dependencies:
   detect-node: 2.0.4
-  effector-inspector: 0.10.2_effector@22.3.0
+  effector-inspector: 0.10.3_effector@22.3.0
   just-debounce-it: 1.5.0
   set-value: 4.0.1
 
@@ -72,7 +72,7 @@ devDependencies:
   rollup-plugin-terser: 7.0.2_rollup@2.79.1
   ts-node: 10.9.1_p45ebbtpha2zic2ooe2cmqv2ru
   typescript: 4.3.5
-  vite: 3.1.4
+  vite: 3.1.8
 
 packages:
 
@@ -2222,8 +2222,8 @@ packages:
       is-obj: 1.0.1
     dev: true
 
-  /effector-inspector/0.10.2_effector@22.3.0:
-    resolution: {integrity: sha512-mXIg+qaQAQ+LaKnm9NBIOaMDSrBLZe3QVe4xYeSGk9ddgisL12EiZLHhCNQuIj5zoppBZoE9onHTEGecAZ587w==}
+  /effector-inspector/0.10.3_effector@22.3.0:
+    resolution: {integrity: sha512-Eh/RrjxHTLefGcjtDJ196up/zlk1ZHH0ES9i/ayLFxwTsBZo3+YLC0EcLyF4Xy6idEpuiV9reBv2tng9CMlazw==}
     peerDependencies:
       effector: ^22.1.0
     dependencies:
@@ -6009,8 +6009,8 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite/3.1.4:
-    resolution: {integrity: sha512-JoQI08aBjY9lycL7jcEq4p9o1xUjq5aRvdH4KWaXtkSx7e7RpAh9D3IjzDWRD4Fg44LS3oDAIOG/Kq1L+82psA==}
+  /vite/3.1.8:
+    resolution: {integrity: sha512-m7jJe3nufUbuOfotkntGFupinL/fmuTNuQmiVE7cH2IZMuf4UbfbGYMUT3jVWgGYuRVLY9j8NnrRqgw5rr5QTg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
