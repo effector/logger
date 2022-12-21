@@ -9,9 +9,9 @@ const reduxDevTools =
 
 function instanceId(): string {
   if (typeof document === 'object') {
-    return `☄️ ${document.title}`
+    return `☄️ ${document.title}`;
   }
-  return '☄️ no title instance'
+  return '☄️ no title instance';
 }
 
 const devToolConfig = {
@@ -26,7 +26,8 @@ function setState(name: string, value: any): void {
 
 export function eventCalled(name: string, payload: any): void {
   if (reduxDevTools) {
-    reduxDevTools.send({
+    reduxDevTools.send(
+      {
         type: `${name} (event)`,
         payload,
       },
@@ -45,8 +46,9 @@ export function storeAdded(store: effector.Store<any>): void {
 export function storeUpdated(name: string, value: any): void {
   setState(name, value);
 
-  if (reduxDevTools) {
-    reduxDevTools.send({
+  if (reduxDevTools && reduxDevTools.send) {
+    reduxDevTools.send(
+      {
         type: `${name} (store updated)`,
         value,
       },
@@ -69,11 +71,7 @@ export function effectAdded(name: string, effect: Effect): void {
   effectUpdateState(name, effect);
 }
 
-export function effectCalled(
-  name: string,
-  effect: Effect,
-  parameters: any,
-): void {
+export function effectCalled(name: string, effect: Effect, parameters: any): void {
   effectUpdateState(name, effect);
 
   if (reduxDevTools) {
@@ -85,12 +83,7 @@ export function effectCalled(
   }
 }
 
-export function effectDone(
-  name: string,
-  effect: Effect,
-  parameters: any,
-  result: any,
-): void {
+export function effectDone(name: string, effect: Effect, parameters: any, result: any): void {
   effectUpdateState(name, effect);
 
   if (reduxDevTools) {
@@ -102,12 +95,7 @@ export function effectDone(
   }
 }
 
-export function effectFail(
-  name: string,
-  effect: Effect,
-  parameters: any,
-  error: any,
-): void {
+export function effectFail(name: string, effect: Effect, parameters: any, error: any): void {
   effectUpdateState(name, effect);
 
   if (reduxDevTools) {
