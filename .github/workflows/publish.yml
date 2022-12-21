@@ -26,6 +26,9 @@ jobs:
       - name: 🔧 Build package
         run: pnpm build
 
+      - name: 📜 Copy README
+        run: cp ./README.md ./dist/
+
       - name: 🧪 Test
         run: pnpm test
         env:
