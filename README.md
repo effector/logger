@@ -1,3 +1,18 @@
+# DEPRECATED
+
+The `effector-logger' had some good times, and now it is deprecated. 
+
+There are two major problems:
+1. Configuration - `effector-logger` requires either a custom babel-plugin or a bit complicated configuration with a root domain.
+2. Presentation - in a more or less mature application that does a lot of data work, there will be too many logs in the console to read. Also, these logs are simple - it's hard to find the cause of a particular update, which is much more interesting than just a list of updates.
+
+Given these problems, it was decided to abandon `effector-logger` and start working on improved api for debugging and monitoring tools - within `effector` itself.
+
+Currently, it is preferable to use `patronum/debug` for debugging. It does not log every effector's unit in the application by default, but allows you to log only certain units and then calculate a detailed trace of each update.
+
+More information can be found in [patronum docs](https://patronum.effector.dev/methods/debug/).
+
+
 # Effector Logger
 
 Pretty logger for stores, events, effects and domains.

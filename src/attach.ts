@@ -64,6 +64,7 @@ function shouldLog(unit: Event<any> | Store<any> | Effect<any, any>): boolean {
 }
 
 export function attachLogger(source: Domain | Scope, logTo: Partial<Options> = {}): void {
+  console.warn('`effector-logger` is deprecated in favor of `patronum/debug` and future debugging api within `effector` itself.')
   const options = { ...defaults, ...logTo };
   const isConsole = options.console === 'enabled';
   const isRedux = options.reduxDevtools === 'enabled';
