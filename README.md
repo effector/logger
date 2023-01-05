@@ -79,16 +79,15 @@ Config example:
 ```
 #### Non babel users
 Logger has function `attachLogger` which takes root domain as an argument
-<details>
-  <summary>Code snippet</summary>
-  ```
+
+  ```js
   import {createDomain} from 'effector'
   import {attachLogger} from 'effector-loggger/attach'
   
   export const root = createDomain('app')
   
   if (process.env['NODE_ENV'] === 'development' &&
-  type window !== 'undefined') {
+  typeof window !== 'undefined') {
     attachLogger(root, {
       reduxDevtools: 'enabled',
       console: 'enabled',
@@ -96,22 +95,9 @@ Logger has function `attachLogger` which takes root domain as an argument
     })
   }
   ```
-</details>
 
-<details>
-  <summary>Troubleshooting: Can't resolve process/browser forest.mjs webpack 5</summary>
-  ```
-  module: {
-    rules: [
-       {
-          test: /\.m?js/,
-          resolve: {
-              fullySpecified: false
-          }
-    ]
-}
-  ```
-</details>
+You can use [`effector-root`](https://github.com/effector/root) to add a common `root` domain automatically
+
 ### Create React App and macros support
 
 Just use `effector-logger/macro`:
@@ -245,6 +231,22 @@ const scope = fork(root);
 hydrate(scope, { values: INITIAL_STATE });
 attachLogger(scope);
 ```
+
+## Troubleshooting
+
+### Can't resolve process/browser forest.mjs (Webpack 5)
+
+  ```js
+  module: {
+    rules: [
+       {
+          test: /\.m?js/,
+          resolve: {
+              fullySpecified: false
+          }
+    ]
+}
+  ```
 
 ## Contributors ✨
 
