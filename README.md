@@ -29,7 +29,7 @@ yarn add -D effector-logger
 > Note: **effector-logger** requires `effector` to be installed
 
 ## Usage
-
+#### Babel users
 Add babel plugin to your `babel.config.js` or `.babelrc` file
 
 ```json
@@ -62,7 +62,41 @@ Config example:
 }
 
 ```
+#### Non babel users
+Logger has function `attachLogger` which takes root domain as an argument
+<details>
+  <summary>Code snippet</summary>
+  ```
+  import {createDomain} from 'effector'
+  import {attachLogger} from 'effector-loggger/attach'
+  
+  export const root = createDomain('app')
+  
+  if (process.env['NODE_ENV'] === 'development' &&
+  type window !== 'undefined') {
+    attachLogger(root, {
+      reduxDevtools: 'enabled',
+      console: 'enabled',
+      inspector: 'enabled'
+    })
+  }
+  ```
+</details>
 
+<details>
+  <summary>Troubleshooting: Can't resolve process/browser forest.mjs webpack 5</summary>
+  ```
+  module: {
+    rules: [
+       {
+          test: /\.m?js/,
+          resolve: {
+              fullySpecified: false
+          }
+    ]
+}
+  ```
+</details>
 ### Create React App and macros support
 
 Just use `effector-logger/macro`:
