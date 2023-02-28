@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 import { $counter, thingHappened } from './model';
 
 test('units have sids', async () => {

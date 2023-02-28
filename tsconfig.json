@@ -19,7 +19,7 @@
     "baseUrl": "./",
     "rootDir": "./src",
     "outDir": "./dist",
-    "types": ["node"]
+    "types": ["node", "jest"]
   },
   "exclude": ["./dist"],
   "include": ["./src"],

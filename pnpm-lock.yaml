@@ -11,6 +11,7 @@ specifiers:
   '@rollup/plugin-typescript': ^8.2.5
   '@types/babel__core': ^7.1.19
   '@types/detect-node': ^2.0.0
+  '@types/jest': ^29.4.0
   '@types/node': ^18.14.2
   '@types/set-value': ^2.0.0
   '@typescript-eslint/eslint-plugin': ^2.16.0
@@ -53,6 +54,7 @@ devDependencies:
   '@rollup/plugin-typescript': 8.5.0_zptcx3kz3uwp66hzhyyt545weq
   '@types/babel__core': 7.1.19
   '@types/detect-node': 2.0.0
+  '@types/jest': 29.4.0
   '@types/node': 18.14.2
   '@types/set-value': 2.0.0
   '@typescript-eslint/eslint-plugin': 2.34.0_pbtt62rvafu2e7zyh3niggm7mq
@@ -1125,6 +1127,13 @@ packages:
     resolution: {integrity: sha512-c3mAZEuK0lvBp8tmuL74XRKn1+y2dcwOUpH7x4WrF6gk1GIgiluDRgMYQtw2OFcBvAJWlt6ASU3tSqxp0Uu0Aw==}
     dependencies:
       '@types/istanbul-lib-report': 3.0.0
+    dev: true
+
+  /@types/jest/29.4.0:
+    resolution: {integrity: sha512-VaywcGQ9tPorCX/Jkkni7RWGFfI11whqzs8dvxF41P17Z+z872thvEvlIbznjPJ02kl1HMX3LmLOonsj2n7HeQ==}
+    dependencies:
+      expect: 29.3.1
+      pretty-format: 29.3.1
     dev: true
 
   /@types/json-schema/7.0.11:

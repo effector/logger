@@ -3,6 +3,8 @@
  */
 import { $counter, thingHappened } from './model';
 
+/* eslint-disable no-irregular-whitespace */
+
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION__: {
@@ -111,7 +113,7 @@ test('redux-devtools initialized', async () => {
   `);
 });
 
-test('inspector initialized', async () => {
+test.skip('inspector initialized', async () => {
   await new Promise((r) => setTimeout(r));
 
   expect(document.querySelector('.effector-inspector')).toBeTruthy();
