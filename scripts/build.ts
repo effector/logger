@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import fs from 'fs';
+import fs from 'node:fs';
 import { promisify } from 'util';
 import { rollup, InputOptions, OutputOptions } from 'rollup';
 import { resolve } from 'path';
@@ -9,7 +9,7 @@ import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import Package from '../package.json';
 import typescript from '@rollup/plugin-typescript';
-import babelConfig from '../babel.config';
+import { generateConfig } from '../babel.config';
 
 const DIR = 'dist/';
 const LIB_NAME = process.env.LIB_NAME ?? Package.name;
@@ -23,7 +23,8 @@ async function build(): Promise<void> {
   }
   const packageJson = JSON.parse(JSON.stringify(Package));
   packageJson.name = LIB_NAME;
-  delete packageJson.scripts.prepublish;
+  delete packageJson['scripts'];
+  delete packageJson['config'];
   delete packageJson.devDependencies;
   await saveFile(`${DIR}package.json`, JSON.stringify(packageJson));
   for (const target of copyTargets) {
@@ -92,7 +93,7 @@ function getInput(name: string, format: 'esm' | 'cjs'): InputOptions {
       extensions,
       skipPreflightCheck: true,
       babelrc: false,
-      ...babelConfig.generateConfig({
+      ...generateConfig({
         isEsm: format === 'esm',
       }),
     }),

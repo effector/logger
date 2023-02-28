@@ -19,9 +19,9 @@
     "baseUrl": "./",
     "rootDir": "./src",
     "outDir": "./dist",
-    "typeRoots": ["./node_modules/@types"]
+    "types": ["node"]
   },
-  "exclude": ["./node_modules", "./dist"],
+  "exclude": ["./dist"],
   "include": ["./src"],
   "ts-node": {
     // It is faster to skip typechecking.
