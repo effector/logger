@@ -66,37 +66,43 @@ Config example:
 Logger has function `attachLogger` which takes root domain as an argument
 <details>
   <summary>Code snippet</summary>
-  ```
-  import {createDomain} from 'effector'
-  import {attachLogger} from 'effector-loggger/attach'
+
+  ```js
+  import { createDomain } from 'effector';
+  import { attachLogger } from 'effector-loggger/attach';
   
-  export const root = createDomain('app')
+  export const root = createDomain('app');
   
   if (process.env['NODE_ENV'] === 'development' &&
-  type window !== 'undefined') {
+  typeof window !== 'undefined') {
     attachLogger(root, {
       reduxDevtools: 'enabled',
       console: 'enabled',
       inspector: 'enabled'
-    })
+    });
   }
   ```
+
 </details>
 
 <details>
   <summary>Troubleshooting: Can't resolve process/browser forest.mjs webpack 5</summary>
-  ```
+
+  ```js
   module: {
     rules: [
-       {
-          test: /\.m?js/,
-          resolve: {
-              fullySpecified: false
-          }
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false
+        }
+      }
     ]
-}
+  }
   ```
+
 </details>
+
 ### Create React App and macros support
 
 Just use `effector-logger/macro`:
@@ -194,7 +200,7 @@ attachLogger(root);
 
 ## Inspector
 
-Just import `effector-logger/inspector` in the `app.ts` and open DevTools Console in browser. 
+Just import `effector-logger/inspector` in the `app.ts` and open DevTools Console in browser.
 
 > Note: inspector requires browser environment. ReactNative is not supported
 
