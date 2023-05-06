@@ -13,7 +13,6 @@ import { generateConfig } from '../babel.config';
 
 const DIR = 'dist/';
 const LIB_NAME = process.env.LIB_NAME ?? Package.name;
-const copyTargets = ['babel-plugin.js', 'macro.js', 'macro.d.ts'];
 
 async function build(): Promise<void> {
   const configs = getAllConfigs();
@@ -26,10 +25,8 @@ async function build(): Promise<void> {
   delete packageJson['scripts'];
   delete packageJson['config'];
   delete packageJson.devDependencies;
+
   await saveFile(`${DIR}package.json`, JSON.stringify(packageJson));
-  for (const target of copyTargets) {
-    await copyFile(resolve(__dirname, '../' + target), resolve(__dirname, '../' + DIR + target));
-  }
 }
 
 async function buildEntry(config: ReturnType<typeof getConfig>) {
@@ -40,7 +37,7 @@ async function buildEntry(config: ReturnType<typeof getConfig>) {
   console.log('');
 }
 
-const entrypoints = ['index', 'attach', 'inspector'] as const;
+const entrypoints = ['index'] as const;
 const formats = ['cjs', 'esm'] as const;
 
 function getAllConfigs() {
@@ -115,7 +112,6 @@ function getOutput(name: string, format: 'esm' | 'cjs', base = ''): OutputOption
 }
 
 const saveFile = promisify(fs.writeFile);
-const copyFile = promisify(fs.copyFile);
 
 build()
   .then(() => {

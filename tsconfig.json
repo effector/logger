@@ -22,7 +22,7 @@
     "types": ["node", "jest"]
   },
   "exclude": ["./dist"],
-  "include": ["./src"],
+  "include": ["./src/index.ts"],
   "ts-node": {
     // It is faster to skip typechecking.
     // Remove if you want ts-node to do typechecking.
