@@ -1,14 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import debounce from 'just-debounce-it';
 import isNode from 'detect-node';
-import { Effect, Event, Store } from 'effector';
-import { createName, getPath } from './lib';
+import { inspectGraph, Declaration } from 'effector/inspect';
+import { Scope } from 'effector';
+
+import { getName, locToString, getStateFromDeclaration } from './lib';
 
 const SEPARATOR = isNode ? '  ' : '';
 
-const storeListToInit: Array<Store<any>> = [];
-const eventListToInit: Array<Event<any>> = [];
-const effectListToInit: Array<Effect<any, any, any>> = [];
+const storeListToInit: Array<Declaration> = [];
+const eventListToInit: Array<Declaration> = [];
+const effectListToInit: Array<Declaration> = [];
+
+inspectGraph({
+  fn: (d) => {
+    if (!d.derived) {
+      if (d.kind === 'store' && !d.meta.named) {
+        storeListToInit.push(d);
+      }
+      if (d.kind === 'event' && !d.meta.named) {
+        eventListToInit.push(d);
+      }
+      if (d.kind === 'effect' && !d.meta.named) {
+        effectListToInit.push(d);
+      }
+    }
+  },
+});
 
 const styles = {
   block: 'padding-left: 4px; padding-right: 4px; font-weight: normal;',
@@ -26,7 +44,7 @@ const styles = {
 
 const effectorLabel: Block[] = [
   ['☄️', '%s', styles.effector],
-  ['effector', '%s', 'font-family: Menlo, monospace;']
+  ['effector', '%s', 'font-family: Menlo, monospace;'],
 ];
 
 const reset = (index: number, count: number, style: string): string =>
@@ -72,95 +90,81 @@ function log(
 
 const blockNew: Block = ['new', '%s', styles.new];
 
-const blockStore: Block = ['store', '%s', styles.store];
-const blockEvent: Block = ['event', '%s', styles.event];
-const blockEffect: Block = ['effect', '%s', styles.effect];
-
 const stripDomain = (name: string) => name.split('/').pop() || name;
 
 const createBlockStore: (name: string) => Block = (name) => [stripDomain(name), '%s', styles.store];
-const createBlockEvent: (name: string) => Block =  (name) => [stripDomain(name), '%s', styles.event];
-const createBlockEffect: (name: string) => Block = (name) => [stripDomain(name), '%s', styles.effect];
+const createBlockEvent: (name: string) => Block = (name) => [stripDomain(name), '%s', styles.event];
+const createBlockEffect: (name: string) => Block = (name) => [
+  stripDomain(name),
+  '%s',
+  styles.effect,
+];
 
-const logAdded = debounce(() => {
-  const stores = storeListToInit.splice(0);
-  const events = eventListToInit.splice(0);
-  const effects = effectListToInit.splice(0);
+export const createDeclarationsLogger = (config: { name: string; scope?: Scope }) =>
+  debounce(() => {
+    const stores = storeListToInit.splice(0, storeListToInit.length);
+    const events = eventListToInit.splice(0, eventListToInit.length);
+    const effects = effectListToInit.splice(0, effectListToInit.length);
 
-  if (stores.length + events.length + effects.length > 0) {
-    log(
-      [blockNew],
-      [
-        ['Initialized', '%s', ''],
-        [`events(${events.length})`, '%s', ''],
-        [`effects(${effects.length})`, '%s', ''],
-        [`stores(${stores.length})`, '%s', ''],
-      ],
-      'collapsed',
-    );
+    if (stores.length + events.length + effects.length > 0) {
+      log(
+        [blockNew],
+        [
+          ['Initialized', '%s', ''],
+          [`events(${events.length})`, '%s', ''],
+          [`effects(${effects.length})`, '%s', ''],
+          [`stores(${stores.length})`, '%s', ''],
+        ],
+        'collapsed',
+      );
 
-    if (stores.length) {
-      stores.forEach((store) => {
-        const name = createName(store.compositeName);
-        const fileName = getPath(store);
+      if (stores.length) {
+        stores.forEach((store) => {
+          const name = getName(store, config.name);
+          const fileName = locToString(store.loc);
 
-        log(
-          [blockNew, createBlockStore(name)],
-          [
-            ['-> ', '%s', ''],
-            [store.getState(), '%o', ''],
-            [fileName, '%s', styles.file],
-            [name, '%s', ''],
-          ],
-        );
-      });
+          log(
+            [blockNew, createBlockStore(name)],
+            [
+              ['-> ', '%s', ''],
+              [getStateFromDeclaration(store), '%o', ''],
+              [fileName, '%s', styles.file],
+              [name, '%s', ''],
+            ],
+          );
+        });
+      }
+      if (events.length > 0) {
+        events.forEach((event) => {
+          const name = getName(event, config.name);
+          const fileName = locToString(event.loc);
+
+          log(
+            [blockNew, createBlockEvent(name)],
+            [
+              [fileName, '%s', styles.file],
+              [name, '%s', ''],
+            ],
+          );
+        });
+      }
+      if (effects.length > 0) {
+        effects.forEach((effect) => {
+          const name = getName(effect, config.name);
+          const fileName = locToString(effect.loc);
+
+          log(
+            [blockNew, createBlockEffect(name)],
+            [
+              [fileName, '%s', styles.file],
+              [name, '%s', ''],
+            ],
+          );
+        });
+      }
+      console.groupEnd();
     }
-    if (events.length > 0) {
-      events.forEach((event) => {
-        const name = createName(event.compositeName);
-        const fileName = getPath(event);
-
-        log(
-          [blockNew, createBlockEvent(name)],
-          [
-            [fileName, '%s', styles.file],
-            [name, '%s', ''],
-          ],
-        );
-      });
-    }
-    if (effects.length > 0) {
-      effects.forEach((effect) => {
-        const name = createName(effect.compositeName);
-        const fileName = getPath(effect);
-
-        log(
-          [blockNew, createBlockEffect(name)],
-          [
-            [fileName, '%s', styles.file],
-            [name, '%s', ''],
-          ],
-        );
-      });
-    }
-    console.groupEnd();
-  }
-}, 5);
-
-export function storeAdded(store: Store<any>): void {
-  storeListToInit.push(store);
-  logAdded();
-}
-
-export function eventAdded(event: Event<any>): void {
-  eventListToInit.push(event);
-  logAdded();
-}
-
-export function effectAdded(effect: Effect<any, any, any>): void {
-  effectListToInit.push(effect);
-  logAdded();
-}
+  }, 5);
 
 export function storeUpdated(name: string, fileName: string, value: any): void {
   log(
@@ -174,11 +178,7 @@ export function storeUpdated(name: string, fileName: string, value: any): void {
   );
 }
 
-export function eventCalled(
-  name: string,
-  fileName: string,
-  payload: any,
-): void {
+export function eventCalled(name: string, fileName: string, payload: any): void {
   log(
     [createBlockEvent(name)],
     [
@@ -189,11 +189,7 @@ export function eventCalled(
   );
 }
 
-export function effectCalled(
-  name: string,
-  fileName: string,
-  parameters: any,
-): void {
+export function effectCalled(name: string, fileName: string, parameters: any): void {
   log(
     [createBlockEffect(name)],
     [
@@ -204,12 +200,7 @@ export function effectCalled(
   );
 }
 
-export function effectDone(
-  name: string,
-  fileName: string,
-  parameters: any,
-  result: any,
-): void {
+export function effectDone(name: string, fileName: string, parameters: any, result: any): void {
   log(
     [createBlockEffect(name)],
     [
@@ -223,12 +214,7 @@ export function effectDone(
   );
 }
 
-export function effectFail(
-  name: string,
-  fileName: string,
-  parameters: any,
-  error: any,
-): void {
+export function effectFail(name: string, fileName: string, parameters: any, error: any): void {
   const instanceofError = error instanceof Error;
 
   log(
@@ -237,9 +223,7 @@ export function effectFail(
       ['fail ❌', '%s', styles.emoji],
       [parameters, '(%o)', 'padding-left: 4px;'],
       ['-> ', '%s', ''],
-      instanceofError
-        ? [String(error), '%s', '']
-        : [error, '%o', 'padding: 0;'],
+      instanceofError ? [String(error), '%s', ''] : [error, '%o', 'padding: 0;'],
       [fileName, '%s', styles.file],
       [name, '%s', styles.file],
     ],
