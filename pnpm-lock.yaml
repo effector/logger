@@ -21,7 +21,7 @@ specifiers:
   commitizen: 4.0.3
   cz-conventional-changelog: 3.0.2
   detect-node: 2.0.4
-  effector: 22.8.2
+  effector: 22.8.3
   eslint: ^6.6.0
   eslint-plugin-prettier: ^3.1.2
   husky: 3.1.0
@@ -58,7 +58,7 @@ devDependencies:
   babel-plugin-tester: 10.1.0_@babel+core@7.19.3
   commitizen: 4.0.3
   cz-conventional-changelog: 3.0.2
-  effector: 22.8.2
+  effector: 22.8.3
   eslint: 6.8.0
   eslint-plugin-prettier: 3.4.1_z3t5winqgas25x6qp2elb4naby
   husky: 3.1.0
@@ -2131,8 +2131,8 @@ packages:
       is-obj: 1.0.1
     dev: true
 
-  /effector/22.8.2:
-    resolution: {integrity: sha512-Utl/gT/wDtcnVKDOToS4xuGDt1INzhsGF5TGnDGdbSS6BbV0C2JPAjo8tBi+0ZK1M5Gj8sEW/WFuv+RoH2V+oQ==}
+  /effector/22.8.3:
+    resolution: {integrity: sha512-QKbaI5on9UmqdTB3PpAuHn9CJDvSHBr8fIERVXlA2rTXrNH/5ScuTCGPxPvbdmtBA2y6SnZmiU6+AvFlOBRj+w==}
     engines: {node: '>=11.0.0'}
     dev: true
 
