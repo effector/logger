@@ -29,135 +29,74 @@ yarn add -D effector-logger
 > Note: **effector-logger** requires `effector` to be installed
 
 ## Usage
-#### Babel users
-Add babel plugin to your `babel.config.js` or `.babelrc` file
+
+### Prepare metadata
+
+To make logs more useful we need additional metadata (like names, locations in the code, etc), which is provided by one of the `effector` plugins.
+
+#### Babel-plugin
+
+Babel-plugin is built-in in the `effector` package.
+
+Just add it to your babel configuration.
 
 ```json
 {
-  "plugins": ["effector-logger/babel-plugin"]
+  "plugins": ["effector/babel-plugin"]
 }
 ```
 
-**Options**
+It is also useful to enable `loc` generation for dev environment, to see for exact locations of units in the code.
 
-Babel plugin has few configuration options:
-- `inspector: boolean` - enables or disables `effector-inspector`. Default: `false`
-- `effector: EffectorBabelPluginOptions` - overrides for underlying `effector/babel-plugin`. Default: `{}`
-
-Config example:
 ```json
 {
-  "plugins": [
-    [
-      "effector-logger/babel-plugin",
-      {
-        "inspector": true,
-        "effector": {
-          "reactSsr": true,
-          "factories": ["shared/lib/effector-timer", "effector-forms"]
-        }
-      }
-    ]
-  ]
+  "plugins": [["effector/babel-plugin", { "addLoc": true }]]
 }
-
-```
-#### Non babel users
-Logger has function `attachLogger` which takes root domain as an argument
-<details>
-  <summary>Code snippet</summary>
-
-  ```js
-  import { createDomain } from 'effector';
-  import { attachLogger } from 'effector-loggger/attach';
-  
-  export const root = createDomain('app');
-  
-  if (process.env['NODE_ENV'] === 'development' &&
-  typeof window !== 'undefined') {
-    attachLogger(root, {
-      reduxDevtools: 'enabled',
-      console: 'enabled',
-      inspector: 'enabled'
-    });
-  }
-  ```
-
-</details>
-
-<details>
-  <summary>Troubleshooting: Can't resolve process/browser forest.mjs webpack 5</summary>
-
-  ```js
-  module: {
-    rules: [
-      {
-        test: /\.m?js/,
-        resolve: {
-          fullySpecified: false
-        }
-      }
-    ]
-  }
-  ```
-
-</details>
-
-### Create React App and macros support
-
-Just use `effector-logger/macro`:
-
-```js
-import { createStore, createEvent } from 'effector-logger/macro';
 ```
 
-### Debug some modules
+[Read the docs](https://effector.dev/docs/api/effector/babel-plugin/#usage)
 
-1. Open a module (js/ts/esm file) you need to debug
+#### SWC Plugin
 
-Replace import from `"effector"` to `"effector-logger"`
+[Read effector SWC plugin documentation](https://github.com/effector/swc-plugin)
 
-For example:
+### Start logging
 
-```diff
-- import { Event, Store, createEvent, forward } from "effector"
-+ import { Event, Store, createEvent, forward } from "effector-logger"
-```
+Just call `attachLogger` in your entrypoint module.
 
-2. Open DevTools Console, use "Filter" to show only required logs
-
-### Debug domain _with settings_
-
-1. Open a module with domain
-2. `import { attachLogger } from 'effector-logger/attach'`
-3. Attach logger to your domain
-
-Example:
+NOTE: To "see" the `createStore`, `createEvent`, etc calls `effector-logger` needs to be imported at the very top of your entrypoint module.
 
 ```ts
-import { createDomain } from 'effector';
-import { attachLogger } from 'effector-logger/attach';
+// src/index.tsx
+import { attachLogger } from 'effector-logger';
 
-export const myDomain = createDomain('my');
-attachLogger(myDomain);
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { App } from './app';
+
+attachLogger();
+
+createRoot(document.querySelector('#app')).render(<App />);
 ```
 
-#### Settings available only on `attachLogger`
+After that you will see the logs in your console.
 
-Second argument is an object `{ reduxDevtools, console, inspector }`, each field is optional can be `"enabled"` or `"disabled"`.
-If field is not provided it is `"enabled"` by default.
+### With `Scope`
 
-- `reduxDevtools` if `"disabled"` do not send updates to [redux devtools extension](https://github.com/zalmoxisus/redux-devtools-extension)
-- `inspector` if `"disabled"` do not send updates to effector inspector
-- `console` if `"disabled"` do not log updates to `console.log` in browser devtools
+If your app uses scope (e.g. you have Server-Side-Rendering) - you will need to pass it to the logger to work.
 
 ```ts
-// disable all logs
-attachLogger(myDomain, {
-  reduxDevtools: 'disabled',
-  inspector: 'disabled',
-  console: 'disabled',
-});
+attachLogger({ scope });
+```
+
+### Stop logs
+
+To stop logs just call unsubscribe function.
+
+```ts
+const unlogger = attachLogger();
+
+unlogger();
 ```
 
 ### Hide any unit from log
@@ -166,53 +105,42 @@ Sometimes it is required to hide some events or stores from log.
 It is simple to implement: just call `configure` on your unit.
 
 ```ts
-import { createEvent } from 'effector'
-import { configure } from 'effector-logger'
-import { $data, loadDataFx } from './model'
+import { createEvent } from 'effector';
+import { configure } from 'effector-logger';
+import { $data, loadDataFx } from './model';
 
 const pageMounted = createEvent<number>();
 
-configure(pageMounted, { log: 'disabled' })
+configure(pageMounted, { log: 'disabled' });
 
 // You can pass multiple units as array
-configure([$data, loadDataFx], { log: 'disabled' })
+configure([$data, loadDataFx], { log: 'disabled' });
 ```
 
-## effector-root
+### Force any unit to be logged
 
-Just import `root` domain and attach:
+By default only non-derived units are logged. If you want to force some unit to be logged, use configure `enabled`
 
-```js
-import { attachLogger } from 'effector-logger/attach';
-import { root } from 'effector-root';
+```ts
+import { createEvent } from 'effector';
+import { configure } from 'effector-logger';
+import { $data, loadDataFx } from './model';
 
-attachLogger(root);
+const pageMounted = createEvent<number>();
+
+const mappedMounted = pageMounter.map((x) => x);
+
+configure(mappedMounted, { log: 'enabled' });
+
+// You can pass multiple units as array
+configure([$data, loadDataFx], { log: 'enabled' });
 ```
-
-#### Create React App and macros support
-
-```js
-import { attachLogger } from 'effector-logger/attach';
-import { root } from 'effector-root/macro';
-
-attachLogger(root);
-```
-
-## Inspector
-
-Just import `effector-logger/inspector` in the `app.ts` and open DevTools Console in browser.
-
-> Note: inspector requires browser environment. ReactNative is not supported
-
-```js
-import 'effector-logger/inspector';
-```
-
-Then press `CTRL+B` to open Inspector inside the app.
 
 ## Redux DevTools support
 
-If you have redux devtools extensions, just open it.
+Redux DevTools is moved to a different package.
+
+See the [`@effector/redux-devtools-adapter`](https://github.com/effector/redux-devtools-adapter)
 
 ## Using in the project with Redux
 
@@ -224,17 +152,6 @@ import { createStore as createReduxStore } from 'redux';
 
 const store = createReduxStore();
 // reducers
-```
-
-## Using logger with SSR
-
-```ts
-import { attachLogger } from 'effector-logger/attach';
-import { root, fork, hydrate } from 'effector-root';
-
-const scope = fork(root);
-hydrate(scope, { values: INITIAL_STATE });
-attachLogger(scope);
 ```
 
 ## Contributors ✨
