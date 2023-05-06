@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { inspect, Message, inspectGraph } from 'effector/inspect';
 import type { Scope, Unit } from 'effector';
+import { is } from 'effector';
 
 import {
   storeUpdated,
@@ -65,10 +66,22 @@ export function configure(
   const units = Array.isArray(unitOrUnits) ? unitOrUnits : [unitOrUnits];
 
   if (config.log === 'disabled') {
-    units.forEach((unit) => ignored.add(getNode(unit).id));
+    units.forEach((unit) => {
+      ignored.add(getNode(unit).id);
+
+      if (is.effect(unit)) {
+        ignored.add(getNode(unit.finally).id);
+      }
+    });
   }
   if (config.log === 'enabled') {
-    units.forEach((unit) => forceLog.add(getNode(unit).id));
+    units.forEach((unit) => {
+      forceLog.add(getNode(unit).id);
+
+      if (is.effect(unit)) {
+        forceLog.add(getNode(unit.finally).id);
+      }
+    });
   }
 }
 
