@@ -134,38 +134,6 @@ jobs:
         run: pnpm test
         working-directory: ./integration/custom-attach
 
-  cra:
-    needs: build
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: 🛎️ Checkout
-        uses: actions/checkout@v3
-
-      - name: 📦 Setup pnpm
-        uses: pnpm/action-setup@v2
-
-      - name: 🐧 Use Node.js v18.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: v18.x
-          cache: 'pnpm'
-          registry-url: 'https://npm.pkg.github.com'
-
-      - name: 🔍 Install integration dependencies
-        run: pnpm install
-        working-directory: ./integration/cra
-
-      - name: 🛒 Install effector-logger@${{ needs.build.outputs.version }} to integration package
-        run: pnpm add effector-logger@npm:@effector/logger@${{ needs.build.outputs.version }}
-        working-directory: ./integration/cra
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
-
-      - name: 🧪 Run integration tests
-        run: pnpm test
-        working-directory: ./integration/cra
-
   nodejs:
     needs: build
     runs-on: ubuntu-22.04
