@@ -161,18 +161,6 @@ Redux DevTools is moved to a different package.
 
 See the [`@effector/redux-devtools-adapter`](https://github.com/effector/redux-devtools-adapter)
 
-## Using in the project with Redux
-
-If you are using `effector@21.2.2` and lower with `effector-logger` in the project with redux, then you need to rewrite redux `createStore` import to `createReduxStore` and use it.
-Otherwise, redux will give you an error: **Unexpected keys found in preloadedState argument passed to createStore**.
-
-```ts
-import { createStore as createReduxStore } from 'redux';
-
-const store = createReduxStore();
-// reducers
-```
-
 ## Contributors ✨
 
 Thanks go to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
