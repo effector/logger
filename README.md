@@ -89,6 +89,18 @@ If your app uses scope (e.g. you have Server-Side-Rendering) - you will need to 
 attachLogger({ scope });
 ```
 
+### Name
+
+There optional `name` prefix to the logs.
+It can be useful if there are few instances of your app, which are using different scopes.
+
+```ts
+attachLogger({
+  scope,
+  name: `my-cool-app-${appId}`, // all logs will be prefixed with this string
+});
+```
+
 ### Stop logs
 
 To stop logs just call unsubscribe function.
