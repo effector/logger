@@ -64,7 +64,9 @@ It is also useful to enable `loc` generation for dev environment, to see for exa
 
 Just call `attachLogger` in your entrypoint module.
 
-NOTE: To "see" the `createStore`, `createEvent`, etc calls `effector-logger` needs to be imported at the very top of your entrypoint module.
+NOTE: To "see" the `createStore`, `createEvent`, etc calls `effector-logger` needs to be imported at the very top of your entrypoint module. This way initial states of stores will be properly logged at the moment of `attachLogger` call.
+
+Update logs are not affected by import order.
 
 ```ts
 // src/index.tsx
@@ -73,8 +75,11 @@ import { attachLogger } from 'effector-logger';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './app';
+import { appStarted } from './shared/app-events';
 
 attachLogger();
+
+appStarted();
 
 createRoot(document.querySelector('#app')).render(<App />);
 ```
@@ -89,10 +94,12 @@ If your app uses scope (e.g. you have Server-Side-Rendering) - you will need to 
 attachLogger({ scope });
 ```
 
+Updates related to provided scope will be prefixed with scope id.
+
 ### Name
 
 There optional `name` prefix to the logs.
-It can be useful if there are few instances of your app, which are using different scopes.
+It can be useful if there are few instances of your app, which are using different scopes or if you just want prefix that is better than boring scope id.
 
 ```ts
 attachLogger({
