@@ -127,7 +127,7 @@ export const createDeclarationsLogger = (config: { name: string; scope?: Scope }
             [blockNew, createBlockStore(name)],
             [
               ['-> ', '%s', ''],
-              [getStateFromDeclaration(store), '%o', ''],
+              [getStateFromDeclaration(store, config.scope), '%o', ''],
               [fileName, '%s', styles.file],
               [name, '%s', ''],
             ],

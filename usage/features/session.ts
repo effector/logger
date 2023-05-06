@@ -3,7 +3,7 @@ import { sessionFetch } from '../api/session';
 
 export const $session = createStore<null | { id: number }>(null);
 
-$session.on(sessionFetch.doneData, (result) => result);
+$session.on(sessionFetch.doneData, (_, result) => result);
 
 setTimeout(() => {
   const $asyncLoadedStore = createStore('some string');

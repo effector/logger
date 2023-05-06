@@ -1,17 +1,19 @@
 import { fork, scopeBind } from 'effector';
 import { attachLogger } from '../src';
 
-import './features/session';
+import { $session } from './features/session';
 import { pageMounted } from './pages/home';
 
-attachLogger({
-  name: 'my-cool-app',
+const scope = fork({
+  values: [[$session, { id: 'lol' }]],
 });
-
-const scope = fork();
 
 attachLogger({
   scope,
+});
+
+attachLogger({
+  name: 'my-cool-app',
 });
 
 setTimeout(pageMounted, 500, Math.floor(Math.random() * 3000));
