@@ -22,7 +22,7 @@ jobs:
         run: pnpm install
 
       - name: 🔧 Build package
-        run: pnpm build:integration
+        run: pnpm build
 
       - name: 🧪 Test
         run: pnpm test
