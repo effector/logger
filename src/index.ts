@@ -20,9 +20,11 @@ const forceLog = new Set<string>();
 const fxRunning = new Map<string, string>();
 let mode = 'blacklist'; // default mode is blacklist
 
-export function attachLogger(config: { scope?: Scope; name?: string, mode?: 'blacklist' | 'whitelist' } = {}): () => void {
+export function attachLogger(config: { scope?: Scope; name?: string; mode?: 'blacklist' | 'whitelist' } = {}): () => void {
+  // update mode if provided
+  mode = config.mode || mode;
+
   const name = config.name || (config.scope ? `scope: ${getNode(config.scope).id}` : '');
-  mode = config.mode || 'blacklist';
 
   const logDeclarations = createDeclarationsLogger({
     name,
@@ -32,13 +34,14 @@ export function attachLogger(config: { scope?: Scope; name?: string, mode?: 'bla
   const uninspect = inspect({
     scope: config.scope || undefined,
     fn: (m) => {
-      const shouldLogBlacklist = isLoggable(m) && !ignored.has(m.id);
-      const shouldLogWhitelist = forceLog.has(m.id);
-      
-      const shouldLog = mode === 'blacklist' ? shouldLogBlacklist : shouldLogWhitelist;
-
-      if (shouldLog) {
-        log(m, name);
+      if (mode === 'blacklist') {
+        if ((isLoggable(m) && !ignored.has(m.id)) || forceLog.has(m.id)) {
+          log(m, name);
+        }
+      } else if (mode === 'whitelist') {
+        if (forceLog.has(m.id)) {
+          log(m, name);
+        }
       }
     },
   });
@@ -66,18 +69,22 @@ export function configure(
   if (config.log === 'disabled' && mode === 'blacklist') {
     units.forEach((unit) => {
       ignored.add(getNode(unit).id);
+      forceLog.delete(getNode(unit).id);
 
       if (is.effect(unit)) {
         ignored.add(getNode(unit.finally).id);
+        forceLog.delete(getNode(unit.finally).id);
       }
     });
   }
   if (config.log === 'enabled' && mode === 'whitelist') {
     units.forEach((unit) => {
       forceLog.add(getNode(unit).id);
+      ignored.delete(getNode(unit).id);
 
       if (is.effect(unit)) {
         forceLog.add(getNode(unit.finally).id);
+        ignored.delete(getNode(unit.finally).id);
       }
     });
   }
