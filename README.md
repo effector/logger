@@ -155,6 +155,23 @@ configure(mappedMounted, { log: 'enabled' });
 configure([$data, loadDataFx], { log: 'enabled' });
 ```
 
+### Whitelist mode
+
+If you wan't to disable logs by default and only log necessary units, you can use `mode` option of `createLogger`
+
+```ts
+import { createEvent } from 'effector';
+import { configure } from 'effector-logger';
+
+// In whitelist mode, units don't log by default
+attachLogger({ mode: 'whitelist' })
+
+const pageMounted = createEvent<number>();
+
+// Enable logging for a specific unit
+configure(pageMounted, { log: 'enabled' });
+```
+
 ## Redux DevTools support
 
 Redux DevTools is moved to a different package.
