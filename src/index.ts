@@ -18,11 +18,13 @@ import { getNode, getName, locToString } from './lib';
 const ignored = new Set<string>();
 const forceLog = new Set<string>();
 const fxRunning = new Map<string, string>();
-let mode = 'blacklist'; // default mode is blacklist
+let defaultMode = 'blacklist';
 
-export function attachLogger(config: { scope?: Scope; name?: string; mode?: 'blacklist' | 'whitelist' } = {}): () => void {
+export function attachLogger(
+  config: { scope?: Scope; name?: string; mode?: 'blacklist' | 'whitelist' } = {},
+): () => void {
   // update mode if provided
-  mode = config.mode || mode;
+  const mode = config.mode || defaultMode;
 
   const name = config.name || (config.scope ? `scope: ${getNode(config.scope).id}` : '');
 
