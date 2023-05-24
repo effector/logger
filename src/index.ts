@@ -18,9 +18,11 @@ import { getNode, getName, locToString } from './lib';
 const ignored = new Set<string>();
 const forceLog = new Set<string>();
 const fxRunning = new Map<string, string>();
+let mode = 'blacklist'; // default mode is blacklist
 
-export function attachLogger(config: { scope?: Scope; name?: string } = {}): () => void {
+export function attachLogger(config: { scope?: Scope; name?: string, mode?: 'blacklist' | 'whitelist' } = {}): () => void {
   const name = config.name || (config.scope ? `scope: ${getNode(config.scope).id}` : '');
+  mode = config.mode || 'blacklist';
 
   const logDeclarations = createDeclarationsLogger({
     name,
@@ -30,16 +32,12 @@ export function attachLogger(config: { scope?: Scope; name?: string } = {}): () 
   const uninspect = inspect({
     scope: config.scope || undefined,
     fn: (m) => {
-      if (
-        /**
-         * Log only non-derived units by default
-         */
-        (isLoggable(m) && !ignored.has(m.id)) ||
-        /**
-         * Log any units if they are forced to be logged
-         */
-        forceLog.has(m.id)
-      ) {
+      const shouldLogBlacklist = isLoggable(m) && !ignored.has(m.id);
+      const shouldLogWhitelist = forceLog.has(m.id);
+      
+      const shouldLog = mode === 'blacklist' ? shouldLogBlacklist : shouldLogWhitelist;
+
+      if (shouldLog) {
         log(m, name);
       }
     },
@@ -65,7 +63,7 @@ export function configure(
 ): void {
   const units = Array.isArray(unitOrUnits) ? unitOrUnits : [unitOrUnits];
 
-  if (config.log === 'disabled') {
+  if (config.log === 'disabled' && mode === 'blacklist') {
     units.forEach((unit) => {
       ignored.add(getNode(unit).id);
 
@@ -74,7 +72,7 @@ export function configure(
       }
     });
   }
-  if (config.log === 'enabled') {
+  if (config.log === 'enabled' && mode === 'whitelist') {
     units.forEach((unit) => {
       forceLog.add(getNode(unit).id);
 
