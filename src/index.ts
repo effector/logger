@@ -66,7 +66,7 @@ export function configure(
 ): void {
   const units = Array.isArray(unitOrUnits) ? unitOrUnits : [unitOrUnits];
 
-  if (config.log === 'disabled' && mode === 'blacklist') {
+  if (config.log === 'disabled') {
     units.forEach((unit) => {
       ignored.add(getNode(unit).id);
       forceLog.delete(getNode(unit).id);
@@ -77,7 +77,7 @@ export function configure(
       }
     });
   }
-  if (config.log === 'enabled' && mode === 'whitelist') {
+  if (config.log === 'enabled') {
     units.forEach((unit) => {
       forceLog.add(getNode(unit).id);
       ignored.delete(getNode(unit).id);
