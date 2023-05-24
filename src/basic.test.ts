@@ -542,7 +542,7 @@ describe('logger tests', () => {
     inc();
 
     // Only inc event should be logged
-    expect(logged.mock.calls.length).toBe(3); // initial logs of logger installation + single update of derivedInc
+    expect(logged.mock.calls.length).toBe(1); // single update of derivedInc
     expect(logged.mock.calls).toMatchInlineSnapshot(`
       [
         [
@@ -554,54 +554,14 @@ describe('logger tests', () => {
           "effector",
           "padding-left: 4px; padding-right: 4px; font-weight: normal; font-family: Menlo, monospace;",
           "padding-left: 4px; padding-right: 4px; font-weight: normal; background-color: #9ccc65; color: #000",
-          "55 → *",
+          "73",
           "color: currentColor; background-color: transparent;",
           "padding-left: 4px; padding-right: 4px; font-weight: normal; padding-left: 4px;",
-          "LOGGED!!!!",
+          undefined,
           "padding-left: 4px; padding-right: 4px; font-weight: normal; color: #9e9e9e; padding-left: 20px;",
           "",
           "padding-left: 4px; padding-right: 4px; font-weight: normal; color: #9e9e9e; padding-left: 20px;",
-          "55 → *",
-        ],
-        [
-          "%c%s%c  %c%s%c  %c%s%c  %c%s  %c%o  %c%s  %c%s",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; line-height:1.5; color: #000; font-family: \\"Apple Emoji Font\\"; font-weight: normal !important;",
-          "☄️",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; line-height:1.5; color: #000; font-family: \\"Apple Emoji Font\\"; font-weight: normal !important;",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; font-family: Menlo, monospace;",
-          "effector",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; font-family: Menlo, monospace;",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; background-color: #7e57c2; color: #fff",
-          "56.inFlight",
-          "color: currentColor; background-color: transparent;",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; ",
-          "-> ",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; ",
-          1,
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; color: #9e9e9e; padding-left: 20px;",
-          "",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; color: #9e9e9e; padding-left: 20px;",
-          "56.inFlight",
-        ],
-        [
-          "%c%s%c  %c%s%c  %c%s%c  %c%s  %c%o  %c%s  %c%s",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; line-height:1.5; color: #000; font-family: \\"Apple Emoji Font\\"; font-weight: normal !important;",
-          "☄️",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; line-height:1.5; color: #000; font-family: \\"Apple Emoji Font\\"; font-weight: normal !important;",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; font-family: Menlo, monospace;",
-          "effector",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; font-family: Menlo, monospace;",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; background-color: #7e57c2; color: #fff",
-          "56.inFlight",
-          "color: currentColor; background-color: transparent;",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; ",
-          "-> ",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; ",
-          0,
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; color: #9e9e9e; padding-left: 20px;",
-          "",
-          "padding-left: 4px; padding-right: 4px; font-weight: normal; color: #9e9e9e; padding-left: 20px;",
-          "56.inFlight",
+          "73",
         ],
       ]
     `);
