@@ -161,7 +161,7 @@ If you wan't to disable logs by default and only log necessary units, you can us
 
 ```ts
 import { createEvent } from 'effector';
-import { configure } from 'effector-logger';
+import { configure, attachLogger } from 'effector-logger';
 
 // In whitelist mode, units don't log by default
 attachLogger({ mode: 'whitelist' })
