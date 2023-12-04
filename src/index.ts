@@ -18,8 +18,14 @@ import { getNode, getName, locToString } from './lib';
 const ignored = new Set<string>();
 const forceLog = new Set<string>();
 const fxRunning = new Map<string, string>();
+let defaultMode = 'blacklist';
 
-export function attachLogger(config: { scope?: Scope; name?: string } = {}): () => void {
+export function attachLogger(
+  config: { scope?: Scope; name?: string; mode?: 'blacklist' | 'whitelist' } = {},
+): () => void {
+  // update mode if provided
+  const mode = config.mode || defaultMode;
+
   const name = config.name || (config.scope ? `scope: ${getNode(config.scope).id}` : '');
 
   const logDeclarations = createDeclarationsLogger({
@@ -30,17 +36,14 @@ export function attachLogger(config: { scope?: Scope; name?: string } = {}): () 
   const uninspect = inspect({
     scope: config.scope || undefined,
     fn: (m) => {
-      if (
-        /**
-         * Log only non-derived units by default
-         */
-        (isLoggable(m) && !ignored.has(m.id)) ||
-        /**
-         * Log any units if they are forced to be logged
-         */
-        forceLog.has(m.id)
-      ) {
-        log(m, name);
+      if (mode === 'blacklist') {
+        if ((isLoggable(m) && !ignored.has(m.id)) || forceLog.has(m.id)) {
+          log(m, name);
+        }
+      } else if (mode === 'whitelist') {
+        if (forceLog.has(m.id)) {
+          log(m, name);
+        }
       }
     },
   });
@@ -68,18 +71,22 @@ export function configure(
   if (config.log === 'disabled') {
     units.forEach((unit) => {
       ignored.add(getNode(unit).id);
+      forceLog.delete(getNode(unit).id);
 
       if (is.effect(unit)) {
         ignored.add(getNode(unit.finally).id);
+        forceLog.delete(getNode(unit.finally).id);
       }
     });
   }
   if (config.log === 'enabled') {
     units.forEach((unit) => {
       forceLog.add(getNode(unit).id);
+      ignored.delete(getNode(unit).id);
 
       if (is.effect(unit)) {
         forceLog.add(getNode(unit.finally).id);
+        ignored.delete(getNode(unit.finally).id);
       }
     });
   }

@@ -509,4 +509,63 @@ describe('logger tests', () => {
       unlogger();
     });
   });
+
+  test('configure can log whitelisted entities', () => {
+    const $abc = createStore(0);
+    const inc = createEvent();
+    $abc.on(inc, (state) => state + 1);
+    const myFx = createEffect(() => 42);
+    sample({
+      clock: inc,
+      target: myFx,
+    });
+
+    const derivedInc = inc.map((x) => 'LOGGED!!!!');
+
+    const logged = vi.fn();
+
+    vi.stubGlobal('console', {
+      log: logged,
+      warn: logged,
+      error: logged,
+      info: logged,
+      group: logged,
+      groupEnd: logged,
+      groupCollapsed: logged,
+    });
+
+    // Whitelist 'inc' logs
+    configure(inc, { log: 'enabled' });
+
+    const unlogger = attachLogger({ mode: 'whitelist' });
+
+    inc();
+
+    // Only inc event should be logged
+    expect(logged.mock.calls.length).toBe(1); // single update of derivedInc
+    expect(logged.mock.calls).toMatchInlineSnapshot(`
+      [
+        [
+          "%c%s%c  %c%s%c  %c%s%c  %c%o  %c%s  %c%s",
+          "padding-left: 4px; padding-right: 4px; font-weight: normal; line-height:1.5; color: #000; font-family: \\"Apple Emoji Font\\"; font-weight: normal !important;",
+          "☄️",
+          "padding-left: 4px; padding-right: 4px; font-weight: normal; line-height:1.5; color: #000; font-family: \\"Apple Emoji Font\\"; font-weight: normal !important;",
+          "padding-left: 4px; padding-right: 4px; font-weight: normal; font-family: Menlo, monospace;",
+          "effector",
+          "padding-left: 4px; padding-right: 4px; font-weight: normal; font-family: Menlo, monospace;",
+          "padding-left: 4px; padding-right: 4px; font-weight: normal; background-color: #9ccc65; color: #000",
+          "73",
+          "color: currentColor; background-color: transparent;",
+          "padding-left: 4px; padding-right: 4px; font-weight: normal; padding-left: 4px;",
+          undefined,
+          "padding-left: 4px; padding-right: 4px; font-weight: normal; color: #9e9e9e; padding-left: 20px;",
+          "",
+          "padding-left: 4px; padding-right: 4px; font-weight: normal; color: #9e9e9e; padding-left: 20px;",
+          "73",
+        ],
+      ]
+    `);
+
+    unlogger();
+  });
 });
